@@ -1,65 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>nl.tudelft</groupId>
 	<artifactId>contextproject</artifactId>
 	<version>0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-
-	<name>contextproject</name>
+	<packaging>pom</packaging>
+	<name>Main Parent</name>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<android.version>4.1.1.4</android.version>
+		<android.maven.version>3.8.1</android.maven.version>
+		<gwt.version>2.6.0</gwt.version>
+		<gwt.maven.version>2.6.0</gwt.maven.version>
 	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<!-- core dependencies -->
+			<dependency>
+				<groupId>com.badlogicgames.gdx</groupId>
+				<artifactId>gdx</artifactId>
+				<version>1.2.0</version>
+			</dependency>
 
-	<scm>
-		<developerConnection>scm:git:ssh://git@github.com/erackron/context-project</developerConnection>
-		<tag>HEAD</tag>
-	</scm>
+			<!-- desktop-specific dependencies -->
+			<dependency>
+				<groupId>com.badlogicgames.gdx</groupId>
+				<artifactId>gdx-backend-lwjgl</artifactId>
+				<version>1.2.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.badlogicgames.gdx</groupId>
+				<artifactId>gdx-platform</artifactId>
+				<version>1.2.0</version>
+				<classifier>natives-desktop</classifier>
+			</dependency>
+
+			<dependency>
+				<groupId>com.badlogicgames.gdx</groupId>
+				<artifactId>gdx-platform</artifactId>
+				<version>1.2.0</version>
+				<classifier>natives-armeabi-v7a</classifier>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- gwt-specific dependencies -->
+			<dependency>
+				<groupId>com.badlogicgames.gdx</groupId>
+				<artifactId>gdx</artifactId>
+				<version>1.2.0</version>
+				<classifier>sources</classifier>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.badlogicgames.gdx</groupId>
+				<artifactId>gdx-backend-gwt</artifactId>
+				<version>1.2.0</version>
+				<classifier>sources</classifier>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.badlogicgames.gdx</groupId>
+				<artifactId>gdx-backend-gwt</artifactId>
+				<version>1.2.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 
 	<repositories>
 		<repository>
-			<id>jMonkeyEngine Repository</id>
-			<url>http://updates.jmonkeyengine.org/maven/</url>
+			<id>gdx-nightlies</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</repository>
+		<repository>
+			<id>gdx-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases/</url>
 		</repository>
 	</repositories>
-
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.jme3</groupId>
-			<artifactId>jme3-core</artifactId>
-			<version>3.0.10</version>
-		</dependency>
-		<dependency>
-			<groupId>com.jme3</groupId>
-			<artifactId>jme3-desktop</artifactId>
-			<version>3.0.10</version>
-		</dependency>
-		<dependency>
-			<groupId>com.jme3</groupId>
-			<artifactId>jme3-lwjgl</artifactId>
-			<version>3.0.10</version>
-		</dependency>
-	</dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>2.5.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -124,42 +152,18 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-shade-plugin</artifactId>
-					<version>2.3</version>
-					<configuration>
-						<createDependencyReducedPom>false</createDependencyReducedPom>
-						<minimizeJar>false</minimizeJar>
-						<filters>
-							<filter>
-								<artifact>*.*</artifact>
-								<excludes>
-									<exclude>META-INF/*.SF</exclude>
-									<exclude>META-INF/*.DSA</exclude>
-									<exclude>META-INF/*.RSA</exclude>
-								</excludes>
-							</filter>
-						</filters>
-					</configuration>
-					<executions>
-						<execution>
-							<phase>package</phase>
-							<goals>
-								<goal>shade</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 
-	<reporting>
-		<plugins>
-		</plugins>
-	</reporting>
+	<profiles>
+		<profile>
+			<id>desktop</id>
+			<modules>
+				<module>desktop</module>
+			</modules>
+		</profile>
+	</profiles>
+
+	<modules>
+		<module>core</module>
+	</modules>
 </project>
