@@ -141,7 +141,19 @@
 				<version>3.2</version>
 				<configuration>
 					<format>xml</format>
+                    <sourceEncoding>utf-8</sourceEncoding>
+					<targetJdk>1.8</targetJdk>
+                    <aggregate>true</aggregate>
 				</configuration>
+                <executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>pmd</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -149,7 +161,15 @@
 				<version>3.0.1</version>
 				<configuration>
 					<failOnError>false</failOnError>
+                    <nested>true</nested>
 				</configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>findbugs</goal>
+                        </goals>
+                    </execution>
+                </executions>
 			</plugin>
 		</plugins>
 	</build>
