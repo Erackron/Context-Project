@@ -2,8 +2,17 @@ language: java
 jdk:
     - oraclejdk8
 notifications:
-    webhooks:
-        - http://octopull.rmhartog.me/api/travis/webhook
+  webhooks:
+    - http://octopull.rmhartog.me/api/travis/webhook
+before_install:
+  - "[ \"$BUILD_PR_BRANCH\" = \"true\" ] && git checkout HEAD^2 && echo \"OCTOPULL_SHA=$(git rev-parse HEAD)\"; true"
+env:
+  - BUILD_PR_BRANCH=true
+  - BUILD_PR_BRANCH=false
+matrix:
+  allow_failures:
+    - env:
+      - BUILD_PR_BRANCH=true
 after_script:
     - ./combine-checkstyle.sh
     - echo "== CHECKSTYLE_RESULT ==" && cat "target/checkstyle-result.xml" && echo "== END_CHECKSTYLE_RESULT =="
