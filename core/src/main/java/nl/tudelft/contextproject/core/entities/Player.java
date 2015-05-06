@@ -8,10 +8,12 @@ import nl.tudelft.contextproject.core.positioning.Coordinate;
 public class Player {
     private Coordinate position;
     private Coordinate brushPosition;
+    private double radius;
 
     public Player() {
         position = new Coordinate(100, 100);
-        brushPosition = new Coordinate(150, 100);
+        radius = 50;
+        brushPosition = new Coordinate(100 + radius, 100);
     }
 
     public Coordinate getPosition() {
@@ -20,5 +22,9 @@ public class Player {
 
     public Coordinate getBrushPosition() {
         return brushPosition;
+    }
+
+    public double getRadius() {
+        return radius;
     }
 }

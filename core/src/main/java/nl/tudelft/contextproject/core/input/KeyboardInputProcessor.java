@@ -30,15 +30,37 @@ public class KeyboardInputProcessor extends InputAdapter{
     public void update(float dt) {
         if (UP) {
             player.getPosition().addY(2 * dt / 50);
-        } else if (DOWN) {
+        }
+        if (DOWN) {
             player.getPosition().addY(-2 * dt / 50);
-        } else if (LEFT) {
+        }
+        if (LEFT) {
             player.getPosition().addX(-2 * dt / 50);
-        } else if (RIGHT) {
+        }
+        if (RIGHT) {
             player.getPosition().addX(2 * dt / 50);
         }
+        if (DRAWCLOCKWISE) {
+            double angle = 90 * dt / 100;
 
-        System.out.println("(" + player.getPosition().getX() + ", " + player.getPosition().getY() + ")");
+            double newX = Math.cos(angle) * player.getRadius() + player.getPosition().getX();
+            double newY = Math.sin(angle) * player.getRadius() + player.getPosition().getY();
+
+            player.getBrushPosition().setX(newX);
+            player.getBrushPosition().setY(newY);
+        }
+
+        if (DRAWCOUNTERCLOCKWISE) {
+            double angle = -90 * dt/ 100;
+
+            double newX = Math.cos(angle) * player.getRadius() + player.getPosition().getX();
+            double newY = Math.sin(angle) * player.getRadius() + player.getPosition().getY();
+
+            player.getBrushPosition().setX(newX);
+            player.getBrushPosition().setY(newY);
+        }
+
+        System.out.println("(" + player.getBrushPosition().getX() + ", " + player.getBrushPosition().getY() + ")");
     }
 
     @Override
