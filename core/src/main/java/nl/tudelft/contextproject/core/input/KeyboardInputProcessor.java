@@ -3,6 +3,8 @@ package nl.tudelft.contextproject.core.input;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
+import nl.tudelft.contextproject.core.entities.Player;
+import nl.tudelft.contextproject.core.positioning.Coordinate;
 
 /**
  * Created by Ike on 6-5-2015.
@@ -18,6 +20,26 @@ public class KeyboardInputProcessor extends InputAdapter{
     public static boolean DRAWCOUNTERCLOCKWISE;
 
     public static boolean DRAW;
+
+    private Player player;
+
+    public KeyboardInputProcessor() {
+        player = new Player();
+    }
+
+    public void update(float dt) {
+        if (UP) {
+            player.getPosition().addY(2 * dt / 50);
+        } else if (DOWN) {
+            player.getPosition().addY(-2 * dt / 50);
+        } else if (LEFT) {
+            player.getPosition().addX(-2 * dt / 50);
+        } else if (RIGHT) {
+            player.getPosition().addX(2 * dt / 50);
+        }
+
+        System.out.println("(" + player.getPosition().getX() + ", " + player.getPosition().getY() + ")");
+    }
 
     @Override
     public boolean keyDown(int i) {
