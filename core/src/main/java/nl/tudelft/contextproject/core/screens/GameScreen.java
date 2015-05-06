@@ -10,6 +10,7 @@ import nl.tudelft.contextproject.core.Main;
 import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.input.MovementAPI;
 import nl.tudelft.contextproject.core.input.PlayerMovement;
+import nl.tudelft.contextproject.core.input.KeyboardInputProcessor;
 
 /**
  * The Game screen. This is the canvas we paint on.
@@ -34,6 +35,8 @@ public class GameScreen implements Screen {
         shapeRenderer = new ShapeRenderer();
 
         movementAPI = MovementAPI.getMovementAPI();
+        KeyboardInputProcessor inputProcessor = new KeyboardInputProcessor();
+        Gdx.input.setInputProcessor(inputProcessor);
     }
 
     @Override
