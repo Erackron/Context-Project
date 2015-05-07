@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.core.input;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.math.Vector2;
 import nl.tudelft.contextproject.core.entities.Player;
 import nl.tudelft.contextproject.core.positioning.Coordinate;
 
@@ -20,9 +21,9 @@ public class KeyboardInputProcessor extends InputAdapter{
     public static boolean DRAWING;
 
     private Player player;
-    private Coordinate start;
-    private Coordinate end;
-    private Coordinate center;
+    private Vector2 start;
+    private Vector2 end;
+    private Vector2 center;
 
     public KeyboardInputProcessor() {
         player = new Player();
@@ -30,42 +31,40 @@ public class KeyboardInputProcessor extends InputAdapter{
 
     public void update(float dt) {
         if (UP) {
-            player.getPosition().addY(2 * dt / 50);
-            player.getBrushPosition().addY(2 * dt / 50);
+            player.getPosition().add(0, 2 * dt / 50);
+            player.getBrushPosition().add(0, 2 * dt / 50);
         }
         if (DOWN) {
-            player.getPosition().addY(-2 * dt / 50);
-            player.getBrushPosition().addY(-2 * dt / 50);
+            player.getPosition().add(0, -2 * dt / 50);
+            player.getBrushPosition().add(0, -2 * dt / 50);
         }
         if (LEFT) {
-            player.getPosition().addX(-2 * dt / 50);
-            player.getBrushPosition().addX(-2 * dt / 50);
+            player.getPosition().add(-2 * dt / 50, 0);
+            player.getBrushPosition().add(-2 * dt / 50, 0);
         }
         if (RIGHT) {
-            player.getPosition().addX(2 * dt / 50);
-            player.getBrushPosition().addX(2 * dt / 50);
+            player.getPosition().add(2 * dt / 50, 0);
+            player.getBrushPosition().add(2 * dt / 50, 0);
         }
         if (DRAWCLOCKWISE) {
-            double angle = 90 * dt / 100;
+            float angle = 90 * dt / 100;
 
-            double newX = Math.cos(angle) * player.getRadius() + player.getPosition().getX();
-            double newY = Math.sin(angle) * player.getRadius() + player.getPosition().getY();
+            float newX = (float) Math.cos(angle) * player.getRadius() + player.getPosition().x;
+            float newY = (float) Math.sin(angle) * player.getRadius() + player.getPosition().y;
 
-            player.getBrushPosition().setX(newX);
-            player.getBrushPosition().setY(newY);
+            player.getBrushPosition().set(newX, newY);
         }
 
         if (DRAWCOUNTERCLOCKWISE) {
-            double angle = -90 * dt/ 100;
+            float angle = -90 * dt/ 100;
 
-            double newX = Math.cos(angle) * player.getRadius() + player.getPosition().getX();
-            double newY = Math.sin(angle) * player.getRadius() + player.getPosition().getY();
+            float newX = (float) Math.cos(angle) * player.getRadius() + player.getPosition().x;
+            float newY = (float) Math.sin(angle) * player.getRadius() + player.getPosition().y;
 
-            player.getBrushPosition().setX(newX);
-            player.getBrushPosition().setY(newY);
+            player.getBrushPosition().set(newX, newY);
         }
 
-        System.out.println("(" + player.getBrushPosition().getX() + ", " + player.getBrushPosition().getY() + ")");
+        System.out.println("(" + player.getBrushPosition().x + ", " + player.getBrushPosition().y + ")");
     }
 
     @Override
@@ -110,7 +109,7 @@ public class KeyboardInputProcessor extends InputAdapter{
             DRAWING = false;
             end = player.getBrushPosition();
 
-            KeyboardMovement movement = new KeyboardMovement(center, start, end);
+            //send PlayerMovement object here;
         }
 
         return true;
