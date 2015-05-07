@@ -12,10 +12,9 @@ public final class MovementAPI {
     protected AtomicQueue<PlayerMovement> movementQueue;
 
     /**
-     * The private constructor of this API, which should only be called by {@link #getMovementAPI
-     * ()}.
+     * The protected constructor of this API.
      */
-    private MovementAPI() {
+    protected MovementAPI() {
         movementQueue = new AtomicQueue<>(Constants.MOVEMENT_QUEUE_CAPACITY);
     }
 

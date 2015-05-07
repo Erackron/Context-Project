@@ -17,7 +17,7 @@ public class MovementAPITest {
 
     @Before
     public void setupCleanAPI() {
-        MovementAPI.movementAPI = null;
+        MovementAPI.movementAPI = new MovementAPI();
         api = MovementAPI.getMovementAPI();
     }
 
