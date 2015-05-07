@@ -9,6 +9,7 @@
 	</parent>
 
 	<artifactId>contextproject-desktop</artifactId>
+	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Main desktop</name>
 
