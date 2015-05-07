@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import nl.tudelft.contextproject.core.Main;
@@ -12,6 +11,9 @@ import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.input.MovementAPI;
 import nl.tudelft.contextproject.core.input.PlayerMovement;
 
+/**
+ * The Game screen. This is the canvas we paint on.
+ */
 public class GameScreen implements Screen {
     protected OrthographicCamera camera;
     protected ShapeRenderer shapeRenderer;
@@ -19,6 +21,10 @@ public class GameScreen implements Screen {
     protected float elapsed;
     protected MovementAPI movementAPI;
 
+    /**
+     * Create a new game screen.
+     * @param main The main game object for which this screen is created
+     */
     public GameScreen(final Main main) {
         this.main = main;
 
@@ -27,16 +33,12 @@ public class GameScreen implements Screen {
 
         shapeRenderer = new ShapeRenderer();
 
-        movementAPI = Main.getMovementAPI();
+        movementAPI = MovementAPI.getMovementAPI();
     }
 
     @Override
     public void render(float delta) {
         elapsed += delta;
-
-        // Clear screen
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Update camera
         camera.update();

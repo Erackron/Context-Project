@@ -15,14 +15,28 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import nl.tudelft.contextproject.core.Main;
 
+/**
+ * The main menu screen.
+ */
 public class MainMenuScreen implements Screen {
     protected final Main main;
     protected Stage stage;
     protected Skin skin;
     protected SpriteBatch spriteBatch;
 
+    /**
+     * Create a new main menu screen.
+     * @param main The main game object for which this screen is created.
+     */
     public MainMenuScreen(final Main main) {
         this.main = main;
+        create();
+    }
+
+    /**
+     * Create the actual main menu.
+     */
+    public void create() {
         spriteBatch = main.getBatch();
 
         stage = new Stage();
@@ -54,11 +68,12 @@ public class MainMenuScreen implements Screen {
         textButton.setPosition(270, 200);
         textButton.addListener(new ChangeListener() {
             @Override
-            public void changed (ChangeListener.ChangeEvent event, Actor actor) {
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 main.setScreen(new GameScreen(main));
             }
         });
         stage.addActor(textButton);
+
     }
 
     @Override
