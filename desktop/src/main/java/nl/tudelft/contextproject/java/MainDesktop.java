@@ -8,6 +8,7 @@ import nl.tudelft.contextproject.core.Main;
 public class MainDesktop {
     public static void main(String[] args) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.title = "Human Pencils";
         new LwjglApplication(new Main(), config);
     }
 }
