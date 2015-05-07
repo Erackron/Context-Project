@@ -1,11 +1,11 @@
 package nl.tudelft.contextproject.core.input;
 
-import nl.tudelft.contextproject.core.positioning.Coordinate;
+import com.badlogic.gdx.math.Vector2;
 
 public interface PlayerMovement {
-    Coordinate getCenterOfPlayer();
+    Vector2 getCenterOfPlayer();
 
-    Coordinate getStartOfMovement();
+    Vector2 getStartOfMovement();
 
-    Coordinate getEndOfMovement();
+    Vector2 getEndOfMovement();
 }
