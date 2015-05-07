@@ -1,47 +1,37 @@
 package nl.tudelft.contextproject.core;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import lombok.Getter;
+import nl.tudelft.contextproject.core.input.MovementAPI;
+import nl.tudelft.contextproject.core.screens.MainMenuScreen;
 
-public class Main implements ApplicationListener {
-    Texture texture;
-    SpriteBatch batch;
-    float elapsed;
+public class Main extends Game {
+    protected static MovementAPI movementAPI;
+
+    @Getter
+    protected SpriteBatch batch;
 
     @Override
     public void create() {
-        texture = new Texture(Gdx.files.internal("libgdx-logo.png"));
         batch = new SpriteBatch();
 
+        this.setScreen(new MainMenuScreen(this));
     }
 
-    @Override
-    public void resize(int width, int height) {
-    }
-
-    @Override
-    public void render() {
-        elapsed += Gdx.graphics.getDeltaTime();
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(texture, 100 + 100 * (float) Math.cos(elapsed),
-                100 + 25 * (float) Math.sin(elapsed));
-        batch.end();
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void dispose() {
+    /**
+     * Get the singleton instance of the movement API.
+     *
+     * @return The singleton instance of the movement API
+     */
+    public static MovementAPI getMovementAPI() {
+        if (movementAPI == null) {
+            synchronized (MovementAPI.class) {
+                if (movementAPI == null) {
+                    movementAPI = new MovementAPI();
+                }
+            }
+        }
+        return movementAPI;
     }
 }
