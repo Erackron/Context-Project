@@ -9,7 +9,7 @@ import nl.tudelft.contextproject.core.positioning.Coordinate;
 import java.util.HashMap;
 
 /**
- * Created by Ike on 6-5-2015.
+ * Class that is used to process keyboard input and to create KeyBoardMovement objects for the movement API
  */
 public class KeyboardInputProcessor extends InputAdapter{
 
@@ -36,6 +36,10 @@ public class KeyboardInputProcessor extends InputAdapter{
         keys.put(Input.Keys.SPACE, false);
     }
 
+    /**
+     * Method that gets called by the main game loop to actually process the keyboard input.
+     * @param dt Time that has elapsed since the previous render.
+     */
     public void update(float dt) {
         if (isPressed(Input.Keys.W)) {
             player.getPosition().add(0, (float) PIXELSPERUPDATE * dt);
@@ -75,6 +79,11 @@ public class KeyboardInputProcessor extends InputAdapter{
         System.out.println("(" + player.getBrushPosition().x + ", " + player.getBrushPosition().y + ")");
     }
 
+    /**
+     * Method that gets called when a keys gets pressed.
+     * @param i The keycode of the key that was pressed.
+     * @return
+     */
     @Override
     public boolean keyDown(int i) {
 
@@ -88,6 +97,11 @@ public class KeyboardInputProcessor extends InputAdapter{
         return true;
     }
 
+    /**
+     * Method that gets called when a key gets released.
+     * @param i The keycode of the key that was released.
+     * @return
+     */
     @Override
     public boolean keyUp(int i) {
 
@@ -103,6 +117,11 @@ public class KeyboardInputProcessor extends InputAdapter{
         return true;
     }
 
+    /**
+     * Method that returns if a key is currently pressed.
+     * @param key The keycode of the key that needs to be checked.
+     * @return
+     */
     public boolean isPressed(int key) {
         return keys.get(key);
     }
