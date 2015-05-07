@@ -1,189 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>nl.tudelft</groupId>
-	<artifactId>contextproject</artifactId>
-	<version>0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>Main Parent</name>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>nl.tudelft</groupId>
+    <artifactId>contextproject</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Main Parent</name>
 
-	<properties>
+    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<android.maven.version>3.8.1</android.maven.version>
-		<gwt.version>2.6.0</gwt.version>
-		<gwt.maven.version>2.6.0</gwt.maven.version>
-	</properties>
-	<dependencyManagement>
-		<dependencies>
-			<!-- core dependencies -->
-			<dependency>
-				<groupId>com.badlogicgames.gdx</groupId>
-				<artifactId>gdx</artifactId>
-				<version>1.2.0</version>
-			</dependency>
+        <android.maven.version>3.8.1</android.maven.version>
+        <gwt.version>2.6.0</gwt.version>
+        <gwt.maven.version>2.6.0</gwt.maven.version>
+    </properties>
+    <dependencies>
+        <!-- core dependencies -->
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx</artifactId>
+            <version>1.2.0</version>
+        </dependency>
 
-			<!-- desktop-specific dependencies -->
-			<dependency>
-				<groupId>com.badlogicgames.gdx</groupId>
-				<artifactId>gdx-backend-lwjgl</artifactId>
-				<version>1.2.0</version>
-			</dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.4</version>
+        </dependency>
 
-			<dependency>
-				<groupId>com.badlogicgames.gdx</groupId>
-				<artifactId>gdx-platform</artifactId>
-				<version>1.2.0</version>
-				<classifier>natives-desktop</classifier>
-			</dependency>
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
 
-			<dependency>
-				<groupId>com.badlogicgames.gdx</groupId>
-				<artifactId>gdx-platform</artifactId>
-				<version>1.2.0</version>
-				<classifier>natives-armeabi-v7a</classifier>
-				<scope>provided</scope>
-			</dependency>
-
-			<!-- gwt-specific dependencies -->
-			<dependency>
-				<groupId>com.badlogicgames.gdx</groupId>
-				<artifactId>gdx</artifactId>
-				<version>1.2.0</version>
-				<classifier>sources</classifier>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>com.badlogicgames.gdx</groupId>
-				<artifactId>gdx-backend-gwt</artifactId>
-				<version>1.2.0</version>
-				<classifier>sources</classifier>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>com.badlogicgames.gdx</groupId>
-				<artifactId>gdx-backend-gwt</artifactId>
-				<version>1.2.0</version>
-			</dependency>
-
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.16.4</version>
-            </dependency>
-
-            <!-- Test dependencies -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.12</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-all</artifactId>
-                <version>1.10.19</version>
-                <scope>test</scope>
-            </dependency>
-		</dependencies>
-	</dependencyManagement>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 
-	<repositories>
-		<repository>
-			<id>gdx-nightlies</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		</repository>
-		<repository>
-			<id>gdx-releases</id>
-			<url>https://oss.sonatype.org/content/repositories/releases/</url>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>gdx-nightlies</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>gdx-releases</id>
+            <url>https://oss.sonatype.org/content/repositories/releases/</url>
+        </repository>
+    </repositories>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.1</version>
-				<configuration>
-					<tagNameFormat>v@{project.version}</tagNameFormat>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<pushChanges>false</pushChanges>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.15</version>
-				<dependencies>
-					<dependency>
-						<groupId>com.puppycrawl.tools</groupId>
-						<artifactId>checkstyle</artifactId>
-						<version>6.5</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<failOnViolation>false</failOnViolation>
-					<configLocation>checkstyle.xml</configLocation>
-				</configuration>
-				<executions>
-					<execution>
-						<id>validate</id>
-						<phase>validate</phase>
-						<configuration>
-							<configLocation>checkstyle.xml</configLocation>
-							<encoding>UTF-8</encoding>
-							<consoleOutput>true</consoleOutput>
-							<failsOnError>true</failsOnError>
-							<failOnViolation>false</failOnViolation>
-						</configuration>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.2</version>
-				<configuration>
-					<format>xml</format>
-                    <sourceEncoding>utf-8</sourceEncoding>
-					<targetJdk>1.8</targetJdk>
-                    <aggregate>true</aggregate>
-				</configuration>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <pushChanges>false</pushChanges>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.15</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>6.5</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <failOnViolation>false</failOnViolation>
+                    <configLocation>checkstyle.xml</configLocation>
+                </configuration>
                 <executions>
-					<execution>
-						<id>validate</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>pmd</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.1</version>
-				<configuration>
-					<failOnError>false</failOnError>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <configLocation>checkstyle.xml</configLocation>
+                            <encoding>UTF-8</encoding>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                            <failOnViolation>false</failOnViolation>
+                        </configuration>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <format>xml</format>
+                    <sourceEncoding>utf-8</sourceEncoding>
+                    <targetJdk>1.8</targetJdk>
+                    <aggregate>true</aggregate>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>pmd</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <failOnError>false</failOnError>
                     <nested>true</nested>
-				</configuration>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -191,20 +145,12 @@
                         </goals>
                     </execution>
                 </executions>
-			</plugin>
-		</plugins>
-	</build>
+            </plugin>
+        </plugins>
+    </build>
 
-	<profiles>
-		<profile>
-			<id>desktop</id>
-			<modules>
-				<module>desktop</module>
-			</modules>
-		</profile>
-	</profiles>
-
-	<modules>
-		<module>core</module>
-	</modules>
+    <modules>
+        <module>core</module>
+        <module>desktop</module>
+    </modules>
 </project>

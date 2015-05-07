@@ -6,6 +6,7 @@
 		<groupId>nl.tudelft</groupId>
 		<artifactId>contextproject</artifactId>
 		<version>0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>contextproject-desktop</artifactId>
@@ -24,21 +25,27 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.badlogicgames.gdx</groupId>
-			<artifactId>gdx</artifactId>
-		</dependency>
+        <!-- desktop-specific dependencies -->
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-backend-lwjgl</artifactId>
+            <version>1.2.0</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.badlogicgames.gdx</groupId>
-			<artifactId>gdx-backend-lwjgl</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-platform</artifactId>
+            <version>1.2.0</version>
+            <classifier>natives-desktop</classifier>
+        </dependency>
 
-		<dependency>
-			<groupId>com.badlogicgames.gdx</groupId>
-			<artifactId>gdx-platform</artifactId>
-			<classifier>natives-desktop</classifier>
-		</dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-platform</artifactId>
+            <version>1.2.0</version>
+            <classifier>natives-armeabi-v7a</classifier>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 
 	<build>
