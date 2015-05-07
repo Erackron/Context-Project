@@ -8,7 +8,7 @@ import nl.tudelft.contextproject.core.config.Constants;
  */
 public final class MovementAPI {
     // The singleton instance of this API
-    static MovementAPI movementAPI;
+    static MovementAPI movementAPI = new MovementAPI();
     protected AtomicQueue<PlayerMovement> movementQueue;
 
     /**
@@ -44,13 +44,6 @@ public final class MovementAPI {
      * @return The singleton instance of the movement API
      */
     public static MovementAPI getMovementAPI() {
-        if (movementAPI == null) {
-            synchronized (MovementAPI.class) {
-                if (movementAPI == null) {
-                    movementAPI = new MovementAPI();
-                }
-            }
-        }
         return movementAPI;
     }
 }
