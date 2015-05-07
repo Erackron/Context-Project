@@ -1,23 +1,33 @@
 package nl.tudelft.contextproject.core.input;
 
+import nl.tudelft.contextproject.core.input.PlayerMovement;
 import nl.tudelft.contextproject.core.positioning.Coordinate;
 
 /**
  * Created by Ike on 6-5-2015.
  */
 public class KeyboardMovement implements PlayerMovement {
-    @Override
-    public Coordinate getCenterOfPlayer() {
-        return null;
+
+    private Coordinate center;
+    private Coordinate start;
+    private Coordinate end;
+
+    public KeyboardMovement(Coordinate center, Coordinate start, Coordinate end) {
+        this.center = center;
+        this.start = start;
+        this.end = end;
     }
 
     @Override
-    public Coordinate getStartOfMovement() {
-        return null;
+    public Coordinate getCenterOfPlayer() {
+        return center;
     }
+
+    @Override
+    public Coordinate getStartOfMovement() { return start; }
 
     @Override
     public Coordinate getEndOfMovement() {
-        return null;
+        return end;
     }
 }

@@ -2,7 +2,6 @@ package nl.tudelft.contextproject.core.input;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
 import nl.tudelft.contextproject.core.entities.Player;
 import nl.tudelft.contextproject.core.positioning.Coordinate;
 
@@ -18,10 +17,12 @@ public class KeyboardInputProcessor extends InputAdapter{
 
     public static boolean DRAWCLOCKWISE;
     public static boolean DRAWCOUNTERCLOCKWISE;
-
-    public static boolean DRAW;
+    public static boolean DRAWING;
 
     private Player player;
+    private Coordinate start;
+    private Coordinate end;
+    private Coordinate center;
 
     public KeyboardInputProcessor() {
         player = new Player();
@@ -30,15 +31,19 @@ public class KeyboardInputProcessor extends InputAdapter{
     public void update(float dt) {
         if (UP) {
             player.getPosition().addY(2 * dt / 50);
+            player.getBrushPosition().addY(2 * dt / 50);
         }
         if (DOWN) {
             player.getPosition().addY(-2 * dt / 50);
+            player.getBrushPosition().addY(-2 * dt / 50);
         }
         if (LEFT) {
             player.getPosition().addX(-2 * dt / 50);
+            player.getBrushPosition().addX(-2 * dt / 50);
         }
         if (RIGHT) {
             player.getPosition().addX(2 * dt / 50);
+            player.getBrushPosition().addX(2 * dt / 50);
         }
         if (DRAWCLOCKWISE) {
             double angle = 90 * dt / 100;
@@ -79,7 +84,8 @@ public class KeyboardInputProcessor extends InputAdapter{
         } else if (i == Input.Keys.UP) {
             DRAWCOUNTERCLOCKWISE = true;
         } else if (i == Input.Keys.SPACE) {
-            DRAW = true;
+            DRAWING = true;
+            start = player.getBrushPosition();
         }
 
         return true;
@@ -101,7 +107,10 @@ public class KeyboardInputProcessor extends InputAdapter{
         } else if (i == Input.Keys.UP) {
             DRAWCOUNTERCLOCKWISE = false;
         } else if (i == Input.Keys.SPACE) {
-            DRAW = false;
+            DRAWING = false;
+            end = player.getBrushPosition();
+
+            KeyboardMovement movement = new KeyboardMovement(center, start, end);
         }
 
         return true;
