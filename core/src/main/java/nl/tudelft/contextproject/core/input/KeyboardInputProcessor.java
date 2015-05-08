@@ -4,28 +4,32 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import nl.tudelft.contextproject.core.entities.Player;
-import nl.tudelft.contextproject.core.positioning.Coordinate;
 
 import java.util.HashMap;
 
 /**
- * Class that is used to process keyboard input and to create KeyBoardMovement objects for the movement API
+ * Class that is used to process keyboard input and to create KeyBoardMovement objects for the
+ * movement API.
  */
-public class KeyboardInputProcessor extends InputAdapter{
+public class KeyboardInputProcessor extends InputAdapter {
 
-    public static double PIXELSPERUPDATE = 1.0/25.0;
-    public static double ANGLE = 9.0/10.0;
+    public static final double PIXELS_PER_UPDATE = 50.0;
+    public static final double ANGLE = Math.PI / 2.0;
 
-    private HashMap<Integer, Boolean> keys;
-    private Player player;
+    protected HashMap<Integer, Boolean> keys;
+    protected Player player;
 
-    private Vector2 start;
-    private Vector2 end;
-    private Vector2 center;
+    protected Vector2 start;
+    protected Vector2 end;
+    protected Vector2 center;
 
+    /**
+     * Create a new KeyboardInputProcesser.
+     */
     public KeyboardInputProcessor() {
         player = new Player();
-        keys = new HashMap<Integer, Boolean>();
+        keys = new HashMap<>();
+        MovementAPI.getMovementAPI();
 
         keys.put(Input.Keys.W, false);
         keys.put(Input.Keys.S, false);
@@ -38,28 +42,29 @@ public class KeyboardInputProcessor extends InputAdapter{
 
     /**
      * Method that gets called by the main game loop to actually process the keyboard input.
+     *
      * @param dt Time that has elapsed since the previous render.
      */
     public void update(float dt) {
         if (isPressed(Input.Keys.W)) {
-            player.getPosition().add(0, (float) PIXELSPERUPDATE * dt);
-            player.getBrushPosition().add(0, (float) PIXELSPERUPDATE * dt);
+            player.getPosition().add(0, (float) PIXELS_PER_UPDATE * dt);
+            player.getBrushPosition().add(0, (float) PIXELS_PER_UPDATE * dt);
         }
         if (isPressed(Input.Keys.S)) {
-            player.getPosition().add(0, (float) -PIXELSPERUPDATE * dt);
-            player.getBrushPosition().add(0, (float)- PIXELSPERUPDATE * dt);
+            player.getPosition().add(0, (float) -PIXELS_PER_UPDATE * dt);
+            player.getBrushPosition().add(0, (float) -PIXELS_PER_UPDATE * dt);
         }
         if (isPressed(Input.Keys.A)) {
-            player.getPosition().add((float) -PIXELSPERUPDATE * dt, 0);
-            player.getBrushPosition().add((float) -PIXELSPERUPDATE * dt, 0);
+            player.getPosition().add((float) -PIXELS_PER_UPDATE * dt, 0);
+            player.getBrushPosition().add((float) -PIXELS_PER_UPDATE * dt, 0);
         }
         if (isPressed(Input.Keys.D)) {
-            player.getPosition().add((float) PIXELSPERUPDATE * dt, 0);
-            player.getBrushPosition().add((float) PIXELSPERUPDATE * dt, 0);
+            player.getPosition().add((float) PIXELS_PER_UPDATE * dt, 0);
+            player.getBrushPosition().add((float) PIXELS_PER_UPDATE * dt, 0);
         }
 
         if (isPressed(Input.Keys.DOWN)) {
-            double angle = ANGLE * dt;
+            double angle = player.addAngle(ANGLE * dt);
 
             float newX = (float) Math.cos(angle) * player.getRadius() + player.getPosition().x;
             float newY = (float) Math.sin(angle) * player.getRadius() + player.getPosition().y;
@@ -68,27 +73,25 @@ public class KeyboardInputProcessor extends InputAdapter{
         }
 
         if (isPressed(Input.Keys.UP)) {
-            double angle = -ANGLE * dt;
+            double angle = player.addAngle(-ANGLE * dt);
 
             float newX = (float) Math.cos(angle) * player.getRadius() + player.getPosition().x;
             float newY = (float) Math.sin(angle) * player.getRadius() + player.getPosition().y;
 
             player.getBrushPosition().set(newX, newY);
         }
-
-        System.out.println("(" + player.getBrushPosition().x + ", " + player.getBrushPosition().y + ")");
     }
 
     /**
      * Method that gets called when a keys gets pressed.
-     * @param i The keycode of the key that was pressed.
-     * @return
+     *
+     * @param i The keycode of the key that was pressed
+     * @return Return true to indicate we handled the key event
      */
     @Override
     public boolean keyDown(int i) {
-
         if (i == Input.Keys.SPACE) {
-            start = player.getBrushPosition();
+            start = player.getBrushPosition().cpy();
             keys.put(i, true);
         } else if (keys.containsKey(i)) {
             keys.put(i, true);
@@ -99,16 +102,17 @@ public class KeyboardInputProcessor extends InputAdapter{
 
     /**
      * Method that gets called when a key gets released.
-     * @param i The keycode of the key that was released.
-     * @return
+     *
+     * @param i The keycode of the key that was released
+     * @return Return true to indicate we handled the key event
      */
     @Override
     public boolean keyUp(int i) {
-
         if (i == Input.Keys.SPACE) {
-            end = player.getBrushPosition();
+            center = player.getPosition().cpy();
+            end = player.getBrushPosition().cpy();
             keys.put(i, false);
-            //send PlayerMovement object here;
+            MovementAPI.getMovementAPI().addMovement(new KeyboardMovement(center, start, end));
 
         } else if (keys.containsKey(i)) {
             keys.put(i, false);
@@ -119,13 +123,19 @@ public class KeyboardInputProcessor extends InputAdapter{
 
     /**
      * Method that returns if a key is currently pressed.
-     * @param key The keycode of the key that needs to be checked.
-     * @return
+     *
+     * @param key The keycode of the key that needs to be checked
+     * @return Whether the specified key is currently pressed.
      */
     public boolean isPressed(int key) {
         return keys.get(key);
     }
 
+    /**
+     * Get the player object.
+     *
+     * @return The player object
+     */
     public Player getPlayer() {
         return player;
     }
