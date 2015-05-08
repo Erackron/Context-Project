@@ -1,47 +1,22 @@
 package nl.tudelft.contextproject.core;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import lombok.Getter;
+import nl.tudelft.contextproject.core.screens.MainMenuScreen;
 
-public class Main implements ApplicationListener {
-    Texture texture;
-    SpriteBatch batch;
-    float elapsed;
+/**
+ * Main game class.
+ * This starts the MainMenuScreen.
+ */
+public class Main extends Game {
+    @Getter
+    protected SpriteBatch batch;
 
     @Override
     public void create() {
-        texture = new Texture(Gdx.files.internal("libgdx-logo.png"));
         batch = new SpriteBatch();
 
-    }
-
-    @Override
-    public void resize(int width, int height) {
-    }
-
-    @Override
-    public void render() {
-        elapsed += Gdx.graphics.getDeltaTime();
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(texture, 100 + 100 * (float) Math.cos(elapsed),
-                100 + 25 * (float) Math.sin(elapsed));
-        batch.end();
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void dispose() {
+        this.setScreen(new MainMenuScreen(this));
     }
 }

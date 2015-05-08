@@ -6,18 +6,12 @@
 		<groupId>nl.tudelft</groupId>
 		<artifactId>contextproject</artifactId>
 		<version>0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>contextproject-core</artifactId>
+    <artifactId>contextproject-core</artifactId>
 	<packaging>jar</packaging>
 	<name>Main Core</name>
-
-	<dependencies>
-		<dependency>
-			<groupId>com.badlogicgames.gdx</groupId>
-			<artifactId>gdx</artifactId>
-		</dependency>
-	</dependencies>
 
 	<build>
 		<plugins>
