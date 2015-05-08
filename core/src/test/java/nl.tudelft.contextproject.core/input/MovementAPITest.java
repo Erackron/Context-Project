@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.core.input;
 
+import com.badlogic.gdx.utils.AtomicQueue;
+import nl.tudelft.contextproject.core.config.Constants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,12 +15,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 public class MovementAPITest {
-    MovementAPI api;
+    MovementAPI api = MovementAPI.getMovementAPI();
 
     @Before
     public void setupCleanAPI() {
-        MovementAPI.movementAPI = new MovementAPI();
-        api = MovementAPI.getMovementAPI();
+        api.movementQueue = new AtomicQueue<>(Constants.MOVEMENT_QUEUE_CAPACITY);
     }
 
     @Test
