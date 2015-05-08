@@ -8,13 +8,13 @@ import nl.tudelft.contextproject.core.config.Constants;
  */
 public final class MovementAPI {
     // The singleton instance of this API
-    static MovementAPI movementAPI = new MovementAPI();
+    static final MovementAPI movementAPI = new MovementAPI();
     protected AtomicQueue<PlayerMovement> movementQueue;
 
     /**
      * The protected constructor of this API.
      */
-    protected MovementAPI() {
+    private MovementAPI() {
         movementQueue = new AtomicQueue<>(Constants.MOVEMENT_QUEUE_CAPACITY);
     }
 
