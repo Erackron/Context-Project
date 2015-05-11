@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import nl.tudelft.contextproject.core.Main;
@@ -13,6 +14,7 @@ import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.input.KeyboardInputProcessor;
 import nl.tudelft.contextproject.core.input.MovementAPI;
 import nl.tudelft.contextproject.core.input.PlayerMovement;
+import nl.tudelft.contextproject.core.rendering.DrawablePixmap;
 
 /**
  * The Game screen. This is the canvas we paint on.
@@ -20,6 +22,8 @@ import nl.tudelft.contextproject.core.input.PlayerMovement;
 public class GameScreen implements Screen {
     protected OrthographicCamera camera;
     protected ShapeRenderer shapeRenderer;
+    protected DrawablePixmap drawing;
+    protected SpriteBatch batch;
     protected final Main main;
     protected MovementAPI movementAPI;
     protected KeyboardInputProcessor inputProcessor;
@@ -36,6 +40,8 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
 
         shapeRenderer = new ShapeRenderer();
+        drawing = new DrawablePixmap(camera);
+        batch = main.getBatch();
 
         movementAPI = MovementAPI.getMovementAPI();
         inputProcessor = new KeyboardInputProcessor();
@@ -47,8 +53,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-//        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Update camera
         camera.update();
@@ -57,6 +63,7 @@ public class GameScreen implements Screen {
         inputProcessor.update(delta);
 
         // Draw player status
+        shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         Vector2 playerPos = inputProcessor.getPlayer().getPosition();
         Vector2 brushPos = inputProcessor.getPlayer().getBrushPosition();
@@ -66,21 +73,38 @@ public class GameScreen implements Screen {
         shapeRenderer.circle(brushPos.x, brushPos.y, 2);
         shapeRenderer.end();
 
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.GRAY);
+        drawing.setBrushColour(Color.BLUE);
+        for (int x = 0; x < Constants.CAM_WIDTH; x += 100) {
+            Gdx.gl.glLineWidth(x / 100 + 1);
+            shapeRenderer.line(x, 0, x, Constants.CAM_HEIGHT);
+            drawing.drawLine(x, 0, x, Constants.CAM_HEIGHT);
+        }
+        for (int y = 0; y < Constants.CAM_HEIGHT; y += 100) {
+            Gdx.gl.glLineWidth(y / 100 + 1);
+            shapeRenderer.line(0, y, Constants.CAM_WIDTH, y);
+            drawing.drawLine(0, y, Constants.CAM_WIDTH, y);
+        }
+        shapeRenderer.end();
+
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
 
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        Gdx.gl.glLineWidth(3);
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
-            shapeRenderer.setColor(Color.BLUE);
-            shapeRenderer.line(movement.getStartOfMovement(), movement.getEndOfMovement());
+            drawing.drawLine(movement.getStartOfMovement(), movement.getEndOfMovement());
             movement = movementAPI.nextMovement();
         }
-        shapeRenderer.end();
+
+        // Update drawing if needed
+        drawing.setBrushColour(Color.RED);
+        drawing.update();
+
+        batch.begin();
+        batch.draw(drawing.getCanvas(), 0, 0);
+        batch.end();
     }
 
     @Override
@@ -108,5 +132,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        drawing.dispose();
+        shapeRenderer.dispose();
     }
 }

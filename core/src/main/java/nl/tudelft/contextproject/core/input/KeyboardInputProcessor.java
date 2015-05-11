@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.core.input;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
+import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Player;
 
 import java.util.HashMap;
@@ -13,11 +14,12 @@ import java.util.HashMap;
  */
 public class KeyboardInputProcessor extends InputAdapter {
 
-    public static final double PIXELS_PER_UPDATE = 50.0;
+    public static final double PIXELS_PER_UPDATE = 75.0;
     public static final double ANGLE = Math.PI / 2.0;
 
     protected HashMap<Integer, Boolean> keys;
     protected Player player;
+    protected float[] deltaMovement = new float[2];
 
     protected Vector2 start;
     protected Vector2 end;
@@ -46,22 +48,34 @@ public class KeyboardInputProcessor extends InputAdapter {
      * @param dt Time that has elapsed since the previous render.
      */
     public void update(float dt) {
+        deltaMovement[0] = deltaMovement[1] = 0;
         if (isPressed(Input.Keys.W)) {
-            player.getPosition().add(0, (float) PIXELS_PER_UPDATE * dt);
-            player.getBrushPosition().add(0, (float) PIXELS_PER_UPDATE * dt);
+            deltaMovement[1] = (float) PIXELS_PER_UPDATE * dt;
+            if (player.getPosition().y + deltaMovement[1] > Constants.CAM_HEIGHT) {
+                deltaMovement[1] = Constants.CAM_HEIGHT - player.getPosition().y + deltaMovement[1];
+            }
         }
         if (isPressed(Input.Keys.S)) {
-            player.getPosition().add(0, (float) -PIXELS_PER_UPDATE * dt);
-            player.getBrushPosition().add(0, (float) -PIXELS_PER_UPDATE * dt);
+            deltaMovement[1] = (float) -PIXELS_PER_UPDATE * dt;
+            if (player.getPosition().y + deltaMovement[1] < 0) {
+                deltaMovement[1] = -player.getPosition().y;
+            }
         }
         if (isPressed(Input.Keys.A)) {
-            player.getPosition().add((float) -PIXELS_PER_UPDATE * dt, 0);
-            player.getBrushPosition().add((float) -PIXELS_PER_UPDATE * dt, 0);
+            deltaMovement[0] = (float) -PIXELS_PER_UPDATE * dt;
+            if (player.getPosition().x + deltaMovement[0] < 0) {
+                deltaMovement[0] = -player.getPosition().x;
+            }
         }
         if (isPressed(Input.Keys.D)) {
-            player.getPosition().add((float) PIXELS_PER_UPDATE * dt, 0);
-            player.getBrushPosition().add((float) PIXELS_PER_UPDATE * dt, 0);
+            deltaMovement[0] = (float) PIXELS_PER_UPDATE * dt;
+            if (player.getPosition().x + deltaMovement[0] > Constants.CAM_WIDTH) {
+                deltaMovement[0] = Constants.CAM_WIDTH - player.getPosition().x + deltaMovement[0];
+            }
         }
+
+        player.getPosition().add(deltaMovement[0], deltaMovement[1]);
+        player.getBrushPosition().add(deltaMovement[0], deltaMovement[1]);
 
         if (isPressed(Input.Keys.DOWN)) {
             double angle = player.addAngle(ANGLE * dt);
