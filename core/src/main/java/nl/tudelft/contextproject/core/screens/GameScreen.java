@@ -86,6 +86,11 @@ public class GameScreen implements Screen {
             shapeRenderer.line(0, y, Constants.CAM_WIDTH, y);
             drawing.drawLine(0, y, Constants.CAM_WIDTH, y);
         }
+
+        drawing.setBrushColour(Color.GREEN);
+        shapeRenderer.setColor(Color.GREEN);
+
+        drawing.drawLine(0, 0, 1000, 750);
         shapeRenderer.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -101,6 +106,8 @@ public class GameScreen implements Screen {
         // Update drawing if needed
         drawing.setBrushColour(Color.RED);
         drawing.update();
+
+        batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
         batch.draw(drawing.getCanvas(), 0, 0);
