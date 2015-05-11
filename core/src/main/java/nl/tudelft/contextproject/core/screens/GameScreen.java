@@ -73,26 +73,6 @@ public class GameScreen implements Screen {
         shapeRenderer.circle(brushPos.x, brushPos.y, 2);
         shapeRenderer.end();
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.GRAY);
-        drawing.setBrushColour(Color.BLUE);
-        for (int x = 0; x < Constants.CAM_WIDTH; x += 100) {
-            Gdx.gl.glLineWidth(x / 100 + 1);
-            shapeRenderer.line(x, 0, x, Constants.CAM_HEIGHT);
-            drawing.drawLine(x, 0, x, Constants.CAM_HEIGHT);
-        }
-        for (int y = 0; y < Constants.CAM_HEIGHT; y += 100) {
-            Gdx.gl.glLineWidth(y / 100 + 1);
-            shapeRenderer.line(0, y, Constants.CAM_WIDTH, y);
-            drawing.drawLine(0, y, Constants.CAM_WIDTH, y);
-        }
-
-        drawing.setBrushColour(Color.GREEN);
-        shapeRenderer.setColor(Color.GREEN);
-
-        drawing.drawLine(0, 0, 1000, 750);
-        shapeRenderer.end();
-
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
@@ -104,11 +84,9 @@ public class GameScreen implements Screen {
         }
 
         // Update drawing if needed
-        drawing.setBrushColour(Color.RED);
         drawing.update();
 
         batch.setProjectionMatrix(camera.combined);
-
         batch.begin();
         batch.draw(drawing.getCanvas(), 0, 0);
         batch.end();
