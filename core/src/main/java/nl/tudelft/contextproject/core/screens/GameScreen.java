@@ -75,7 +75,7 @@ public class GameScreen implements Screen {
         Vector2 brushPos = inputProcessor.getPlayer().getBrushPosition();
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(playerPos.x, playerPos.y, 10);
-        shapeRenderer.setColor(inputProcessor.getPlayer().getBrush().getColour());
+        shapeRenderer.setColor(inputProcessor.getPlayer().getBrush().getColor());
         shapeRenderer.circle(brushPos.x, brushPos.y, 2);
         shapeRenderer.end();
 
@@ -84,7 +84,7 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
-        drawing.getPainting().setColor(player.getBrush().getColour());
+        drawing.getPainting().setColor(player.getBrush().getColor());
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
             drawing.drawLine(movement.getStartOfMovement(), movement.getEndOfMovement());
@@ -100,7 +100,7 @@ public class GameScreen implements Screen {
         batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(player.getBrush().getColour());
+        shapeRenderer.setColor(player.getBrush().getColor());
         shapeRenderer.rect(800, 100, 100, 100);
         shapeRenderer.end();
 

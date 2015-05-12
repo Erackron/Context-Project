@@ -44,9 +44,9 @@ public class Player {
     }
 
     public Colour initializeBrush(){
-        red = new Colour(Color.RED);
-        yellow = new Colour(Color.YELLOW);
-        blue = new Colour(Color.BLUE);
+        red = Colour.RED;
+        yellow = Colour.YELLOW;
+        blue = Colour.BLUE;
         red.setNext(yellow);
         yellow.setNext(blue);
         blue.setNext(red);
