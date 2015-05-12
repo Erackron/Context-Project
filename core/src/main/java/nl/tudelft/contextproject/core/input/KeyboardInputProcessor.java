@@ -19,6 +19,7 @@ public class KeyboardInputProcessor extends InputAdapter {
     public static final double ANGLE = Math.PI / 2.0;
 
     protected HashMap<Integer, Boolean> keys;
+    protected boolean toggled;
     protected Player player;
     protected float[] deltaMovement = new float[2];
 
@@ -32,6 +33,7 @@ public class KeyboardInputProcessor extends InputAdapter {
     public KeyboardInputProcessor(Player player) {
         this.player = player;
         keys = new HashMap<>();
+        toggled = false;
         MovementAPI.getMovementAPI();
 
         keys.put(Input.Keys.W, false);
@@ -97,10 +99,11 @@ public class KeyboardInputProcessor extends InputAdapter {
             player.getBrushPosition().set(newX, newY);
         }
 
-        if (isPressed(Input.Keys.C)){
+        if (isToggled()){
             Colour tmp = player.getBrush();
             tmp = tmp.getNext();
             player.setBrush(tmp);
+            toggled = false;
         }
     }
 
@@ -115,6 +118,11 @@ public class KeyboardInputProcessor extends InputAdapter {
         if (i == Input.Keys.SPACE) {
             start = player.getBrushPosition().cpy();
             keys.put(i, true);
+        } else if (i == Input.Keys.C) {
+            boolean b = keys.get(i);
+            b = !b;
+            keys.put(i, b);
+            toggled = true;
         } else if (keys.containsKey(i)) {
             keys.put(i, true);
         }
@@ -136,7 +144,7 @@ public class KeyboardInputProcessor extends InputAdapter {
             keys.put(i, false);
             MovementAPI.getMovementAPI().addMovement(new KeyboardMovement(center, start, end));
 
-        } else if (keys.containsKey(i)) {
+        } else if (keys.containsKey(i) && i != Input.Keys.C) {
             keys.put(i, false);
         }
 
@@ -152,6 +160,7 @@ public class KeyboardInputProcessor extends InputAdapter {
     public boolean isPressed(int key) {
         return keys.get(key);
     }
+    public boolean isToggled() { return toggled; }
 
     /**
      * Get the player object.
