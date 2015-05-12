@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class KeyboardInputProcessor extends InputAdapter {
 
-    public static final double PIXELS_PER_UPDATE = 75.0;
+    public static final float PIXELS_PER_UPDATE = 75.0f;
     public static final double ANGLE = Math.PI / 2.0;
 
     protected HashMap<Integer, Boolean> keys;
@@ -34,7 +34,6 @@ public class KeyboardInputProcessor extends InputAdapter {
         this.player = player;
         keys = new HashMap<>();
         toggled = false;
-        MovementAPI.getMovementAPI();
 
         keys.put(Input.Keys.W, false);
         keys.put(Input.Keys.S, false);
@@ -54,25 +53,25 @@ public class KeyboardInputProcessor extends InputAdapter {
     public void update(float dt) {
         deltaMovement[0] = deltaMovement[1] = 0;
         if (isPressed(Input.Keys.W)) {
-            deltaMovement[1] = (float) PIXELS_PER_UPDATE * dt;
+            deltaMovement[1] = PIXELS_PER_UPDATE * dt;
             if (player.getPosition().y + deltaMovement[1] > Constants.CAM_HEIGHT) {
                 deltaMovement[1] = Constants.CAM_HEIGHT - player.getPosition().y + deltaMovement[1];
             }
         }
         if (isPressed(Input.Keys.S)) {
-            deltaMovement[1] = (float) -PIXELS_PER_UPDATE * dt;
+            deltaMovement[1] = -PIXELS_PER_UPDATE * dt;
             if (player.getPosition().y + deltaMovement[1] < 0) {
                 deltaMovement[1] = -player.getPosition().y;
             }
         }
         if (isPressed(Input.Keys.A)) {
-            deltaMovement[0] = (float) -PIXELS_PER_UPDATE * dt;
+            deltaMovement[0] = -PIXELS_PER_UPDATE * dt;
             if (player.getPosition().x + deltaMovement[0] < 0) {
                 deltaMovement[0] = -player.getPosition().x;
             }
         }
         if (isPressed(Input.Keys.D)) {
-            deltaMovement[0] = (float) PIXELS_PER_UPDATE * dt;
+            deltaMovement[0] = PIXELS_PER_UPDATE * dt;
             if (player.getPosition().x + deltaMovement[0] > Constants.CAM_WIDTH) {
                 deltaMovement[0] = Constants.CAM_WIDTH - player.getPosition().x + deltaMovement[0];
             }
@@ -82,27 +81,31 @@ public class KeyboardInputProcessor extends InputAdapter {
         player.getBrushPosition().add(deltaMovement[0], deltaMovement[1]);
 
         if (isPressed(Input.Keys.DOWN)) {
-            double angle = player.addAngle(ANGLE * dt);
-
-            float newX = (float) Math.cos(angle) * player.getRadius() + player.getPosition().x;
-            float newY = (float) Math.sin(angle) * player.getRadius() + player.getPosition().y;
-
-            player.getBrushPosition().set(newX, newY);
+            turnBrush(ANGLE, dt);
         }
 
         if (isPressed(Input.Keys.UP)) {
-            double angle = player.addAngle(-ANGLE * dt);
-
-            float newX = (float) Math.cos(angle) * player.getRadius() + player.getPosition().x;
-            float newY = (float) Math.sin(angle) * player.getRadius() + player.getPosition().y;
-
-            player.getBrushPosition().set(newX, newY);
+            turnBrush(-ANGLE, dt);
         }
 
         if (isToggled()){
             player.changeBrushColour();
             toggled = false;
         }
+    }
+
+    /**
+     * Method used to turn the player's brush around.
+     * @param a The angle to turn around
+     * @param dt The time that has passed since the last render
+     */
+    public void turnBrush(double a, float dt) {
+        double angle = player.addAngle(a * dt);
+
+        float newX = (float) Math.cos(angle) * player.getRadius() + player.getPosition().x;
+        float newY = (float) Math.sin(angle) * player.getRadius() + player.getPosition().y;
+
+        player.getBrushPosition().set(newX, newY);
     }
 
     /**
