@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -15,6 +16,8 @@ import nl.tudelft.contextproject.core.input.KeyboardInputProcessor;
 import nl.tudelft.contextproject.core.input.MovementAPI;
 import nl.tudelft.contextproject.core.input.PlayerMovement;
 import nl.tudelft.contextproject.core.rendering.DrawablePixmap;
+
+import java.awt.*;
 
 /**
  * The Game screen. This is the canvas we paint on.
@@ -73,6 +76,7 @@ public class GameScreen implements Screen {
         shapeRenderer.circle(brushPos.x, brushPos.y, 2);
         shapeRenderer.end();
 
+
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
@@ -90,6 +94,12 @@ public class GameScreen implements Screen {
         batch.begin();
         batch.draw(drawing.getCanvas(), 0, 0);
         batch.end();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.rect(800, 100, 100, 100);
+        shapeRenderer.end();
+
     }
 
     @Override
