@@ -35,17 +35,25 @@ public class Player {
         radius = 50f;
         angle = 0.0;
         brushPosition = new Vector2(100f + radius, 100f);
+        brush = initializeBrush();
+    }
+
+    public double addAngle(double angleDelta) {
+        angle += angleDelta;
+        return angle;
+    }
+
+    public Colour initializeBrush(){
         red = new Colour(Color.RED);
         yellow = new Colour(Color.YELLOW);
         blue = new Colour(Color.BLUE);
         red.setNext(yellow);
         yellow.setNext(blue);
         blue.setNext(red);
-        brush = red;
+        return red;
     }
 
-    public double addAngle(double angleDelta) {
-        angle += angleDelta;
-        return angle;
+    public void changeBrushColour(){
+        brush = brush.getNext();
     }
 }

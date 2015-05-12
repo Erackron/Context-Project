@@ -100,9 +100,7 @@ public class KeyboardInputProcessor extends InputAdapter {
         }
 
         if (isToggled()){
-            Colour tmp = player.getBrush();
-            tmp = tmp.getNext();
-            player.setBrush(tmp);
+            player.changeBrushColour();
             toggled = false;
         }
     }
