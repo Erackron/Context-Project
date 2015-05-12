@@ -12,16 +12,18 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 import nl.tudelft.contextproject.core.config.Constants;
+import nl.tudelft.contextproject.core.entities.Colour;
+import nl.tudelft.contextproject.core.entities.Player;
 
 /**
  * This class is a wrapper for Pixmap and Texture to enable storing the drawing of the players.
  */
 @Data
 public class DrawablePixmap implements Disposable {
-    protected Color brushColour = Color.BLUE;
     protected Color eraseColour = Color.BLACK;
     protected int brushSize = 1;
     protected Camera camera;
+    protected Player player;
 
     protected final Pixmap painting;
     protected final Texture canvas;
@@ -33,11 +35,12 @@ public class DrawablePixmap implements Disposable {
      * Create a drawable Pixmap object wrapping an actual Pixmap.
      * @param camera The camera to use when mapping coordinates to the screen
      */
-    public DrawablePixmap(Camera camera) {
+    public DrawablePixmap(Camera camera, Player player) {
         this.painting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
-        painting.setColor(brushColour);
+        painting.setColor(player.getBrush().getColour());
         this.camera = camera;
+        this.player = player;
 
         this.canvas = new Texture(painting);
         canvas.bind();
@@ -84,4 +87,5 @@ public class DrawablePixmap implements Disposable {
         painting.dispose();
         canvas.dispose();
     }
+
 }

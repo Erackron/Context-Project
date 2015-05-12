@@ -29,8 +29,8 @@ public class KeyboardInputProcessor extends InputAdapter {
     /**
      * Create a new KeyboardInputProcesser.
      */
-    public KeyboardInputProcessor() {
-        player = new Player();
+    public KeyboardInputProcessor(Player player) {
+        this.player = player;
         keys = new HashMap<>();
         MovementAPI.getMovementAPI();
 

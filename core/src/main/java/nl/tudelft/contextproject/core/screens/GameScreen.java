@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import nl.tudelft.contextproject.core.Main;
 import nl.tudelft.contextproject.core.config.Constants;
+import nl.tudelft.contextproject.core.entities.Player;
 import nl.tudelft.contextproject.core.input.KeyboardInputProcessor;
 import nl.tudelft.contextproject.core.input.MovementAPI;
 import nl.tudelft.contextproject.core.input.PlayerMovement;
@@ -30,6 +31,7 @@ public class GameScreen implements Screen {
     protected final Main main;
     protected MovementAPI movementAPI;
     protected KeyboardInputProcessor inputProcessor;
+    protected Player player;
 
     /**
      * Create a new game screen.
@@ -38,16 +40,17 @@ public class GameScreen implements Screen {
      */
     public GameScreen(final Main main) {
         this.main = main;
+        player = new Player();
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
 
         shapeRenderer = new ShapeRenderer();
-        drawing = new DrawablePixmap(camera);
+        drawing = new DrawablePixmap(camera, player);
         batch = main.getBatch();
 
         movementAPI = MovementAPI.getMovementAPI();
-        inputProcessor = new KeyboardInputProcessor();
+        inputProcessor = new KeyboardInputProcessor(player);
         Gdx.input.setInputProcessor(inputProcessor);
 
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
@@ -81,6 +84,7 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
+        drawing.getPainting().setColor(player.getBrush().getColour());
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
             drawing.drawLine(movement.getStartOfMovement(), movement.getEndOfMovement());
@@ -96,7 +100,7 @@ public class GameScreen implements Screen {
         batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.setColor(player.getBrush().getColour());
         shapeRenderer.rect(800, 100, 100, 100);
         shapeRenderer.end();
 
