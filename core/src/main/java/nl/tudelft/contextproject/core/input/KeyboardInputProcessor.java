@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import nl.tudelft.contextproject.core.config.Constants;
+import nl.tudelft.contextproject.core.entities.Colour;
 import nl.tudelft.contextproject.core.entities.Player;
 
 import java.util.HashMap;
@@ -40,6 +41,7 @@ public class KeyboardInputProcessor extends InputAdapter {
         keys.put(Input.Keys.UP, false);
         keys.put(Input.Keys.DOWN, false);
         keys.put(Input.Keys.SPACE, false);
+        keys.put(Input.Keys.C, false);
     }
 
     /**
@@ -93,6 +95,12 @@ public class KeyboardInputProcessor extends InputAdapter {
             float newY = (float) Math.sin(angle) * player.getRadius() + player.getPosition().y;
 
             player.getBrushPosition().set(newX, newY);
+        }
+
+        if (isPressed(Input.Keys.C)){
+            Colour tmp = player.getBrush();
+            tmp = tmp.getNext();
+            player.setBrush(tmp);
         }
     }
 

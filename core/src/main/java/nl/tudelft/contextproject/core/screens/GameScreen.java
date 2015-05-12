@@ -69,7 +69,7 @@ public class GameScreen implements Screen {
         Vector2 brushPos = inputProcessor.getPlayer().getBrushPosition();
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(playerPos.x, playerPos.y, 10);
-        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.setColor(inputProcessor.getPlayer().getBrush().getColour());
         shapeRenderer.circle(brushPos.x, brushPos.y, 2);
         shapeRenderer.end();
 
