@@ -70,11 +70,11 @@ public class GameScreen implements Screen {
         // Draw player status
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        Vector2 playerPos = inputProcessor.getPlayer().getPosition();
-        Vector2 brushPos = inputProcessor.getPlayer().getBrushPosition();
+        Vector2 playerPos = player.getPosition();
+        Vector2 brushPos = player.getBrushPosition();
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(playerPos.x, playerPos.y, 10);
-        shapeRenderer.setColor(inputProcessor.getPlayer().getColourPalette().getCurrentColour().getColor());
+        shapeRenderer.setColor(player.getColourPalette().getCurrentColour().getColor());
         shapeRenderer.circle(brushPos.x, brushPos.y, 2);
         shapeRenderer.end();
 
