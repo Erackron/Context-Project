@@ -1,7 +1,8 @@
 package nl.tudelft.contextproject.core.entities;
 
-import com.sun.istack.internal.NotNull;
+
 import lombok.Data;
+import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Data
 public class ColourPalette {
-    @NotNull
+    @NonNull
     private final List<Colour> colours;
 
     private int current =0;
