@@ -26,6 +26,7 @@ public class Player {
     protected Colour yellow;
     protected Colour blue;
 
+    @Getter
     protected float opacity;
 
     /**
@@ -37,6 +38,7 @@ public class Player {
         angle = 0.0;
         brushPosition = new Vector2(100f + radius, 100f);
         brush = initializeBrush();
+        opacity = 1.0f;
     }
 
     public double addAngle(double angleDelta) {
@@ -56,12 +58,11 @@ public class Player {
 
     public void changeBrushColour(){
         brush = brush.getNext();
-        brush
     }
 
     public void changeOpacity(float i) {
         if (opacity + i > 1) {
-        } else if (opacity + i < 0) {
+        } else if (opacity + i < 0.2) {
             opacity = 0;
         } else {
             opacity += i;

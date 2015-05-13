@@ -164,10 +164,6 @@ public class KeyboardInputProcessor extends InputAdapter {
         return true;
     }
 
-    @Override
-    public boolean keyLeft(int i) {
-
-    }
     /**
      * Method that returns if a key is currently pressed.
      *

@@ -21,7 +21,7 @@ import nl.tudelft.contextproject.core.entities.Player;
 @Data
 public class DrawablePixmap implements Disposable {
     protected Color eraseColour = Color.BLACK;
-    protected int brushSize = 1;
+    protected int brushSize = 20;
     protected Camera camera;
     protected Player player;
 
