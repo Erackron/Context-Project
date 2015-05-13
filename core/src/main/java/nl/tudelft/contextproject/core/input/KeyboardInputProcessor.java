@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import nl.tudelft.contextproject.core.config.Constants;
-import nl.tudelft.contextproject.core.entities.Colour;
 import nl.tudelft.contextproject.core.entities.Player;
 
 import java.util.HashMap;
@@ -89,7 +88,7 @@ public class KeyboardInputProcessor extends InputAdapter {
         }
 
         if (isToggled()){
-            player.changeBrushColour();
+            player.getColourPalette().cycle();
             toggled = false;
         }
     }

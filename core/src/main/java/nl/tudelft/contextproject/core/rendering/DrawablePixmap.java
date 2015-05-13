@@ -12,7 +12,6 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 import nl.tudelft.contextproject.core.config.Constants;
-import nl.tudelft.contextproject.core.entities.Colour;
 import nl.tudelft.contextproject.core.entities.Player;
 
 /**
@@ -38,7 +37,7 @@ public class DrawablePixmap implements Disposable {
     public DrawablePixmap(Camera camera, Player player) {
         this.painting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
-        painting.setColor(player.getBrush().getColor());
+        painting.setColor(player.getColourPalette().getCurrentColour().getColor());
         this.camera = camera;
         this.player = player;
 

@@ -2,7 +2,6 @@ package nl.tudelft.contextproject.core.entities;
 
 import com.badlogic.gdx.graphics.Color;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created by Mitchell on 12-5-2015.
@@ -15,9 +14,6 @@ public enum Colour {
 
     @Getter
     private Color color;
-
-    @Getter @Setter
-    private Colour next;
 
     Colour(int r, int g, int b){
         this.color = new Color(r, g, b, 1);
