@@ -6,19 +6,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import nl.tudelft.contextproject.core.Main;
 import nl.tudelft.contextproject.core.config.Constants;
+import nl.tudelft.contextproject.core.entities.ColourPalette;
 import nl.tudelft.contextproject.core.entities.Player;
 import nl.tudelft.contextproject.core.input.KeyboardInputProcessor;
 import nl.tudelft.contextproject.core.input.MovementAPI;
 import nl.tudelft.contextproject.core.input.PlayerMovement;
 import nl.tudelft.contextproject.core.rendering.DrawablePixmap;
-
-import java.awt.*;
 
 /**
  * The Game screen. This is the canvas we paint on.
@@ -40,7 +38,8 @@ public class GameScreen implements Screen {
      */
     public GameScreen(final Main main) {
         this.main = main;
-        player = new Player();
+        ColourPalette palette = ColourPalette.standardPalette();
+        player = new Player(palette);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
@@ -71,11 +70,11 @@ public class GameScreen implements Screen {
         // Draw player status
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        Vector2 playerPos = inputProcessor.getPlayer().getPosition();
-        Vector2 brushPos = inputProcessor.getPlayer().getBrushPosition();
+        Vector2 playerPos = player.getPosition();
+        Vector2 brushPos = player.getBrushPosition();
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(playerPos.x, playerPos.y, 10);
-        shapeRenderer.setColor(inputProcessor.getPlayer().getBrush().getColor());
+        shapeRenderer.setColor(player.getColourPalette().getCurrentColour().getColor());
         shapeRenderer.circle(brushPos.x, brushPos.y, 2);
         shapeRenderer.end();
 
@@ -84,7 +83,7 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
-        drawing.getPainting().setColor(player.getBrush().getColor());
+        drawing.getPainting().setColor(player.getColourPalette().getCurrentColour().getColor());
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
             drawing.drawLine(movement.getStartOfMovement(), movement.getEndOfMovement());
@@ -100,7 +99,7 @@ public class GameScreen implements Screen {
         batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(player.getBrush().getColor());
+        shapeRenderer.setColor(player.getColourPalette().getCurrentColour().getColor());
         shapeRenderer.rect(800, 100, 100, 100);
         shapeRenderer.end();
 
