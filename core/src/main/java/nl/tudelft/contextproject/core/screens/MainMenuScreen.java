@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -65,7 +66,7 @@ public class MainMenuScreen implements Screen {
 
         // Create the Play button
         final TextButton textButton = new TextButton("PLAY", textButtonStyle);
-        textButton.setPosition(270, 200);
+        textButton.setPosition(270, 100);
         textButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -73,6 +74,11 @@ public class MainMenuScreen implements Screen {
             }
         });
         stage.addActor(textButton);
+
+        Texture img = new Texture(Gdx.files.internal("conceptlogo1.png"));
+        Image actor = new Image(img);
+        actor.setPosition(190, 210);
+        stage.addActor(actor);
 
     }
 
