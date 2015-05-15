@@ -16,6 +16,8 @@ import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Colour;
 import nl.tudelft.contextproject.core.entities.Player;
 
+import java.nio.ByteBuffer;
+
 /**
  * This class is a wrapper for Pixmap and Texture to enable storing the drawing of the players.
  */
@@ -27,6 +29,7 @@ public class DrawablePixmap implements Disposable {
     protected Player player;
 
     protected final Pixmap painting;
+    protected final Pixmap newPainting;
     protected final Texture canvas;
 
     @Setter(AccessLevel.NONE)
@@ -41,6 +44,12 @@ public class DrawablePixmap implements Disposable {
                 Pixmap.Format.RGBA8888);
         painting.setBlending(Pixmap.Blending.SourceOver);
         painting.setColor(player.getBrush().getColor());
+
+        this.newPainting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
+                Pixmap.Format.RGBA8888);
+        newPainting.setBlending(Pixmap.Blending.SourceOver);
+        newPainting.setColor(player.getBrush().getColor());
+
         this.camera = camera;
         this.player = player;
 
@@ -70,7 +79,7 @@ public class DrawablePixmap implements Disposable {
      */
     public void drawLine(int x1, int y1, int x2, int y2) {
         Gdx.gl20.glLineWidth(brushSize);
-        painting.drawLine(x1, y1, x2, y2);
+        newPainting.drawLine(x1, y1, x2, y2);
         updateNeeded = true;
     }
 
@@ -81,7 +90,7 @@ public class DrawablePixmap implements Disposable {
     }
 
     public void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {
-        painting.fillTriangle(x1, y1, x2, y2, x3, y3);
+        newPainting.fillTriangle(x1, y1, x2, y2, x3, y3);
         updateNeeded = true;
     }
 
@@ -90,7 +99,32 @@ public class DrawablePixmap implements Disposable {
      */
     public void update() {
         if (updateNeeded) {
-            canvas.draw(painting, 0, 0);
+
+            for (int i = 0; i < Constants.CAM_WIDTH; i++) {
+                for (int j = 0; j < Constants.CAM_HEIGHT; j++) {
+                    int pixelOld = painting.getPixel(i, j);
+                    int pixelNew = newPainting.getPixel(i, j);
+
+                    if (pixelOld != pixelNew && pixelOld != 0) {
+
+                        Color oldC = new Color();
+                        Color.rgba8888ToColor(oldC, pixelOld);
+
+                        Color newC = new Color();
+                        Color.rgba8888ToColor(newC, pixelNew);
+
+                        Color blend = oldC.lerp(newC, 0.5f);
+
+                        newPainting.setColor(blend);
+                        newPainting.drawPixel(i, j);
+                        
+                    }
+                }
+            }
+
+            painting.drawPixmap(newPainting, 0, 0);
+
+            canvas.draw(newPainting, 0, 0);
             updateNeeded = false;
         }
     }

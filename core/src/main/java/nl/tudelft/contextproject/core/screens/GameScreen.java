@@ -86,7 +86,7 @@ public class GameScreen implements Screen {
 
         Color c = player.getBrush().getColor();
         c.set(c.r, c.g, c.b, player.getOpacity());
-        drawing.getPainting().setColor(player.getBrush().getColor());
+        drawing.getNewPainting().setColor(c);
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
             drawing.drawTriangle(movement.getStartOfMovement(), movement.getCenterOfPlayer(), movement.getEndOfMovement());
@@ -102,7 +102,7 @@ public class GameScreen implements Screen {
         batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(player.getBrush().getColor());
+        shapeRenderer.setColor(c);
         shapeRenderer.rect(800, 100, 100, 100);
         shapeRenderer.end();
 
