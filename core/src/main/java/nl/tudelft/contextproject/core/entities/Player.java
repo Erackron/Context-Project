@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Created by Ike on 6-5-2015.
  * This class represents the player for the keyboard input layer.
  */
 public class Player {
@@ -41,11 +40,20 @@ public class Player {
         opacity = 1.0f;
     }
 
+    /**
+     * Method to calculate the new angle.
+     * @param angleDelta The difference between the new and old angle.
+     * @return Return the new angle.
+     */
     public double addAngle(double angleDelta) {
         angle += angleDelta;
         return angle;
     }
 
+    /**
+     * Method that initializes the brush colour.
+     * @return Return the selected colour.
+     */
     public Colour initializeBrush(){
         red = Colour.RED;
         yellow = Colour.YELLOW;
@@ -56,10 +64,18 @@ public class Player {
         return red;
     }
 
+    /**
+     * Method that enables colour changing.
+     */
     public void changeBrushColour(){
         brush = brush.getNext();
     }
 
+    /**
+     * Method that enables opacity change.
+     *
+     * @param i The requested change value of opacity.
+     */
     public void changeOpacity(float i) {
         if (opacity + i > 1) {
         } else if (opacity + i < 0.2) {

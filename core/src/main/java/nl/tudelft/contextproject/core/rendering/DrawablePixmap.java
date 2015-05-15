@@ -71,8 +71,7 @@ public class DrawablePixmap implements Disposable {
 
     /**
      * Draws a line between the given coordinates using the currently set colour.
-     *
-     * @param x1 The x-coodinate of the first point
+     * @param x1 The x-coordinate of the first point
      * @param y1 The y-coordinate of the first point
      * @param x2 The x-coordinate of the second point
      * @param y2 The y-coordinate of the second point
@@ -83,12 +82,27 @@ public class DrawablePixmap implements Disposable {
         updateNeeded = true;
     }
 
+    /**
+     * Draws a triangle between the given coordinates and the player position using the currently set colour.
+     * @param start  The first point
+     * @param center The second point
+     * @param end    The third point
+     */
     public void drawTriangle(Vector2 start, Vector2 center, Vector2 end) {
         drawTriangle((int) start.x, (int) (Constants.CAM_HEIGHT - start.y),
                      (int) center.x, (int) (Constants.CAM_HEIGHT - center.y),
                      (int) end.x, (int) (Constants.CAM_HEIGHT - end.y));
     }
 
+    /**
+     * Draws a triangle between the given coordinates and the player position using the currently set colour.
+     * @param x1 The x-coordinate of the first point
+     * @param y1 The y-coordinate of the first point
+     * @param x2 The x-coordinate of the second point
+     * @param y2 The y-coordinate of the second point
+     * @param x3 The x-coordinate of the third point
+     * @param y3 The y-coordinate of the third point
+     */
     public void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {
         newPainting.fillTriangle(x1, y1, x2, y2, x3, y3);
         updateNeeded = true;
@@ -96,34 +110,36 @@ public class DrawablePixmap implements Disposable {
 
     /**
      * Redraw the painting onto the canvas if needed.
+     * This method compares each pixel from the old and new painting,
+     * updates the pixels based on the retrieved colours values.
      */
     public void update() {
         if (updateNeeded) {
 
+            /* Retrieve all pixels from both paintings. */
             for (int i = 0; i < Constants.CAM_WIDTH; i++) {
                 for (int j = 0; j < Constants.CAM_HEIGHT; j++) {
                     int pixelOld = painting.getPixel(i, j);
                     int pixelNew = newPainting.getPixel(i, j);
 
+                    /* If pixels with the same coordinates are not equal,
+                    use linear interpolation to calculate the combined colour value.*/
                     if (pixelOld != pixelNew && pixelOld != 0) {
-
                         Color oldC = new Color();
                         Color.rgba8888ToColor(oldC, pixelOld);
-
                         Color newC = new Color();
                         Color.rgba8888ToColor(newC, pixelNew);
-
                         Color blend = oldC.lerp(newC, 0.5f);
 
+                        /* Newly generated colour is stored into newPainting. */
                         newPainting.setColor(blend);
                         newPainting.drawPixel(i, j);
-                        
                     }
                 }
             }
 
+            /* newPainting is set to painting to enable future updates.*/
             painting.drawPixmap(newPainting, 0, 0);
-
             canvas.draw(newPainting, 0, 0);
             updateNeeded = false;
         }
@@ -134,5 +150,4 @@ public class DrawablePixmap implements Disposable {
         painting.dispose();
         canvas.dispose();
     }
-
 }

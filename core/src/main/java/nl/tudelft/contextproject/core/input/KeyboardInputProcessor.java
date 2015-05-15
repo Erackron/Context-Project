@@ -30,7 +30,7 @@ public class KeyboardInputProcessor extends InputAdapter {
     protected float opacityAngle = 0.5f;
 
     /**
-     * Create a new KeyboardInputProcesser.
+     * Create a new KeyboardInputProcessor.
      */
     public KeyboardInputProcessor(Player player) {
         this.player = player;
@@ -108,6 +108,7 @@ public class KeyboardInputProcessor extends InputAdapter {
 
     /**
      * Method used to turn the player's brush around.
+     *
      * @param a The angle to turn around
      * @param dt The time that has passed since the last render
      */

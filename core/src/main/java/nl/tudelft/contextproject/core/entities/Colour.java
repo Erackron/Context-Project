@@ -6,7 +6,7 @@ import lombok.Setter;
 
 
 /**
- * Created by Mitchell on 12-5-2015.
+ * Colour class.
  */
 public enum Colour {
 
