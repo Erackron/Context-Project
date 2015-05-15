@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
@@ -38,6 +39,7 @@ public class DrawablePixmap implements Disposable {
     public DrawablePixmap(Camera camera, Player player) {
         this.painting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
+        painting.setBlending(Pixmap.Blending.SourceOver);
         painting.setColor(player.getBrush().getColor());
         this.camera = camera;
         this.player = player;
@@ -67,8 +69,19 @@ public class DrawablePixmap implements Disposable {
      * @param y2 The y-coordinate of the second point
      */
     public void drawLine(int x1, int y1, int x2, int y2) {
-        Gdx.gl.glLineWidth(brushSize);
+        Gdx.gl20.glLineWidth(brushSize);
         painting.drawLine(x1, y1, x2, y2);
+        updateNeeded = true;
+    }
+
+    public void drawTriangle(Vector2 start, Vector2 center, Vector2 end) {
+        drawTriangle((int) start.x, (int) (Constants.CAM_HEIGHT - start.y),
+                     (int) center.x, (int) (Constants.CAM_HEIGHT - center.y),
+                     (int) end.x, (int) (Constants.CAM_HEIGHT - end.y));
+    }
+
+    public void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {
+        painting.fillTriangle(x1, y1, x2, y2, x3, y3);
         updateNeeded = true;
     }
 
