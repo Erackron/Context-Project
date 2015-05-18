@@ -56,6 +56,7 @@
 
 		<plugins>
 			<!-- this run the game when you invoke: mvn integration-test -Pdesktop -->
+			<!--
 			<plugin>
 				<groupId>com.googlecode.mavennatives</groupId>
 				<artifactId>maven-nativedependencies-plugin</artifactId>
@@ -86,7 +87,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 
 			<!-- this builds a totally standalone jar file when you invoke: mvn package -Pdesktop -->
 			<plugin>
@@ -114,4 +115,17 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<nested>true</nested>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
