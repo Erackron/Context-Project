@@ -25,12 +25,12 @@ public class Player {
      * Create a new Player object.
      * @param colourPalette the colours the player has available.
      */
-    public Player(ColourPalette colourPalette) {
+    public Player(ColourPalette colourPalette, float x, float y) {
         this.colourPalette = colourPalette;
-        position = new Vector2(100f, 100f);
+        position = new Vector2(x, y);
         radius = 50f;
         angle = 0.0;
-        brushPosition = new Vector2(100f + radius, 100f);
+        brushPosition = new Vector2(x + radius, y);
     }
 
 

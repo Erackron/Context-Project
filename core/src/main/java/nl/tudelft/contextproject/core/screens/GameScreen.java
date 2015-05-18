@@ -39,7 +39,7 @@ public class GameScreen implements Screen {
     public GameScreen(final Main main) {
         this.main = main;
         ColourPalette palette = ColourPalette.standardPalette();
-        player = new Player(palette);
+        player = new Player(palette, 100f, 100f);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
