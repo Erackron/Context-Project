@@ -22,6 +22,8 @@ public class KeyboardInputProcessor extends InputAdapter {
     protected boolean toggle1;
     protected boolean toggle2;
     protected boolean toggle3;
+    protected boolean toggle4;
+    protected boolean toggle5;
     protected List<Player> players;
     protected int numPlayers;
     protected int activePlayer;
@@ -53,6 +55,8 @@ public class KeyboardInputProcessor extends InputAdapter {
         keys.put(Input.Keys.NUM_1, false);
         keys.put(Input.Keys.NUM_2, false);
         keys.put(Input.Keys.NUM_3, false);
+        keys.put(Input.Keys.NUM_4, false);
+        keys.put(Input.Keys.NUM_5, false);
     }
 
     /**
@@ -123,6 +127,16 @@ public class KeyboardInputProcessor extends InputAdapter {
             toggle3 = false;
         }
 
+        if (toggle4){
+            activePlayer = 3;
+            toggle4 = false;
+        }
+
+        if (toggle5){
+            activePlayer = 4;
+            toggle5 = false;
+        }
+
 
         return activePlayer;
     }
@@ -173,6 +187,16 @@ public class KeyboardInputProcessor extends InputAdapter {
             b = !b;
             keys.put(i, b);
             toggle3 = true;
+        } else if (i == Input.Keys.NUM_4) {
+            boolean b = keys.get(i);
+            b = !b;
+            keys.put(i, b);
+            toggle4 = true;
+        } else if (i == Input.Keys.NUM_5) {
+            boolean b = keys.get(i);
+            b = !b;
+            keys.put(i, b);
+            toggle5 = true;
         } else if (keys.containsKey(i)) {
             keys.put(i, true);
         }

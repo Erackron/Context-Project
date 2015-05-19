@@ -37,6 +37,8 @@ public class GameScreen implements Screen {
     protected Player player;
     protected Player player2;
     protected Player player3;
+    protected Player player4;
+    protected Player player5;
     protected int numPlayers;
     protected int activePlayer;
 
@@ -53,10 +55,14 @@ public class GameScreen implements Screen {
         player = new Player(palette, 100f, 100f);
         player2 = new Player(palette, 200f, 100f);
         player3 = new Player(palette, 300f, 100f);
+        player4 = new Player(palette, 400f, 100f);
+        player5 = new Player(palette, 500f, 100f);
         players = new ArrayList<>();
         players.add(player);
         players.add(player2);
         players.add(player3);
+        players.add(player4);
+        players.add(player5);
         numPlayers = players.size();
         activePlayer = 0;
 
