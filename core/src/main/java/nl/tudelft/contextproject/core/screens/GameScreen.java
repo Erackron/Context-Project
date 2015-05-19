@@ -19,6 +19,9 @@ import nl.tudelft.contextproject.core.input.MovementAPI;
 import nl.tudelft.contextproject.core.input.PlayerMovement;
 import nl.tudelft.contextproject.core.rendering.DrawablePixmap;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The Game screen. This is the canvas we paint on.
  */
@@ -33,6 +36,7 @@ public class GameScreen implements Screen {
     protected KeyboardInputProcessor inputProcessor;
     protected Player player;
     protected Player player2;
+    protected List<Player> players;
 
     /**
      * Create a new game screen.
@@ -44,6 +48,9 @@ public class GameScreen implements Screen {
         ColourPalette palette = ColourPalette.standardPalette();
         player = new Player(palette, 100f, 100f);
         player2 = new Player(palette, 200f, 100f);
+        players = new ArrayList<>();
+        players.add(player);
+        players.add(player2);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
@@ -54,7 +61,7 @@ public class GameScreen implements Screen {
         batch = main.getBatch();
 
         movementAPI = MovementAPI.getMovementAPI();
-        inputProcessor = new KeyboardInputProcessor(player, player2);
+        inputProcessor = new KeyboardInputProcessor(players);
         Gdx.input.setInputProcessor(inputProcessor);
 
 
