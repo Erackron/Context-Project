@@ -86,7 +86,7 @@ public class Player {
     }
 
     public void changeRadius(float r) {
-        if (radius + r > 200) {
+        if (radius + r > 250) {
         } else if (radius + r < 10) {
             radius = 10;
         } else {

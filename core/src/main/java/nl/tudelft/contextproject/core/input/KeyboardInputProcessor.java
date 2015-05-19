@@ -28,7 +28,7 @@ public class KeyboardInputProcessor extends InputAdapter {
     protected Vector2 center;
 
     protected float opacityAngle = 0.5f;
-    protected float deltaRadius = 50f;
+    protected float deltaRadius = 100f;
 
     /**
      * Create a new KeyboardInputProcessor.

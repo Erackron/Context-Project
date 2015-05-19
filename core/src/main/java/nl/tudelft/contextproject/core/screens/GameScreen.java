@@ -68,18 +68,6 @@ public class GameScreen implements Screen {
         // Update the input processor
         inputProcessor.update(delta);
 
-        // Draw player status
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        Vector2 playerPos = inputProcessor.getPlayer().getPosition();
-        Vector2 brushPos = inputProcessor.getPlayer().getBrushPosition();
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(playerPos.x, playerPos.y, 10);
-        shapeRenderer.setColor(inputProcessor.getPlayer().getBrush().getColor());
-        shapeRenderer.circle(brushPos.x, brushPos.y, 2);
-        shapeRenderer.end();
-
-
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
@@ -101,9 +89,19 @@ public class GameScreen implements Screen {
         batch.draw(drawing.getCanvas(), 0, 0);
         batch.end();
 
+        // Draw player status
+        shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(c);
         shapeRenderer.rect(800, 100, 100, 100);
+        shapeRenderer.end();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        Vector2 playerPos = inputProcessor.getPlayer().getPosition();
+        Vector2 brushPos = inputProcessor.getPlayer().getBrushPosition();
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(playerPos.x, playerPos.y, 10);
+        shapeRenderer.circle(brushPos.x, brushPos.y, 2);
         shapeRenderer.end();
 
     }
