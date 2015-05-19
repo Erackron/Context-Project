@@ -84,4 +84,13 @@ public class Player {
             opacity += i;
         }
     }
+
+    public void changeRadius(float r) {
+        if (radius + r > 200) {
+        } else if (radius + r < 10) {
+            radius = 10;
+        } else {
+            radius += r;
+        }
+    }
 }

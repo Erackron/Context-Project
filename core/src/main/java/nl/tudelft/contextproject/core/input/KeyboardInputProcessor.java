@@ -28,6 +28,7 @@ public class KeyboardInputProcessor extends InputAdapter {
     protected Vector2 center;
 
     protected float opacityAngle = 0.5f;
+    protected float deltaRadius = 50f;
 
     /**
      * Create a new KeyboardInputProcessor.
@@ -47,6 +48,8 @@ public class KeyboardInputProcessor extends InputAdapter {
         keys.put(Input.Keys.C, false);
         keys.put(Input.Keys.LEFT, false);
         keys.put(Input.Keys.RIGHT, false);
+        keys.put(Input.Keys.N, false);
+        keys.put(Input.Keys.M, false);
     }
 
     /**
@@ -98,6 +101,16 @@ public class KeyboardInputProcessor extends InputAdapter {
 
         if (isPressed(Input.Keys.RIGHT)) {
             player.changeOpacity(opacityAngle * dt);
+        }
+
+        if (isPressed(Input.Keys.N)) {
+            player.changeRadius(-deltaRadius * dt);
+            turnBrush(0, dt);
+        }
+
+        if (isPressed(Input.Keys.M)) {
+            player.changeRadius(deltaRadius * dt);
+            turnBrush(0, dt);
         }
 
         if (isToggled()){
