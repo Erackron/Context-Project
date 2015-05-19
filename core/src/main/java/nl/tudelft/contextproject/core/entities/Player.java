@@ -10,6 +10,7 @@ import lombok.Setter;
  */
 public class Player {
     @Getter
+    @Setter
     protected Vector2 position;
     @Getter
     protected Vector2 brushPosition;

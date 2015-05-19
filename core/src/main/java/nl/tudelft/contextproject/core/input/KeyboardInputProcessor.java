@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.core.input;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
+import lombok.Getter;
 import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Colour;
 import nl.tudelft.contextproject.core.entities.Player;
@@ -171,7 +172,7 @@ public class KeyboardInputProcessor extends InputAdapter {
             keys.put(i, false);
             MovementAPI.getMovementAPI().addMovement(new KeyboardMovement(center, start, end));
 
-        } else if (keys.containsKey(i) && i != Input.Keys.C) {
+        } else if (keys.containsKey(i)) {
             keys.put(i, false);
         }
 
