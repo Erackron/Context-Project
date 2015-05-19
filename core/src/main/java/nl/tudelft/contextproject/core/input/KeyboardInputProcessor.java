@@ -87,28 +87,28 @@ public class KeyboardInputProcessor extends InputAdapter {
         player.getPosition().add(deltaMovement[0], deltaMovement[1]);
         player.getBrushPosition().add(deltaMovement[0], deltaMovement[1]);
 
-        if (isPressed(Input.Keys.DOWN)) {
+        if (isPressed(Input.Keys.LEFT)) {
             turnBrush(ANGLE, dt);
         }
 
-        if (isPressed(Input.Keys.UP)) {
+        if (isPressed(Input.Keys.RIGHT)) {
             turnBrush(-ANGLE, dt);
         }
 
-        if (isPressed(Input.Keys.LEFT)) {
+        if (isPressed(Input.Keys.N)) {
             player.changeOpacity(-opacityAngle * dt);
         }
 
-        if (isPressed(Input.Keys.RIGHT)) {
+        if (isPressed(Input.Keys.M)) {
             player.changeOpacity(opacityAngle * dt);
         }
 
-        if (isPressed(Input.Keys.N)) {
+        if (isPressed(Input.Keys.DOWN)) {
             player.changeRadius(-deltaRadius * dt);
             turnBrush(0, dt);
         }
 
-        if (isPressed(Input.Keys.M)) {
+        if (isPressed(Input.Keys.UP)) {
             player.changeRadius(deltaRadius * dt);
             turnBrush(0, dt);
         }
