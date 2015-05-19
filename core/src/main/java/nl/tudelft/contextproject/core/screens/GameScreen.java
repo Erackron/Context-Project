@@ -29,13 +29,16 @@ public class GameScreen implements Screen {
     protected OrthographicCamera camera;
     protected ShapeRenderer shapeRenderer;
     protected DrawablePixmap drawing;
-    protected DrawablePixmap drawing2;
+    protected List<DrawablePixmap> drawings;
     protected SpriteBatch batch;
     protected final Main main;
     protected MovementAPI movementAPI;
     protected KeyboardInputProcessor inputProcessor;
     protected Player player;
     protected Player player2;
+    protected int numPlayers;
+    protected int activePlayer;
+
     protected List<Player> players;
 
     /**
@@ -51,13 +54,17 @@ public class GameScreen implements Screen {
         players = new ArrayList<>();
         players.add(player);
         players.add(player2);
+        numPlayers = players.size();
+        activePlayer = 0;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
 
         shapeRenderer = new ShapeRenderer();
-        drawing = new DrawablePixmap(camera, player);
-        drawing2 = new DrawablePixmap(camera, player2);
+        drawings = new ArrayList<>();
+        for(int i = 0; i<numPlayers; i++){
+            drawings.add(new DrawablePixmap(camera, players.get(i)));
+        }
         batch = main.getBatch();
 
         movementAPI = MovementAPI.getMovementAPI();
@@ -78,60 +85,48 @@ public class GameScreen implements Screen {
         camera.update();
 
         // Update the input processor
-        inputProcessor.update(delta);
+        activePlayer = inputProcessor.update(delta, activePlayer);
 
         // Draw player status
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        Vector2 playerPos = player.getPosition();
-        Vector2 brushPos = player.getBrushPosition();
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(playerPos.x, playerPos.y, 10);
-        shapeRenderer.setColor(player.getColourPalette().getCurrentColour().getColor());
-        shapeRenderer.circle(brushPos.x, brushPos.y, 2);
-        shapeRenderer.end();
-
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        Vector2 playerPos2 = player2.getPosition();
-        Vector2 brushPos2 = player2.getBrushPosition();
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(playerPos2.x, playerPos2.y, 10);
-        shapeRenderer.setColor(player2.getColourPalette().getCurrentColour().getColor());
-        shapeRenderer.circle(brushPos2.x, brushPos2.y, 2);
-        shapeRenderer.end();
-
+        for(int i = 0; i<numPlayers; i++) {
+            shapeRenderer.setProjectionMatrix(camera.combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            Vector2 playerPos = players.get(i).getPosition();
+            Vector2 brushPos = players.get(i).getBrushPosition();
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(playerPos.x, playerPos.y, 10);
+            shapeRenderer.setColor(players.get(i).getColourPalette().getCurrentColour().getColor());
+            shapeRenderer.circle(brushPos.x, brushPos.y, 2);
+            shapeRenderer.end();
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
 
-        drawing.getPainting().setColor(player.getColourPalette().getCurrentColour().getColor());
-        PlayerMovement movement = movementAPI.nextMovement();
-        while (movement != null) {
-            drawing.drawLine(movement.getStartOfMovement(), movement.getEndOfMovement());
-            movement = movementAPI.nextMovement();
-        }
-
-        drawing2.getPainting().setColor(player.getColourPalette().getCurrentColour().getColor());
-        PlayerMovement movement2 = movementAPI.nextMovement();
-        while (movement2 != null) {
-            drawing2.drawLine(movement2.getStartOfMovement(), movement2.getEndOfMovement());
-            movement2 = movementAPI.nextMovement();
+        for(int i = 0; i<numPlayers; i++) {
+            drawings.get(i).getPainting().setColor(players.get(i).getColourPalette().getCurrentColour().getColor());
+            PlayerMovement movement = movementAPI.nextMovement();
+            while (movement != null) {
+                drawings.get(i).drawLine(movement.getStartOfMovement(), movement.getEndOfMovement());
+                movement = movementAPI.nextMovement();
+            }
         }
 
         // Update drawing if needed
-        drawing.update();
-        drawing2.update();
+        for(int i = 0; i<numPlayers; i++) {
+            drawings.get(i).update();
+        }
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(drawing.getCanvas(), 0, 0);
-        batch.draw(drawing2.getCanvas(), 0, 0);
+        for(int i = 0; i<numPlayers; i++){
+            batch.draw(drawings.get(i).getCanvas(), 0, 0);
+        }
         batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(player.getColourPalette().getCurrentColour().getColor());
+        shapeRenderer.setColor(players.get(activePlayer).getColourPalette().getCurrentColour().getColor());
         shapeRenderer.rect(800, 100, 100, 100);
         shapeRenderer.end();
 

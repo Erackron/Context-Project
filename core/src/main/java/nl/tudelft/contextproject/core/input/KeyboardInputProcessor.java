@@ -19,24 +19,27 @@ public class KeyboardInputProcessor extends InputAdapter {
 
     protected HashMap<Integer, Boolean> keys;
     protected boolean toggled;
+    protected boolean toggle;
+    protected boolean tog;
     protected List<Player> players;
+    protected int numPlayers;
+    protected int activePlayer;
     protected float[] deltaMovement = new float[2];
 
     protected Vector2 start;
     protected Vector2 end;
     protected Vector2 center;
 
-    protected Vector2 start2;
-    protected Vector2 end2;
-    protected Vector2 center2;
-
     /**
      * Create a new KeyboardInputProcesser.
      */
     public KeyboardInputProcessor(List<Player> players) {
         this.players = players;
+        numPlayers = players.size();
         keys = new HashMap<>();
         toggled = false;
+        toggle = false;
+        tog = false;
 
         keys.put(Input.Keys.W, false);
         keys.put(Input.Keys.S, false);
@@ -46,6 +49,8 @@ public class KeyboardInputProcessor extends InputAdapter {
         keys.put(Input.Keys.DOWN, false);
         keys.put(Input.Keys.SPACE, false);
         keys.put(Input.Keys.C, false);
+        keys.put(Input.Keys.NUM_1, false);
+        keys.put(Input.Keys.NUM_2, false);
     }
 
     /**
@@ -53,49 +58,40 @@ public class KeyboardInputProcessor extends InputAdapter {
      *
      * @param dt Time that has elapsed since the previous render.
      */
-    public void update(float dt) {
+    public int update(float dt, int activePlayer) {
+        this.activePlayer = activePlayer;
         deltaMovement[0] = deltaMovement[1] = 0;
         if (isPressed(Input.Keys.W)) {
             deltaMovement[1] = PIXELS_PER_UPDATE * dt;
-            if (players.get(0).getPosition().y + deltaMovement[1] > Constants.CAM_HEIGHT) {
-                deltaMovement[1] = Constants.CAM_HEIGHT - players.get(0).getPosition().y + deltaMovement[1];
+            if (players.get(activePlayer).getPosition().y + deltaMovement[1] > Constants.CAM_HEIGHT) {
+                deltaMovement[1] = Constants.CAM_HEIGHT - players.get(activePlayer).getPosition().y + deltaMovement[1];
             }
-            if (players.get(1).getPosition().y + deltaMovement[1] > Constants.CAM_HEIGHT) {
-                deltaMovement[1] = Constants.CAM_HEIGHT - players.get(1).getPosition().y + deltaMovement[1];
-            }
+
         }
         if (isPressed(Input.Keys.S)) {
             deltaMovement[1] = -PIXELS_PER_UPDATE * dt;
-            if (players.get(0).getPosition().y + deltaMovement[1] < 0) {
-                deltaMovement[1] = -players.get(0).getPosition().y;
+            if (players.get(activePlayer).getPosition().y + deltaMovement[1] < 0) {
+                deltaMovement[1] = -players.get(activePlayer).getPosition().y;
             }
-            if (players.get(1).getPosition().y + deltaMovement[1] < 0) {
-                deltaMovement[1] = -players.get(1).getPosition().y;
-            }
+
         }
         if (isPressed(Input.Keys.A)) {
             deltaMovement[0] = -PIXELS_PER_UPDATE * dt;
-            if (players.get(0).getPosition().x + deltaMovement[0] < 0) {
-                deltaMovement[0] = -players.get(0).getPosition().x;
-            }
-            if (players.get(1).getPosition().x + deltaMovement[0] < 0) {
-                deltaMovement[0] = -players.get(1).getPosition().x;
+            if (players.get(activePlayer).getPosition().x + deltaMovement[0] < 0) {
+                deltaMovement[0] = -players.get(activePlayer).getPosition().x;
             }
         }
         if (isPressed(Input.Keys.D)) {
             deltaMovement[0] = PIXELS_PER_UPDATE * dt;
-            if (players.get(0).getPosition().x + deltaMovement[0] > Constants.CAM_WIDTH) {
-                deltaMovement[0] = Constants.CAM_WIDTH - players.get(0).getPosition().x + deltaMovement[0];
+            if (players.get(activePlayer).getPosition().x + deltaMovement[0] > Constants.CAM_WIDTH) {
+                deltaMovement[0] = Constants.CAM_WIDTH - players.get(activePlayer).getPosition().x + deltaMovement[0];
             }
-            if (players.get(1).getPosition().x + deltaMovement[0] > Constants.CAM_WIDTH) {
-                deltaMovement[0] = Constants.CAM_WIDTH - players.get(1).getPosition().x + deltaMovement[0];
-            }
+
         }
 
-        players.get(0).getPosition().add(deltaMovement[0], deltaMovement[1]);
-        players.get(0).getBrushPosition().add(deltaMovement[0], deltaMovement[1]);
-        players.get(1).getPosition().add(deltaMovement[0], deltaMovement[1]);
-        players.get(1).getBrushPosition().add(deltaMovement[0], deltaMovement[1]);
+        players.get(activePlayer).getPosition().add(deltaMovement[0], deltaMovement[1]);
+        players.get(activePlayer).getBrushPosition().add(deltaMovement[0], deltaMovement[1]);
+
 
         if (isPressed(Input.Keys.DOWN)) {
             turnBrush(ANGLE, dt);
@@ -106,10 +102,21 @@ public class KeyboardInputProcessor extends InputAdapter {
         }
 
         if (isToggled()){
-            players.get(0).getColourPalette().cycle();
-            players.get(1).getColourPalette().cycle();
+            players.get(activePlayer).getColourPalette().cycle();
             toggled = false;
         }
+
+        if (toggle){
+            activePlayer = 0;
+            toggle = false;
+        }
+
+        if (tog){
+            activePlayer = 1;
+            tog = false;
+        }
+
+        return activePlayer;
     }
 
     /**
@@ -118,19 +125,13 @@ public class KeyboardInputProcessor extends InputAdapter {
      * @param dt The time that has passed since the last render
      */
     public void turnBrush(double a, float dt) {
-        double angle = players.get(0).addAngle(a * dt);
+        double angle = players.get(activePlayer).addAngle(a * dt);
 
-        float newX = (float) Math.cos(angle) * players.get(0).getRadius() + players.get(0).getPosition().x;
-        float newY = (float) Math.sin(angle) * players.get(0).getRadius() + players.get(0).getPosition().y;
+        float newX = (float) Math.cos(angle) * players.get(activePlayer).getRadius() + players.get(activePlayer).getPosition().x;
+        float newY = (float) Math.sin(angle) * players.get(activePlayer).getRadius() + players.get(activePlayer).getPosition().y;
 
-        players.get(0).getBrushPosition().set(newX, newY);
+        players.get(activePlayer).getBrushPosition().set(newX, newY);
 
-        double angle2 = players.get(1).addAngle(a * dt);
-
-        float newX2 = (float) Math.cos(angle2) * players.get(1).getRadius() + players.get(1).getPosition().x;
-        float newY2 = (float) Math.sin(angle2) * players.get(1).getRadius() + players.get(1).getPosition().y;
-
-        players.get(1).getBrushPosition().set(newX2, newY2);
     }
 
     /**
@@ -142,14 +143,23 @@ public class KeyboardInputProcessor extends InputAdapter {
     @Override
     public boolean keyDown(int i) {
         if (i == Input.Keys.SPACE) {
-            start = players.get(0).getBrushPosition().cpy();
-            start2 = players.get(1).getBrushPosition().cpy();
+            start = (players.get(activePlayer).getBrushPosition().cpy());
             keys.put(i, true);
         } else if (i == Input.Keys.C) {
             boolean b = keys.get(i);
             b = !b;
             keys.put(i, b);
             toggled = true;
+        } else if (i == Input.Keys.NUM_1){
+            boolean b = keys.get(i);
+            b = !b;
+            keys.put(i, b);
+            toggle = true;
+        } else if (i == Input.Keys.NUM_2) {
+            boolean b = keys.get(i);
+            b = !b;
+            keys.put(i, b);
+            tog = true;
         } else if (keys.containsKey(i)) {
             keys.put(i, true);
         }
@@ -166,13 +176,10 @@ public class KeyboardInputProcessor extends InputAdapter {
     @Override
     public boolean keyUp(int i) {
         if (i == Input.Keys.SPACE) {
-            center = players.get(0).getPosition().cpy();
-            end = players.get(0).getBrushPosition().cpy();
-            center2 = players.get(1).getPosition().cpy();
-            end2 = players.get(1).getBrushPosition().cpy();
-            keys.put(i, false);
+            center = players.get(activePlayer).getPosition().cpy();
+            end = players.get(activePlayer).getBrushPosition().cpy();
             MovementAPI.getMovementAPI().addMovement(new KeyboardMovement(center, start, end));
-            MovementAPI.getMovementAPI().addMovement(new KeyboardMovement(center2, start2, end2));
+            keys.put(i, false);
 
         } else if (keys.containsKey(i) && i != Input.Keys.C) {
             keys.put(i, false);
@@ -191,6 +198,6 @@ public class KeyboardInputProcessor extends InputAdapter {
         return keys.get(key);
     }
     public boolean isToggled() { return toggled; }
-    
+
 
 }
