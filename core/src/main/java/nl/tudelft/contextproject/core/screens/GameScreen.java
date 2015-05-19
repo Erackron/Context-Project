@@ -51,12 +51,16 @@ public class GameScreen implements Screen {
      */
     public GameScreen(final Main main) {
         this.main = main;
-        ColourPalette palette = ColourPalette.standardPalette();
-        player = new Player(palette, 100f, 100f);
-        player2 = new Player(palette, 200f, 100f);
-        player3 = new Player(palette, 300f, 100f);
-        player4 = new Player(palette, 400f, 100f);
-        player5 = new Player(palette, 500f, 100f);
+        ColourPalette palette1 = ColourPalette.standardPalette();
+        ColourPalette palette2 = ColourPalette.standardPalette();
+        ColourPalette palette3 = ColourPalette.standardPalette();
+        ColourPalette palette4 = ColourPalette.standardPalette();
+        ColourPalette palette5 = ColourPalette.standardPalette();
+        player = new Player(palette1, 100f, 100f);
+        player2 = new Player(palette2, 200f, 100f);
+        player3 = new Player(palette3, 300f, 100f);
+        player4 = new Player(palette4, 400f, 100f);
+        player5 = new Player(palette5, 500f, 100f);
         players = new ArrayList<>();
         players.add(player);
         players.add(player2);
