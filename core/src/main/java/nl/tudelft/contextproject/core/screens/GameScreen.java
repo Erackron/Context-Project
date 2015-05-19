@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.core.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -32,6 +33,7 @@ public class GameScreen implements Screen {
     protected MovementAPI movementAPI;
     protected KeyboardInputProcessor inputProcessor;
     protected Player player;
+    protected Sound backgroundsong;
 
     /**
      * Create a new game screen.
@@ -48,6 +50,9 @@ public class GameScreen implements Screen {
         shapeRenderer = new ShapeRenderer();
         drawing = new DrawablePixmap(camera, player);
         batch = main.getBatch();
+
+        backgroundsong = Gdx.audio.newSound(Gdx.files.internal("music/Song.mp3"));
+        backgroundsong.loop();
 
         movementAPI = MovementAPI.getMovementAPI();
         inputProcessor = new KeyboardInputProcessor(player);
@@ -86,6 +91,7 @@ public class GameScreen implements Screen {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+        batch.draw(drawing.getBackground(), 0, 0);
         batch.draw(drawing.getCanvas(), 0, 0);
         batch.end();
 

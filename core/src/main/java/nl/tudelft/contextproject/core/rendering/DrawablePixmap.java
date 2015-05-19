@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
@@ -13,10 +12,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 import nl.tudelft.contextproject.core.config.Constants;
-import nl.tudelft.contextproject.core.entities.Colour;
 import nl.tudelft.contextproject.core.entities.Player;
-
-import java.nio.ByteBuffer;
 
 /**
  * This class is a wrapper for Pixmap and Texture to enable storing the drawing of the players.
@@ -31,6 +27,7 @@ public class DrawablePixmap implements Disposable {
     protected final Pixmap painting;
     protected final Pixmap newPainting;
     protected final Texture canvas;
+    protected final Texture background;
 
     @Setter(AccessLevel.NONE)
     protected boolean updateNeeded = false;
@@ -53,8 +50,13 @@ public class DrawablePixmap implements Disposable {
         this.camera = camera;
         this.player = player;
 
+        this.background = new Texture(Gdx.files.internal("sprites/List60px.png"));
+        background.bind();
+
         this.canvas = new Texture(painting);
         canvas.bind();
+
+
     }
 
     /**
