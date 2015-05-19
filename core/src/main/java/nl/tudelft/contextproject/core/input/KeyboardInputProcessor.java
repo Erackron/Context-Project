@@ -19,8 +19,9 @@ public class KeyboardInputProcessor extends InputAdapter {
 
     protected HashMap<Integer, Boolean> keys;
     protected boolean toggled;
-    protected boolean toggle;
-    protected boolean tog;
+    protected boolean toggle1;
+    protected boolean toggle2;
+    protected boolean toggle3;
     protected List<Player> players;
     protected int numPlayers;
     protected int activePlayer;
@@ -38,8 +39,8 @@ public class KeyboardInputProcessor extends InputAdapter {
         numPlayers = players.size();
         keys = new HashMap<>();
         toggled = false;
-        toggle = false;
-        tog = false;
+        toggle1 = false;
+        toggle2 = false;
 
         keys.put(Input.Keys.W, false);
         keys.put(Input.Keys.S, false);
@@ -51,6 +52,7 @@ public class KeyboardInputProcessor extends InputAdapter {
         keys.put(Input.Keys.C, false);
         keys.put(Input.Keys.NUM_1, false);
         keys.put(Input.Keys.NUM_2, false);
+        keys.put(Input.Keys.NUM_3, false);
     }
 
     /**
@@ -106,15 +108,21 @@ public class KeyboardInputProcessor extends InputAdapter {
             toggled = false;
         }
 
-        if (toggle){
+        if (toggle1){
             activePlayer = 0;
-            toggle = false;
+            toggle1 = false;
         }
 
-        if (tog){
+        if (toggle2){
             activePlayer = 1;
-            tog = false;
+            toggle2 = false;
         }
+
+        if (toggle3){
+            activePlayer = 2;
+            toggle3 = false;
+        }
+
 
         return activePlayer;
     }
@@ -154,12 +162,17 @@ public class KeyboardInputProcessor extends InputAdapter {
             boolean b = keys.get(i);
             b = !b;
             keys.put(i, b);
-            toggle = true;
+            toggle1 = true;
         } else if (i == Input.Keys.NUM_2) {
             boolean b = keys.get(i);
             b = !b;
             keys.put(i, b);
-            tog = true;
+            toggle2 = true;
+        } else if (i == Input.Keys.NUM_3) {
+            boolean b = keys.get(i);
+            b = !b;
+            keys.put(i, b);
+            toggle3 = true;
         } else if (keys.containsKey(i)) {
             keys.put(i, true);
         }

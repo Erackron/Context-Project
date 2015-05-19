@@ -36,6 +36,7 @@ public class GameScreen implements Screen {
     protected KeyboardInputProcessor inputProcessor;
     protected Player player;
     protected Player player2;
+    protected Player player3;
     protected int numPlayers;
     protected int activePlayer;
 
@@ -51,9 +52,11 @@ public class GameScreen implements Screen {
         ColourPalette palette = ColourPalette.standardPalette();
         player = new Player(palette, 100f, 100f);
         player2 = new Player(palette, 200f, 100f);
+        player3 = new Player(palette, 300f, 100f);
         players = new ArrayList<>();
         players.add(player);
         players.add(player2);
+        players.add(player3);
         numPlayers = players.size();
         activePlayer = 0;
 
