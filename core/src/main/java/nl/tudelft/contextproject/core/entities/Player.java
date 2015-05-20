@@ -40,6 +40,22 @@ public class Player {
         radius=50f;
     }
 
+    /**
+     * Method used to turn the player's brush around.
+     *
+     * @param a  The angle to turn around
+     * @param dt The time that has passed since the last render
+     */
+    public void turnBrush(double a, float dt) {
+        double angle =addAngle(a * dt);
+
+        float newX = (float) Math.cos(angle) * radius + position.x;
+        float newY = (float) Math.sin(angle) * radius + position.y;
+
+        brushPosition.set(newX, newY);
+
+    }
+
 
     public double addAngle(double angleDelta) {
         angle += angleDelta;

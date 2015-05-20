@@ -3,7 +3,6 @@ package nl.tudelft.contextproject.core.input;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
-import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Player;
 
 import java.util.HashMap;
@@ -30,13 +29,16 @@ public class KeyboardInputProcessor extends InputAdapter {
     protected Vector2 end;
     protected Vector2 center;
 
+
     /**
-     * Create a new KeyboardInputProcesser.
+     * Constructor to inject a keyMap
+     * @param players list of players to participate in the game.
+     * @param keyMap  map of keys that has been pressed in the current cycle.
      */
-    public KeyboardInputProcessor(List<Player> players) {
+    protected KeyboardInputProcessor(List<Player> players, HashMap<Integer,Boolean> keyMap) {
         this.players = players;
         numPlayers = players.size();
-        keys = new HashMap<>();
+        keys = keyMap;
         toggled = false;
 
         keys.put(Input.Keys.W, false);
@@ -50,6 +52,13 @@ public class KeyboardInputProcessor extends InputAdapter {
         for (int i = Input.Keys.NUM_1; i <= Input.Keys.NUM_9; i++) {
             keys.put(i, false);
         }
+    }
+
+    /**
+     * Create a new KeyboardInputProcessor.
+     */
+    public KeyboardInputProcessor(List<Player> players) {
+        this(players,new HashMap<>());
     }
 
     /**
@@ -87,16 +96,15 @@ public class KeyboardInputProcessor extends InputAdapter {
             move(Direction.EAST, dt);
         }
 
-        activePlayer.getPosition().add(deltaMovement[0], deltaMovement[1]);
-        activePlayer.getBrushPosition().add(deltaMovement[0], deltaMovement[1]);
+        activePlayer.move(deltaMovement[0],deltaMovement[1]);
 
 
         if (isPressed(Input.Keys.DOWN)) {
-            turnBrush(ANGLE, dt);
+            activePlayer.turnBrush(ANGLE, dt);
         }
 
         if (isPressed(Input.Keys.UP)) {
-            turnBrush(-ANGLE, dt);
+            activePlayer.turnBrush(-ANGLE, dt);
         }
 
         if (isToggled()) {
@@ -114,23 +122,6 @@ public class KeyboardInputProcessor extends InputAdapter {
         return activePlayerId;
     }
 
-    /**
-     * Method used to turn the player's brush around.
-     *
-     * @param a  The angle to turn around
-     * @param dt The time that has passed since the last render
-     */
-    public void turnBrush(double a, float dt) {
-        double angle = players.get(activePlayerId).addAngle(a * dt);
-
-        float newX = (float) Math.cos(angle) * players.get(activePlayerId).getRadius() + players
-                .get(activePlayerId).getPosition().x;
-        float newY = (float) Math.sin(angle) * players.get(activePlayerId).getRadius() + players
-                .get(activePlayerId).getPosition().y;
-
-        players.get(activePlayerId).getBrushPosition().set(newX, newY);
-
-    }
 
     /**
      * Method that gets called when a keys gets pressed.
