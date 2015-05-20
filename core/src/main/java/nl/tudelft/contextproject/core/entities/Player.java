@@ -33,9 +33,26 @@ public class Player {
         brushPosition = new Vector2(x + radius, y);
     }
 
+    protected Player(ColourPalette colourPalette,Vector2 position, Vector2 brushPosition,float angle){
+        this.colourPalette=colourPalette;
+        this.position=position;
+        this.brushPosition=brushPosition;
+        radius=50f;
+    }
+
 
     public double addAngle(double angleDelta) {
         angle += angleDelta;
         return angle;
+    }
+
+    /**
+     * Moves the player and his brush through 2d space by specified parameters
+     * @param dx translation in x direction
+     * @param dy translation in y direction
+     */
+    public void move(float dx, float dy){
+        position.add(dx,dy);
+        brushPosition.add(dx,dy);
     }
 }
