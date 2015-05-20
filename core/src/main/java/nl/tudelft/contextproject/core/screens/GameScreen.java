@@ -117,14 +117,13 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
-        for(int i = 0; i<numPlayers; i++) {
-            drawings.get(i).getPainting().setColor(players.get(i).getColourPalette().getCurrentColour().getColor());
-            PlayerMovement movement = movementAPI.nextMovement();
-            while (movement != null) {
-                drawings.get(i).drawLine(movement.getStartOfMovement(), movement.getEndOfMovement());
-                movement = movementAPI.nextMovement();
-            }
+        drawings.get(activePlayer).getPainting().setColor(players.get(activePlayer).getColourPalette().getCurrentColour().getColor());
+        PlayerMovement movement = movementAPI.nextMovement();
+        while (movement != null) {
+            drawings.get(activePlayer).drawLine(movement.getStartOfMovement(), movement.getEndOfMovement());
+            movement = movementAPI.nextMovement();
         }
+
 
         // Update drawing if needed
         for(int i = 0; i<numPlayers; i++) {
