@@ -195,6 +195,9 @@
             <message key="name.invalidPattern"
              value="Method name ''{0}'' must match pattern ''{1}''."/>
         </module>
+        <module name="MethodLength">
+            <property name="max" value="40"/>
+        </module>
         <module name="SingleLineJavadoc"/>
         <module name="EmptyCatchBlock">
             <property name="exceptionVariableName" value="expected|ignore"/>
