@@ -126,7 +126,7 @@ public class DrawablePixmap implements Disposable {
 
                     /* If pixels with the same coordinates are not equal,
                     use linear interpolation to calculate the combined colour value.*/
-                    if (pixelOld != pixelNew && pixelOld != 0) {
+                    if (pixelOld != pixelNew && pixelOld != 16777215) {
                         Color oldC = new Color();
                         Color.rgba8888ToColor(oldC, pixelOld);
                         Color newC = new Color();
