@@ -33,9 +33,42 @@ public class Player {
         brushPosition = new Vector2(x + radius, y);
     }
 
+    protected Player(ColourPalette colourPalette,Vector2 position, Vector2 brushPosition,float angle){
+        this.colourPalette=colourPalette;
+        this.position=position;
+        this.brushPosition=brushPosition;
+        radius=50f;
+    }
+
+    /**
+     * Method used to turn the player's brush around.
+     *
+     * @param a  The angle to turn around
+     * @param dt The time that has passed since the last render
+     */
+    public void turnBrush(double a, float dt) {
+        double angle =addAngle(a * dt);
+
+        float newX = (float) Math.cos(angle) * radius + position.x;
+        float newY = (float) Math.sin(angle) * radius + position.y;
+
+        brushPosition.set(newX, newY);
+
+    }
+
 
     public double addAngle(double angleDelta) {
         angle += angleDelta;
         return angle;
+    }
+
+    /**
+     * Moves the player and his brush through 2d space by specified parameters
+     * @param dx translation in x direction
+     * @param dy translation in y direction
+     */
+    public void move(float dx, float dy){
+        position.add(dx,dy);
+        brushPosition.add(dx,dy);
     }
 }
