@@ -98,11 +98,9 @@ public class KeyboardInputProcessor extends InputAdapter {
 
         activePlayer.move(deltaMovement[0],deltaMovement[1]);
 
-
         if (isPressed(Input.Keys.DOWN)) {
             activePlayer.turnBrush(ANGLE, dt);
         }
-
         if (isPressed(Input.Keys.UP)) {
             activePlayer.turnBrush(-ANGLE, dt);
         }
