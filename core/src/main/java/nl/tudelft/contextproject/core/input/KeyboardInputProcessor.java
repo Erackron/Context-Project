@@ -7,6 +7,7 @@ import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Player;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Class that is used to process keyboard input and to create KeyBoardMovement objects for the
@@ -19,7 +20,10 @@ public class KeyboardInputProcessor extends InputAdapter {
 
     protected HashMap<Integer, Boolean> keys;
     protected boolean toggled;
-    protected Player player;
+    protected boolean[] playerToggles = new boolean[9];
+    protected List<Player> players;
+    protected int numPlayers;
+    protected int activePlayerId;
     protected float[] deltaMovement = new float[2];
 
     protected Vector2 start;
@@ -29,8 +33,9 @@ public class KeyboardInputProcessor extends InputAdapter {
     /**
      * Create a new KeyboardInputProcesser.
      */
-    public KeyboardInputProcessor(Player player) {
-        this.player = player;
+    public KeyboardInputProcessor(List<Player> players) {
+        this.players = players;
+        numPlayers = players.size();
         keys = new HashMap<>();
         toggled = false;
 
@@ -42,42 +47,49 @@ public class KeyboardInputProcessor extends InputAdapter {
         keys.put(Input.Keys.DOWN, false);
         keys.put(Input.Keys.SPACE, false);
         keys.put(Input.Keys.C, false);
+        for (int i = Input.Keys.NUM_1; i <= Input.Keys.NUM_9; i++) {
+            keys.put(i, false);
+        }
     }
+
+    /**
+     * Calculate the movement for the player in a certain direction.
+     *
+     * @param direction The Direction we are moving in.
+     * @param dt        Time that has elapsed since the previous render.
+     */
+    public void move(Direction direction, float dt) {
+        deltaMovement[direction.getAxis()] = direction.getDirection() * PIXELS_PER_UPDATE * dt;
+        direction.checkBounds(players.get(activePlayerId).getPosition(), deltaMovement);
+    }
+
 
     /**
      * Method that gets called by the main game loop to actually process the keyboard input.
      *
      * @param dt Time that has elapsed since the previous render.
      */
-    public void update(float dt) {
+    public int update(float dt, int activePlayerId) {
+        this.activePlayerId = activePlayerId;
+        Player activePlayer = players.get(this.activePlayerId);
         deltaMovement[0] = deltaMovement[1] = 0;
+
         if (isPressed(Input.Keys.W)) {
-            deltaMovement[1] = PIXELS_PER_UPDATE * dt;
-            if (player.getPosition().y + deltaMovement[1] > Constants.CAM_HEIGHT) {
-                deltaMovement[1] = Constants.CAM_HEIGHT - player.getPosition().y + deltaMovement[1];
-            }
+            move(Direction.NORTH, dt);
         }
         if (isPressed(Input.Keys.S)) {
-            deltaMovement[1] = -PIXELS_PER_UPDATE * dt;
-            if (player.getPosition().y + deltaMovement[1] < 0) {
-                deltaMovement[1] = -player.getPosition().y;
-            }
+            move(Direction.SOUTH, dt);
         }
         if (isPressed(Input.Keys.A)) {
-            deltaMovement[0] = -PIXELS_PER_UPDATE * dt;
-            if (player.getPosition().x + deltaMovement[0] < 0) {
-                deltaMovement[0] = -player.getPosition().x;
-            }
+            move(Direction.WEST, dt);
         }
         if (isPressed(Input.Keys.D)) {
-            deltaMovement[0] = PIXELS_PER_UPDATE * dt;
-            if (player.getPosition().x + deltaMovement[0] > Constants.CAM_WIDTH) {
-                deltaMovement[0] = Constants.CAM_WIDTH - player.getPosition().x + deltaMovement[0];
-            }
+            move(Direction.EAST, dt);
         }
 
-        player.getPosition().add(deltaMovement[0], deltaMovement[1]);
-        player.getBrushPosition().add(deltaMovement[0], deltaMovement[1]);
+        activePlayer.getPosition().add(deltaMovement[0], deltaMovement[1]);
+        activePlayer.getBrushPosition().add(deltaMovement[0], deltaMovement[1]);
+
 
         if (isPressed(Input.Keys.DOWN)) {
             turnBrush(ANGLE, dt);
@@ -87,24 +99,37 @@ public class KeyboardInputProcessor extends InputAdapter {
             turnBrush(-ANGLE, dt);
         }
 
-        if (isToggled()){
-            player.getColourPalette().cycle();
+        if (isToggled()) {
+            activePlayer.getColourPalette().cycle();
             toggled = false;
         }
+
+        for (int i = 0; i < playerToggles.length; i++) {
+            if (playerToggles[i]) {
+                activePlayerId = i;
+                playerToggles[i] = false;
+            }
+        }
+
+        return activePlayerId;
     }
 
     /**
      * Method used to turn the player's brush around.
-     * @param a The angle to turn around
+     *
+     * @param a  The angle to turn around
      * @param dt The time that has passed since the last render
      */
     public void turnBrush(double a, float dt) {
-        double angle = player.addAngle(a * dt);
+        double angle = players.get(activePlayerId).addAngle(a * dt);
 
-        float newX = (float) Math.cos(angle) * player.getRadius() + player.getPosition().x;
-        float newY = (float) Math.sin(angle) * player.getRadius() + player.getPosition().y;
+        float newX = (float) Math.cos(angle) * players.get(activePlayerId).getRadius() + players
+                .get(activePlayerId).getPosition().x;
+        float newY = (float) Math.sin(angle) * players.get(activePlayerId).getRadius() + players
+                .get(activePlayerId).getPosition().y;
 
-        player.getBrushPosition().set(newX, newY);
+        players.get(activePlayerId).getBrushPosition().set(newX, newY);
+
     }
 
     /**
@@ -115,18 +140,24 @@ public class KeyboardInputProcessor extends InputAdapter {
      */
     @Override
     public boolean keyDown(int i) {
-        if (i == Input.Keys.SPACE) {
-            start = player.getBrushPosition().cpy();
-            keys.put(i, true);
-        } else if (i == Input.Keys.C) {
-            boolean b = keys.get(i);
-            b = !b;
-            keys.put(i, b);
-            toggled = true;
-        } else if (keys.containsKey(i)) {
-            keys.put(i, true);
+        switch (i) {
+            case Input.Keys.SPACE:
+                start = (players.get(activePlayerId).getBrushPosition().cpy());
+                keys.put(i, true);
+                break;
+            case Input.Keys.C:
+                keys.put(i, !keys.get(i));
+                toggled = true;
+                break;
+            default:
+                if (i >= Input.Keys.NUM_1 && i <= Input.Keys.NUM_9) {
+                    keys.put(i, !keys.get(i));
+                    playerToggles[i - Input.Keys.NUM_1] = true;
+                } else if (keys.containsKey(i)) {
+                    keys.put(i, true);
+                }
+                break;
         }
-
         return true;
     }
 
@@ -139,10 +170,10 @@ public class KeyboardInputProcessor extends InputAdapter {
     @Override
     public boolean keyUp(int i) {
         if (i == Input.Keys.SPACE) {
-            center = player.getPosition().cpy();
-            end = player.getBrushPosition().cpy();
-            keys.put(i, false);
+            center = players.get(activePlayerId).getPosition().cpy();
+            end = players.get(activePlayerId).getBrushPosition().cpy();
             MovementAPI.getMovementAPI().addMovement(new KeyboardMovement(center, start, end));
+            keys.put(i, false);
 
         } else if (keys.containsKey(i) && i != Input.Keys.C) {
             keys.put(i, false);
@@ -160,15 +191,8 @@ public class KeyboardInputProcessor extends InputAdapter {
     public boolean isPressed(int key) {
         return keys.get(key);
     }
-    public boolean isToggled() { return toggled; }
 
-    /**
-     * Get the player object.
-     *
-     * @return The player object
-     */
-    public Player getPlayer() {
-        return player;
+    public boolean isToggled() {
+        return toggled;
     }
-
 }
