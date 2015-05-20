@@ -92,8 +92,8 @@ public class GameScreen implements Screen {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(drawing.getBackground(), 0, 0);
         batch.draw(drawing.getCanvas(), 0, 0);
+        batch.draw(drawing.getBackground(), 0, 0);
         batch.end();
 
         // Draw player status
