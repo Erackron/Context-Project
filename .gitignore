@@ -123,7 +123,8 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -168,3 +169,4 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 
+*.pdf
