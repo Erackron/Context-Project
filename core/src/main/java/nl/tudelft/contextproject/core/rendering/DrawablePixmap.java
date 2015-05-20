@@ -40,7 +40,6 @@ public class DrawablePixmap implements Disposable {
         painting.setColor(player.getColourPalette().getCurrentColour().getColor());
         this.camera = camera;
         this.player = player;
-
         this.canvas = new Texture(painting);
         canvas.bind();
     }

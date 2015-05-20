@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -35,7 +36,7 @@ public class GameScreen implements Screen {
     protected KeyboardInputProcessor inputProcessor;
     protected int numPlayers;
     protected int activePlayer;
-
+    protected final Texture background;
     protected List<Player> players;
 
     /**
@@ -49,6 +50,9 @@ public class GameScreen implements Screen {
         this.players = new ArrayList<>(players);
         numPlayers = players.size();
         activePlayer = 0;
+
+        this.background = new Texture(Gdx.files.internal("sprites/List60px.png"));
+        background.bind();
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
@@ -77,14 +81,14 @@ public class GameScreen implements Screen {
     public static GameScreen createDefaultGameScreen(final Main main) {
         ArrayList<Player> players = new ArrayList<>(9);
         for (int i = 0; i < 9; i++) {
-            players.add(new Player(ColourPalette.standardPalette(), 50f + 50f * i, 100f));
+            players.add(new Player(ColourPalette.standardPalette(), 100f + 50f * i, 100f));
         }
         return new GameScreen(main, players);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
+        Gdx.gl.glClearColor(1f, 1f, 1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Update camera
@@ -101,7 +105,7 @@ public class GameScreen implements Screen {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             Vector2 playerPos = players.get(i).getPosition();
             Vector2 brushPos = players.get(i).getBrushPosition();
-            shapeRenderer.setColor(i == activePlayer ? Color.GRAY : Color.WHITE);
+            shapeRenderer.setColor(i == activePlayer ? Color.GRAY : Color.BLACK);
             shapeRenderer.circle(playerPos.x, playerPos.y, 10);
             shapeRenderer.setColor(players.get(i).getColourPalette().getCurrentColour().getColor());
             shapeRenderer.circle(brushPos.x, brushPos.y, 2);
@@ -129,6 +133,7 @@ public class GameScreen implements Screen {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+        batch.draw(background,0,0);
         for (int i = 0; i < numPlayers; i++) {
             batch.draw(drawings.get(i).getCanvas(), 0, 0);
         }
