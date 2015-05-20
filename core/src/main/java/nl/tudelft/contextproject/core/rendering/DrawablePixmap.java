@@ -25,7 +25,7 @@ public class DrawablePixmap implements Disposable {
     protected Player player;
 
     protected Pixmap painting;
-    protected final Pixmap newPainting;
+    protected Pixmap newPainting;
     protected final Texture canvas;
     protected final Texture background;
 
@@ -40,12 +40,12 @@ public class DrawablePixmap implements Disposable {
     public DrawablePixmap(Camera camera, Player player) {
         this.painting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
-//        painting.setBlending(Pixmap.Blending.SourceOver);
+        painting.setBlending(Pixmap.Blending.SourceOver);
         painting.setColor(player.getBrush().getColor());
 
         this.newPainting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
-//        newPainting.setBlending(Pixmap.Blending.SourceOver);
+        newPainting.setBlending(Pixmap.Blending.SourceOver);
         newPainting.setColor(player.getBrush().getColor());
 
         this.camera = camera;
@@ -147,7 +147,7 @@ public class DrawablePixmap implements Disposable {
             }
 
             /* newPainting is set to painting to enable future updates.*/
-            painting = newPainting;
+            painting.drawPixmap(newPainting, 0, 0);
             canvas.draw(newPainting, 0, 0);
             updateNeeded = false;
         }

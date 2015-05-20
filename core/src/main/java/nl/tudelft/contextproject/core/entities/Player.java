@@ -79,8 +79,8 @@ public class Player {
      */
     public void changeOpacity(float i) {
         if (opacity + i > 1) {
-        } else if (opacity + i < 0.2) {
-            opacity = 0.2f;
+        } else if (opacity + i < 0.5) {
+            opacity = 0.5f;
         } else {
             opacity += i;
         }
