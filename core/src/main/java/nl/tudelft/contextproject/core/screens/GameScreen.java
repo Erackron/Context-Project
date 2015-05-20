@@ -33,11 +33,6 @@ public class GameScreen implements Screen {
     protected final Main main;
     protected MovementAPI movementAPI;
     protected KeyboardInputProcessor inputProcessor;
-    protected Player player;
-    protected Player player2;
-    protected Player player3;
-    protected Player player4;
-    protected Player player5;
     protected int numPlayers;
     protected int activePlayer;
 
@@ -81,9 +76,8 @@ public class GameScreen implements Screen {
      */
     public static GameScreen createDefaultGameScreen(final Main main) {
         ArrayList<Player> players = new ArrayList<>(9);
-        ColourPalette standardPalette = ColourPalette.standardPalette();
         for (int i = 0; i < 9; i++) {
-            players.add(new Player(standardPalette, 50f + 50f * i, 100f));
+            players.add(new Player(ColourPalette.standardPalette(), 50f + 50f * i, 100f));
         }
         return new GameScreen(main, players);
     }
