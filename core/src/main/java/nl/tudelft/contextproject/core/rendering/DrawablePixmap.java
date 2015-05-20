@@ -38,14 +38,13 @@ public class DrawablePixmap implements Disposable {
      * @param camera The camera to use when mapping coordinates to the screen
      */
     public DrawablePixmap(Camera camera, Player player) {
+        Pixmap.setBlending(Pixmap.Blending.SourceOver);
         this.painting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
-        painting.setBlending(Pixmap.Blending.SourceOver);
         painting.setColor(player.getBrush().getColor());
 
         this.newPainting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
-        newPainting.setBlending(Pixmap.Blending.SourceOver);
         newPainting.setColor(player.getBrush().getColor());
 
         this.camera = camera;
@@ -68,8 +67,10 @@ public class DrawablePixmap implements Disposable {
      * @param end   The second point
      */
     public void drawLine(Vector2 start, Vector2 end) {
-        drawLine((int) start.x, (int) (Constants.CAM_HEIGHT - start.y),
-                (int) end.x, (int) (Constants.CAM_HEIGHT - end.y));
+        drawLine((int) start.x,
+                (int) (Constants.CAM_HEIGHT - Math.min(start.y, Constants.CAM_HEIGHT)),
+                (int) end.x,
+                (int) (Constants.CAM_HEIGHT - Math.min(end.y, Constants.CAM_HEIGHT)));
     }
 
     /**
@@ -95,9 +96,12 @@ public class DrawablePixmap implements Disposable {
      * @param end    The third point
      */
     public void drawTriangle(Vector2 start, Vector2 center, Vector2 end) {
-        drawTriangle((int) start.x, (int) (Constants.CAM_HEIGHT - start.y),
-                (int) center.x, (int) (Constants.CAM_HEIGHT - center.y),
-                (int) end.x, (int) (Constants.CAM_HEIGHT - end.y));
+        drawTriangle((int) start.x,
+                (int) (Constants.CAM_HEIGHT - Math.min(start.y, Constants.CAM_HEIGHT)),
+                (int) center.x,
+                (int) (Constants.CAM_HEIGHT - Math.min(center.y, Constants.CAM_HEIGHT)),
+                (int) end.x,
+                (int) (Constants.CAM_HEIGHT - Math.min(end.y, Constants.CAM_HEIGHT)));
     }
 
     /**
