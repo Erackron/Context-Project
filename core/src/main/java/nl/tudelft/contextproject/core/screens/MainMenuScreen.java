@@ -70,7 +70,7 @@ public class MainMenuScreen implements Screen {
         textButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-                main.setScreen(new GameScreen(main));
+                main.setScreen(GameScreen.createDefaultGameScreen(main));
             }
         });
         stage.addActor(textButton);

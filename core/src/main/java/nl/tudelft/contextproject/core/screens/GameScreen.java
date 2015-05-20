@@ -46,21 +46,12 @@ public class GameScreen implements Screen {
     /**
      * Create a new game screen.
      *
-     * @param main The main game object for which this screen is created
+     * @param main    The main game object for which this screen is created
+     * @param players The players to add to this game screen
      */
-    public GameScreen(final Main main) {
+    public GameScreen(final Main main, ArrayList<Player> players) {
         this.main = main;
-        player = new Player(ColourPalette.standardPalette(), 100f, 100f);
-        player2 = new Player(ColourPalette.standardPalette(), 200f, 100f);
-        player3 = new Player(ColourPalette.standardPalette(), 300f, 100f);
-        player4 = new Player(ColourPalette.standardPalette(), 400f, 100f);
-        player5 = new Player(ColourPalette.standardPalette(), 500f, 100f);
-        players = new ArrayList<>();
-        players.add(player);
-        players.add(player2);
-        players.add(player3);
-        players.add(player4);
-        players.add(player5);
+        this.players = new ArrayList<>(players);
         numPlayers = players.size();
         activePlayer = 0;
 
@@ -81,6 +72,20 @@ public class GameScreen implements Screen {
 
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
+
+    /**
+     * Create a new game screen.
+     *
+     * @param main The main game object for which this screen is created
+     */
+    public static GameScreen createDefaultGameScreen(final Main main) {
+        ArrayList<Player> players = new ArrayList<>(9);
+        ColourPalette standardPalette = ColourPalette.standardPalette();
+        for (int i = 0; i < 9; i++) {
+            players.add(new Player(standardPalette, 50f + 50f * i, 100f));
+        }
+        return new GameScreen(main, players);
     }
 
     @Override
