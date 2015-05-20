@@ -24,7 +24,7 @@ public class DrawablePixmap implements Disposable {
     protected Camera camera;
     protected Player player;
 
-    protected final Pixmap painting;
+    protected Pixmap painting;
     protected final Pixmap newPainting;
     protected final Texture canvas;
     protected final Texture background;
@@ -147,7 +147,7 @@ public class DrawablePixmap implements Disposable {
             }
 
             /* newPainting is set to painting to enable future updates.*/
-            painting.drawPixmap(newPainting, 0, 0);
+            painting = newPainting;
             canvas.draw(newPainting, 0, 0);
             updateNeeded = false;
         }
