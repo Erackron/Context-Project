@@ -77,8 +77,9 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
-        Color c = player.getBrush().getColor();
-        c.set(c.r, c.g, c.b, player.getOpacity());
+        Color c = player.getBrush().getColor().cpy();
+        c.mul(player.getOpacity());
+
         drawing.getNewPainting().setColor(c);
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {

@@ -40,12 +40,12 @@ public class DrawablePixmap implements Disposable {
     public DrawablePixmap(Camera camera, Player player) {
         this.painting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
-        painting.setBlending(Pixmap.Blending.SourceOver);
+//        painting.setBlending(Pixmap.Blending.SourceOver);
         painting.setColor(player.getBrush().getColor());
 
         this.newPainting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
-        newPainting.setBlending(Pixmap.Blending.SourceOver);
+//        newPainting.setBlending(Pixmap.Blending.SourceOver);
         newPainting.setColor(player.getBrush().getColor());
 
         this.camera = camera;
