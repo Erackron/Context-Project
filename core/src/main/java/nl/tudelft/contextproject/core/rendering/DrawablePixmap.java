@@ -71,6 +71,20 @@ public class DrawablePixmap implements Disposable {
         updateNeeded = true;
     }
 
+    public void drawTriangle(Vector2 start, Vector2 center, Vector2 end) {
+        drawTriangle((int) start.x,
+                (int) (Constants.CAM_HEIGHT - Math.min(start.y, Constants.CAM_HEIGHT)),
+                (int) center.x,
+                (int) (Constants.CAM_HEIGHT - Math.min(center.y, Constants.CAM_HEIGHT)),
+                (int) end.x,
+                (int) (Constants.CAM_HEIGHT - Math.min(end.y, Constants.CAM_HEIGHT)));
+        updateNeeded= true;
+    }
+
+    private void drawTriangle(int x, int y, int x1, int i, int x2, int i1) {
+        painting.fillTriangle(x,y,x1,i,x2,i1);
+    }
+
     /**
      * Redraw the painting onto the canvas if needed.
      */

@@ -116,7 +116,7 @@ public class GameScreen implements Screen {
                 .getColourPalette().getCurrentColour().getColor());
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
-            drawings.get(activePlayer).drawLine(movement.getStartOfMovement(),
+            drawings.get(activePlayer).drawTriangle(movement.getStartOfMovement(),movement.getCenterOfPlayer(),
                     movement.getEndOfMovement());
             movement = movementAPI.nextMovement();
         }
