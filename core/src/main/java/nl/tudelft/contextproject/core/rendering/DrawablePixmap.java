@@ -34,6 +34,7 @@ public class DrawablePixmap implements Disposable {
 
     /**
      * Create a drawable Pixmap object wrapping an actual Pixmap.
+     *
      * @param camera The camera to use when mapping coordinates to the screen
      */
     public DrawablePixmap(Camera camera, Player player) {
@@ -73,6 +74,7 @@ public class DrawablePixmap implements Disposable {
 
     /**
      * Draws a line between the given coordinates using the currently set colour.
+     *
      * @param x1 The x-coordinate of the first point
      * @param y1 The y-coordinate of the first point
      * @param x2 The x-coordinate of the second point
@@ -85,19 +87,23 @@ public class DrawablePixmap implements Disposable {
     }
 
     /**
-     * Draws a triangle between the given coordinates and the player position using the currently set colour.
+     * Draws a triangle between the given coordinates and the player position using the currently
+     * set colour.
+     *
      * @param start  The first point
      * @param center The second point
      * @param end    The third point
      */
     public void drawTriangle(Vector2 start, Vector2 center, Vector2 end) {
         drawTriangle((int) start.x, (int) (Constants.CAM_HEIGHT - start.y),
-                     (int) center.x, (int) (Constants.CAM_HEIGHT - center.y),
-                     (int) end.x, (int) (Constants.CAM_HEIGHT - end.y));
+                (int) center.x, (int) (Constants.CAM_HEIGHT - center.y),
+                (int) end.x, (int) (Constants.CAM_HEIGHT - end.y));
     }
 
     /**
-     * Draws a triangle between the given coordinates and the player position using the currently set colour.
+     * Draws a triangle between the given coordinates and the player position using the currently
+     * set colour.
+     *
      * @param x1 The x-coordinate of the first point
      * @param y1 The y-coordinate of the first point
      * @param x2 The x-coordinate of the second point
@@ -126,7 +132,7 @@ public class DrawablePixmap implements Disposable {
 
                     /* If pixels with the same coordinates are not equal,
                     use linear interpolation to calculate the combined colour value.*/
-                    if (pixelOld != pixelNew && pixelOld != 16777215) {
+                    if (pixelOld != pixelNew && pixelOld != 0) {
                         Color oldC = new Color();
                         Color.rgba8888ToColor(oldC, pixelOld);
                         Color newC = new Color();
