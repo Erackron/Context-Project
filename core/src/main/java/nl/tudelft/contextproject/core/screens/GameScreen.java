@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
+        Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Update camera
@@ -89,10 +89,6 @@ public class GameScreen implements Screen {
         }
 
         shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.rect(0, 0, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
-        shapeRenderer.end();
 
         // Update drawing if needed
         drawing.update();
