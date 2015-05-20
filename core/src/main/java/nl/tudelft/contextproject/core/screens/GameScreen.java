@@ -2,7 +2,6 @@ package nl.tudelft.contextproject.core.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -51,16 +50,11 @@ public class GameScreen implements Screen {
      */
     public GameScreen(final Main main) {
         this.main = main;
-        ColourPalette palette1 = ColourPalette.standardPalette();
-        ColourPalette palette2 = ColourPalette.standardPalette();
-        ColourPalette palette3 = ColourPalette.standardPalette();
-        ColourPalette palette4 = ColourPalette.standardPalette();
-        ColourPalette palette5 = ColourPalette.standardPalette();
-        player = new Player(palette1, 100f, 100f);
-        player2 = new Player(palette2, 200f, 100f);
-        player3 = new Player(palette3, 300f, 100f);
-        player4 = new Player(palette4, 400f, 100f);
-        player5 = new Player(palette5, 500f, 100f);
+        player = new Player(ColourPalette.standardPalette(), 100f, 100f);
+        player2 = new Player(ColourPalette.standardPalette(), 200f, 100f);
+        player3 = new Player(ColourPalette.standardPalette(), 300f, 100f);
+        player4 = new Player(ColourPalette.standardPalette(), 400f, 100f);
+        player5 = new Player(ColourPalette.standardPalette(), 500f, 100f);
         players = new ArrayList<>();
         players.add(player);
         players.add(player2);
@@ -75,7 +69,7 @@ public class GameScreen implements Screen {
 
         shapeRenderer = new ShapeRenderer();
         drawings = new ArrayList<>();
-        for(int i = 0; i<numPlayers; i++){
+        for (int i = 0; i < numPlayers; i++) {
             drawings.add(new DrawablePixmap(camera, players.get(i)));
         }
         batch = main.getBatch();
@@ -101,12 +95,12 @@ public class GameScreen implements Screen {
         activePlayer = inputProcessor.update(delta, activePlayer);
 
         // Draw player status
-        for(int i = 0; i<numPlayers; i++) {
+        for (int i = 0; i < numPlayers; i++) {
             shapeRenderer.setProjectionMatrix(camera.combined);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             Vector2 playerPos = players.get(i).getPosition();
             Vector2 brushPos = players.get(i).getBrushPosition();
-            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.setColor(i == activePlayer ? Color.GRAY : Color.WHITE);
             shapeRenderer.circle(playerPos.x, playerPos.y, 10);
             shapeRenderer.setColor(players.get(i).getColourPalette().getCurrentColour().getColor());
             shapeRenderer.circle(brushPos.x, brushPos.y, 2);
@@ -117,28 +111,31 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
-        drawings.get(activePlayer).getPainting().setColor(players.get(activePlayer).getColourPalette().getCurrentColour().getColor());
+        drawings.get(activePlayer).getPainting().setColor(players.get(activePlayer)
+                .getColourPalette().getCurrentColour().getColor());
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
-            drawings.get(activePlayer).drawLine(movement.getStartOfMovement(), movement.getEndOfMovement());
+            drawings.get(activePlayer).drawLine(movement.getStartOfMovement(),
+                    movement.getEndOfMovement());
             movement = movementAPI.nextMovement();
         }
 
 
         // Update drawing if needed
-        for(int i = 0; i<numPlayers; i++) {
+        for (int i = 0; i < numPlayers; i++) {
             drawings.get(i).update();
         }
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        for(int i = 0; i<numPlayers; i++){
+        for (int i = 0; i < numPlayers; i++) {
             batch.draw(drawings.get(i).getCanvas(), 0, 0);
         }
         batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(players.get(activePlayer).getColourPalette().getCurrentColour().getColor());
+        shapeRenderer.setColor(players.get(activePlayer).getColourPalette().getCurrentColour()
+                .getColor());
         shapeRenderer.rect(800, 100, 100, 100);
         shapeRenderer.end();
 
