@@ -1,7 +1,5 @@
-package nl.tudelft.contextproject.core.input;
+package nl.tudelft.contextproject.core.entities;
 
-import nl.tudelft.contextproject.core.entities.Colour;
-import nl.tudelft.contextproject.core.entities.ColourPalette;
 import org.junit.Before;
 import org.junit.Test;
 
