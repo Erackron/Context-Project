@@ -53,6 +53,18 @@ public class KeyboardInputProcessor extends InputAdapter {
     }
 
     /**
+     * Calculate the movement for the player in a certain direction.
+     *
+     * @param direction The Direction we are moving in.
+     * @param dt        Time that has elapsed since the previous render.
+     */
+    public void move(Direction direction, float dt) {
+        deltaMovement[direction.getAxis()] = direction.getDirection() * PIXELS_PER_UPDATE * dt;
+        direction.checkBounds(players.get(activePlayerId).getPosition(), deltaMovement);
+    }
+
+
+    /**
      * Method that gets called by the main game loop to actually process the keyboard input.
      *
      * @param dt Time that has elapsed since the previous render.
@@ -63,32 +75,16 @@ public class KeyboardInputProcessor extends InputAdapter {
         deltaMovement[0] = deltaMovement[1] = 0;
 
         if (isPressed(Input.Keys.W)) {
-            deltaMovement[1] = PIXELS_PER_UPDATE * dt;
-            if (activePlayer.getPosition().y + deltaMovement[1] > Constants.CAM_HEIGHT) {
-                deltaMovement[1] += Constants.CAM_HEIGHT - activePlayer.getPosition().y;
-            }
-
+            move(Direction.NORTH, dt);
         }
-
         if (isPressed(Input.Keys.S)) {
-            deltaMovement[1] = -PIXELS_PER_UPDATE * dt;
-            if (activePlayer.getPosition().y + deltaMovement[1] < 0) {
-                deltaMovement[1] -= activePlayer.getPosition().y;
-            }
-
+            move(Direction.SOUTH, dt);
         }
         if (isPressed(Input.Keys.A)) {
-            deltaMovement[0] = -PIXELS_PER_UPDATE * dt;
-            if (activePlayer.getPosition().x + deltaMovement[0] < 0) {
-                deltaMovement[0] -= activePlayer.getPosition().x;
-            }
+            move(Direction.WEST, dt);
         }
         if (isPressed(Input.Keys.D)) {
-            deltaMovement[0] = PIXELS_PER_UPDATE * dt;
-            if (activePlayer.getPosition().x + deltaMovement[0] > Constants.CAM_WIDTH) {
-                deltaMovement[0] += Constants.CAM_WIDTH - activePlayer.getPosition().x;
-            }
-
+            move(Direction.EAST, dt);
         }
 
         activePlayer.getPosition().add(deltaMovement[0], deltaMovement[1]);
