@@ -92,7 +92,9 @@ public class GameScreen implements Screen {
         camera.update();
 
         // Update the input processor
+        int oldActive = activePlayer;
         activePlayer = inputProcessor.update(delta, activePlayer);
+        activePlayer = activePlayer >= numPlayers ? oldActive : activePlayer;
 
         // Draw player status
         for (int i = 0; i < numPlayers; i++) {
