@@ -1,11 +1,9 @@
 package nl.tudelft.contextproject.core.entities;
 
 import com.badlogic.gdx.graphics.Color;
-import lombok.Getter;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 public enum Colour {
 
@@ -17,9 +15,7 @@ public enum Colour {
     ORANGE(255 / 255f, 165 / 255f, 0, 5963521),
     BLACK(0, 0, 0, 255);
 
-    @Getter
-    private Color color;
-
+    private Color libgdxColor;
     private int pixelValue;
 
     /**
@@ -30,7 +26,7 @@ public enum Colour {
      * @param pixelValue The colour value of a pixel from the pixmap.
      */
     Colour(float r, float g, float b, int pixelValue) {
-        this.color = new Color(r, g, b, 1);
+        this.libgdxColor = new Color(r, g, b, 1);
         this.pixelValue = pixelValue;
     }
 
@@ -99,5 +95,9 @@ public enum Colour {
                 }
             }
         }
+    }
+
+    public Color getLibgdxColor() {
+        return libgdxColor;
     }
 }

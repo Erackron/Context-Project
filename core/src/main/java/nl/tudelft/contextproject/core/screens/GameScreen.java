@@ -108,7 +108,7 @@ public class GameScreen implements Screen {
             Vector2 brushPos = players.get(i).getBrushPosition();
             shapeRenderer.setColor(i == activePlayer ? Color.GRAY : Color.BLACK);
             shapeRenderer.circle(playerPos.x, playerPos.y, 10);
-            shapeRenderer.setColor(players.get(i).getColourPalette().getCurrentColour().getColor());
+            shapeRenderer.setColor(players.get(i).getColourPalette().getCurrentColour().getLibgdxColor());
             shapeRenderer.circle(brushPos.x, brushPos.y, 2);
             shapeRenderer.end();
         }
@@ -118,7 +118,7 @@ public class GameScreen implements Screen {
         }
 
         drawings.get(activePlayer).getNewPainting().setColor(players.get(activePlayer)
-                .getColourPalette().getCurrentColour().getColor());
+                .getColourPalette().getCurrentColour().getLibgdxColor());
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
             drawings.get(activePlayer).drawTriangle(movement.getStartOfMovement(),movement.getCenterOfPlayer(),
@@ -142,7 +142,7 @@ public class GameScreen implements Screen {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(players.get(activePlayer).getColourPalette().getCurrentColour()
-                .getColor());
+                .getLibgdxColor());
         shapeRenderer.rect(800, 100, 100, 100);
         shapeRenderer.end();
 

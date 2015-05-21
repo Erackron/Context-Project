@@ -41,11 +41,11 @@ public class DrawablePixmap implements Disposable {
     public DrawablePixmap(Camera camera, Player player) {
         this.painting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
-        painting.setColor(player.getColourPalette().getCurrentColour().getColor());
+        painting.setColor(player.getColourPalette().getCurrentColour().getLibgdxColor());
 
         this.newPainting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
-        newPainting.setColor(player.getColourPalette().getCurrentColour().getColor());
+        newPainting.setColor(player.getColourPalette().getCurrentColour().getLibgdxColor());
 
         this.camera = camera;
         this.player = player;
@@ -119,7 +119,7 @@ public class DrawablePixmap implements Disposable {
                     Colour second = Colour.getColour(oldPixel);
                     Colour blend = Colour.combine(Arrays.asList(first, second));
 
-                    newPainting.setColor(blend.getColor());
+                    newPainting.setColor(blend.getLibgdxColor());
                     newPainting.drawPixel(i, j);
                 }
             }
