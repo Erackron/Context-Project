@@ -42,4 +42,28 @@ public class PlayerTest {
         assertEquals(30, player.addAngle(30), 1);
     }
 
+    @Test
+    public void testChangeRadiusPositive() {
+        player.changeRadius(30f);
+        assertEquals(80f, player.radius, 1f);
+    }
+
+    @Test
+    public void testChangeRadiusNegative() {
+        player.changeRadius(-30f);
+        assertEquals(20f, player.radius, 1f);
+    }
+
+    @Test
+    public void testChangeRadiusOver250() {
+        player.changeRadius(300f);
+        assertEquals(250f, player.radius, 1f);
+    }
+
+    @Test
+    public void testChangeRadiusUnder10() {
+        player.changeRadius(-300f);
+        assertEquals(10f, player.radius, 1f);
+    }
+
 }
