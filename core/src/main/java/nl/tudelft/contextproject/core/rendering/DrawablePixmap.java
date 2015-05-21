@@ -22,7 +22,6 @@ public class DrawablePixmap implements Disposable {
     protected Color eraseColour = Color.BLACK;
     protected int brushSize = 1;
     protected Camera camera;
-    protected Player player;
 
     protected final Pixmap painting;
     protected final Texture canvas;
@@ -34,12 +33,11 @@ public class DrawablePixmap implements Disposable {
      * Create a drawable Pixmap object wrapping an actual Pixmap.
      * @param camera The camera to use when mapping coordinates to the screen
      */
-    public DrawablePixmap(Camera camera, Player player) {
+    public DrawablePixmap(Camera camera, Color colour) {
         this.painting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
-        painting.setColor(player.getColourPalette().getCurrentColour().getColor());
+        painting.setColor(colour);
         this.camera = camera;
-        this.player = player;
         this.canvas = new Texture(painting);
         canvas.bind();
     }

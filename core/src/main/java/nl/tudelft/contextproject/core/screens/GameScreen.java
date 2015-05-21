@@ -29,6 +29,7 @@ public class GameScreen implements Screen {
     protected OrthographicCamera camera;
     protected ShapeRenderer shapeRenderer;
     protected DrawablePixmap drawing;
+    protected DrawablePixmap draw;
     protected List<DrawablePixmap> drawings;
     protected SpriteBatch batch;
     protected final Main main;
@@ -59,9 +60,7 @@ public class GameScreen implements Screen {
 
         shapeRenderer = new ShapeRenderer();
         drawings = new ArrayList<>();
-        for (int i = 0; i < numPlayers; i++) {
-            drawings.add(new DrawablePixmap(camera, players.get(i)));
-        }
+        draw = new DrawablePixmap(camera, players.get(activePlayer).getColourPalette().getCurrentColour().getColor());
         batch = main.getBatch();
 
         movementAPI = MovementAPI.getMovementAPI();
@@ -116,27 +115,23 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
-        drawings.get(activePlayer).getPainting().setColor(players.get(activePlayer)
+        draw.getPainting().setColor(players.get(activePlayer)
                 .getColourPalette().getCurrentColour().getColor());
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
-            drawings.get(activePlayer).drawTriangle(movement.getStartOfMovement(),movement.getCenterOfPlayer(),
+            draw.drawTriangle(movement.getStartOfMovement(),movement.getCenterOfPlayer(),
                     movement.getEndOfMovement());
             movement = movementAPI.nextMovement();
         }
 
 
         // Update drawing if needed
-        for (int i = 0; i < numPlayers; i++) {
-            drawings.get(i).update();
-        }
+        draw.update();
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(background,0,0);
-        for (int i = 0; i < numPlayers; i++) {
-            batch.draw(drawings.get(i).getCanvas(), 0, 0);
-        }
+        batch.draw(draw.getCanvas(), 0, 0);
         batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
