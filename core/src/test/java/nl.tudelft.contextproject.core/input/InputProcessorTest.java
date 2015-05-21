@@ -48,8 +48,8 @@ public class InputProcessorTest {
 
     @Test
     public void updateTestNorth() {
-        keys.put(Input.Keys.W,true);
-        processor.update(1f,activePlayerId);
+        keys.put(Input.Keys.W, true);
+        processor.update(1f, activePlayerId);
         Mockito.verify(player).move(0,75);
     }
 
@@ -79,13 +79,25 @@ public class InputProcessorTest {
     public void turnBrushTest() {
         keys.put(Input.Keys.LEFT,true);
         processor.update(1f,activePlayerId);
-        Mockito.verify(player).turnBrush(KeyboardInputProcessor.ANGLE,1f);
+        Mockito.verify(player).turnBrush(KeyboardInputProcessor.ANGLE, 1f);
     }
     @Test
     public void reverseTurnBrushTest() {
         keys.put(Input.Keys.RIGHT,true);
         processor.update(1f,activePlayerId);
         Mockito.verify(player).turnBrush(-KeyboardInputProcessor.ANGLE,1f);
+    }
+    @Test
+    public void increaseTurnBrushTest() {
+        keys.put(Input.Keys.UP,true);
+        processor.update(1f,activePlayerId);
+        Mockito.verify(player).turnBrush(0,1f);
+    }
+    @Test
+    public void decreaseTurnBrushTest() {
+        keys.put(Input.Keys.DOWN,true);
+        processor.update(1f,activePlayerId);
+        Mockito.verify(player).turnBrush(0,1f);
     }
     @Test
     public void keyDownSpaceTest() {
