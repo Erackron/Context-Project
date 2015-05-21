@@ -77,13 +77,13 @@ public class InputProcessorTest {
 
     @Test
     public void turnBrushTest() {
-        keys.put(Input.Keys.DOWN,true);
+        keys.put(Input.Keys.LEFT,true);
         processor.update(1f,activePlayerId);
         Mockito.verify(player).turnBrush(KeyboardInputProcessor.ANGLE,1f);
     }
     @Test
     public void reverseTurnBrushTest() {
-        keys.put(Input.Keys.UP,true);
+        keys.put(Input.Keys.RIGHT,true);
         processor.update(1f,activePlayerId);
         Mockito.verify(player).turnBrush(-KeyboardInputProcessor.ANGLE,1f);
     }

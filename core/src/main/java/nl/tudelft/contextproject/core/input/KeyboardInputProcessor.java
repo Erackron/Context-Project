@@ -24,6 +24,7 @@ public class KeyboardInputProcessor extends InputAdapter {
     protected int numPlayers;
     protected int activePlayerId;
     protected float[] deltaMovement = new float[2];
+    protected float deltaRadius = 100f;
 
     protected Vector2 start;
     protected Vector2 end;
@@ -47,6 +48,8 @@ public class KeyboardInputProcessor extends InputAdapter {
         keys.put(Input.Keys.D, false);
         keys.put(Input.Keys.UP, false);
         keys.put(Input.Keys.DOWN, false);
+        keys.put(Input.Keys.LEFT, false);
+        keys.put(Input.Keys.RIGHT, false);
         keys.put(Input.Keys.SPACE, false);
         keys.put(Input.Keys.C, false);
         for (int i = Input.Keys.NUM_1; i <= Input.Keys.NUM_9; i++) {
@@ -58,7 +61,7 @@ public class KeyboardInputProcessor extends InputAdapter {
      * Create a new KeyboardInputProcessor.
      */
     public KeyboardInputProcessor(List<Player> players) {
-        this(players,new HashMap<>());
+        this(players, new HashMap<>());
     }
 
     /**
@@ -98,16 +101,26 @@ public class KeyboardInputProcessor extends InputAdapter {
 
         activePlayer.move(deltaMovement[0],deltaMovement[1]);
 
-        if (isPressed(Input.Keys.DOWN)) {
+        if (isPressed(Input.Keys.LEFT)) {
             activePlayer.turnBrush(ANGLE, dt);
         }
-        if (isPressed(Input.Keys.UP)) {
+        if (isPressed(Input.Keys.RIGHT)) {
             activePlayer.turnBrush(-ANGLE, dt);
         }
 
         if (isToggled()) {
             activePlayer.getColourPalette().cycle();
             toggled = false;
+        }
+
+        if (isPressed(Input.Keys.DOWN)) {
+            activePlayer.changeRadius(-deltaRadius * dt);
+            activePlayer.turnBrush(0, dt);
+        }
+
+        if (isPressed(Input.Keys.UP)) {
+            activePlayer.changeRadius(deltaRadius * dt);
+            activePlayer.turnBrush(0, dt);
         }
 
         for (int i = 0; i < playerToggles.length; i++) {
