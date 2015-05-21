@@ -105,6 +105,9 @@ public class DrawablePixmap implements Disposable {
         }
     }
 
+    /**
+     * Blend the pixels together to combine colours
+     */
     public void blend() {
         for (int i = 0; i < Constants.CAM_WIDTH; i++) {
             for (int j = 0; j < Constants.CAM_HEIGHT; j++) {
@@ -114,12 +117,7 @@ public class DrawablePixmap implements Disposable {
                 if (newPixel != oldPixel && oldPixel != 0 && newPixel != 0) {
                     Colour first = Colour.getColour(newPixel);
                     Colour second = Colour.getColour(oldPixel);
-
                     Colour blend = Colour.combine(Arrays.asList(first, second));
-
-                    newPainting.setColor(Colour.GREEN.getColor());
-                    newPainting.drawPixel(i, j);
-                    System.out.println(newPainting.getPixel(i, j));
 
                     newPainting.setColor(blend.getColor());
                     newPainting.drawPixel(i, j);
