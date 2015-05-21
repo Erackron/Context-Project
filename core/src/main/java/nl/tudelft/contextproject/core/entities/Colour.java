@@ -7,20 +7,29 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by Mitchell on 12-5-2015.
- */
 public enum Colour {
 
-    RED(255, 0, 0), YELLOW(255, 255, 0), BLUE(0, 0, 255), LIGHTGREEN(0, 255, 0), GREEN(34, 170, 34), GREY(127, 127, 127),
-    DAKBLUE(0, 0, 255), PURPLE(128, 0, 128), PINK(250, 105, 180), BROWN(139, 69, 69), ORANGE(255, 165, 0),
-    SALMON(255, 181, 153), BLACK(0, 0, 0);
+    RED(1, 0, 0, -16776961), YELLOW(1, 1, 0, -65281), BLUE(0, 0, 1, 65535), GREEN(34/255f, 170/255f, 34/255f, 581575423),
+    PURPLE(128/255f, 0, 128/255f, 2147450625), ORANGE(255/255f, 165/255f, 0, 5963521), BLACK(0, 0, 0, 0);
 
     @Getter
     private Color color;
 
-    Colour(int r, int g, int b){
+    private int pixelValue;
+
+    Colour(float r, float g, float b, int pixelValue){
         this.color = new Color(r, g, b, 1);
+        this.pixelValue = pixelValue;
+    }
+
+    public static Colour getColour(int p) {
+        for (Colour c : Colour.values()) {
+            if (p == c.pixelValue) {
+                return c;
+            }
+        }
+
+        return BLACK;
     }
 
     public static boolean areComplementary(Collection<Colour> colours) {

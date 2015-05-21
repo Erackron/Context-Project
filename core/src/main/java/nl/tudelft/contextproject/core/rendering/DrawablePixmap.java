@@ -12,7 +12,10 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 import nl.tudelft.contextproject.core.config.Constants;
+import nl.tudelft.contextproject.core.entities.Colour;
 import nl.tudelft.contextproject.core.entities.Player;
+
+import java.util.Arrays;
 
 /**
  * This class is a wrapper for Pixmap and Texture to enable storing the drawing of the players.
@@ -24,7 +27,8 @@ public class DrawablePixmap implements Disposable {
     protected Camera camera;
     protected Player player;
 
-    protected final Pixmap painting;
+    protected Pixmap painting;
+    protected Pixmap newPainting;
     protected final Texture canvas;
 
     @Setter(AccessLevel.NONE)
@@ -38,6 +42,11 @@ public class DrawablePixmap implements Disposable {
         this.painting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
         painting.setColor(player.getColourPalette().getCurrentColour().getColor());
+
+        this.newPainting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
+                Pixmap.Format.RGBA8888);
+        newPainting.setColor(player.getColourPalette().getCurrentColour().getColor());
+
         this.camera = camera;
         this.player = player;
         this.canvas = new Texture(painting);
@@ -81,7 +90,7 @@ public class DrawablePixmap implements Disposable {
     }
 
     private void drawTriangle(int x, int y, int x1, int i, int x2, int i1) {
-        painting.fillTriangle(x,y,x1,i,x2,i1);
+        newPainting.fillTriangle(x,y,x1,i,x2,i1);
     }
 
     /**
@@ -89,8 +98,33 @@ public class DrawablePixmap implements Disposable {
      */
     public void update() {
         if (updateNeeded) {
-            canvas.draw(painting, 0, 0);
+            blend();
+            painting.drawPixmap(newPainting, 0, 0);
+            canvas.draw(newPainting, 0, 0);
             updateNeeded = false;
+        }
+    }
+
+    public void blend() {
+        for (int i = 0; i < Constants.CAM_WIDTH; i++) {
+            for (int j = 0; j < Constants.CAM_HEIGHT; j++) {
+                int newPixel = newPainting.getPixel(i, j);
+                int oldPixel = painting.getPixel(i, j);
+
+                if (newPixel != oldPixel && oldPixel != 0 && newPixel != 0) {
+                    Colour first = Colour.getColour(newPixel);
+                    Colour second = Colour.getColour(oldPixel);
+
+                    Colour blend = Colour.combine(Arrays.asList(first, second));
+
+                    newPainting.setColor(Colour.GREEN.getColor());
+                    newPainting.drawPixel(i, j);
+                    System.out.println(newPainting.getPixel(i, j));
+
+                    newPainting.setColor(blend.getColor());
+                    newPainting.drawPixel(i, j);
+                }
+            }
         }
     }
 

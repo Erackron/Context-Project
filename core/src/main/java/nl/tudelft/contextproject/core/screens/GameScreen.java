@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import nl.tudelft.contextproject.core.Main;
 import nl.tudelft.contextproject.core.config.Constants;
+import nl.tudelft.contextproject.core.entities.Colour;
 import nl.tudelft.contextproject.core.entities.ColourPalette;
 import nl.tudelft.contextproject.core.entities.Player;
 import nl.tudelft.contextproject.core.input.KeyboardInputProcessor;
@@ -116,7 +117,7 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
-        drawings.get(activePlayer).getPainting().setColor(players.get(activePlayer)
+        drawings.get(activePlayer).getNewPainting().setColor(players.get(activePlayer)
                 .getColourPalette().getCurrentColour().getColor());
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
