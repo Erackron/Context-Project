@@ -32,6 +32,7 @@ public class DrawablePixmap implements Disposable {
     /**
      * Create a drawable Pixmap object wrapping an actual Pixmap.
      * @param camera The camera to use when mapping coordinates to the screen
+     * @param colour The paint colour that will be used
      */
     public DrawablePixmap(Camera camera, Color colour) {
         this.painting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
@@ -68,6 +69,12 @@ public class DrawablePixmap implements Disposable {
         updateNeeded = true;
     }
 
+    /**
+     * Draw triangle based on the corners.
+     * @param start first corner of the triangle
+     * @param center second corner of the triangle, also player location
+     * @param end third corner of the triangle
+     */
     public void drawTriangle(Vector2 start, Vector2 center, Vector2 end) {
         drawTriangle((int) start.x,
                 (int) (Constants.CAM_HEIGHT - Math.min(start.y, Constants.CAM_HEIGHT)),
@@ -75,7 +82,7 @@ public class DrawablePixmap implements Disposable {
                 (int) (Constants.CAM_HEIGHT - Math.min(center.y, Constants.CAM_HEIGHT)),
                 (int) end.x,
                 (int) (Constants.CAM_HEIGHT - Math.min(end.y, Constants.CAM_HEIGHT)));
-        updateNeeded= true;
+        updateNeeded =  true;
     }
 
     private void drawTriangle(int x, int y, int x1, int i, int x2, int i1) {

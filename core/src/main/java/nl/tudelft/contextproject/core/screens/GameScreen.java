@@ -60,7 +60,8 @@ public class GameScreen implements Screen {
 
         shapeRenderer = new ShapeRenderer();
         drawings = new ArrayList<>();
-        draw = new DrawablePixmap(camera, players.get(activePlayer).getColourPalette().getCurrentColour().getColor());
+        draw = new DrawablePixmap(camera, players.get(activePlayer).getColourPalette()
+                .getCurrentColour().getColor());
         batch = main.getBatch();
 
         movementAPI = MovementAPI.getMovementAPI();
