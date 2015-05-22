@@ -39,13 +39,14 @@ public class Player {
         this.position = position;
         this.brushPosition = brushPosition;
         radius = 50f;
+        this.angle = angle;
     }
 
     /**
      * Method used to turn the player's brush around.
      *
-     * @param a  The angle to turn around
-     * @param dt The time that has passed since the last render
+     * @param a  The angle to turn around in radians
+     * @param dt The time that has passed since the last render in radians
      */
     public void turnBrush(double a, float dt) {
         double angle = addAngle(a * dt);
