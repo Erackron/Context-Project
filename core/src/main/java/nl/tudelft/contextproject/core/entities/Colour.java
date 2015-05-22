@@ -11,8 +11,8 @@ public enum Colour {
     YELLOW(1, 1, 0, -65281),
     BLUE(0, 0, 1, 65535),
     GREEN(34 / 255f, 170 / 255f, 34 / 255f, 581575423),
-    PURPLE(128 / 255f, 0, 128 / 255f, 2147450625),
-    ORANGE(255 / 255f, 165 / 255f, 0, 5963521),
+    PURPLE(128 / 255f, 0, 128 / 255f, -2147450625),
+    ORANGE(255 / 255f, 165 / 255f, 0, -5963521),
     BLACK(0, 0, 0, 255);
 
     private Color libgdxColor;
