@@ -66,4 +66,16 @@ public class PlayerTest {
         assertEquals(10f, player.radius, 1f);
     }
 
+    @Test
+    public void testTurnBrush() {
+        player.turnBrush(330, 1);
+        Mockito.verify(brushPosition).add(1, 0);
+    }
+
+    @Test
+    public void testTurnBrush2() {
+        player.turnBrush(90, 1);
+        Mockito.verify(brushPosition).add(0, 1);
+    }
+
 }
