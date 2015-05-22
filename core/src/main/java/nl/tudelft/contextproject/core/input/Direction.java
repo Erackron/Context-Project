@@ -45,7 +45,8 @@ public enum Direction {
 
     /**
      * Check the bounds of the movement and clip it to the edge if needed.
-     * @param position the position of the player
+     *
+     * @param position  the position of the player
      * @param movements the deltamovements of the current cycle
      */
     public void checkBounds(Vector2 position, float[] movements) {

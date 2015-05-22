@@ -2,19 +2,15 @@ package nl.tudelft.contextproject.core.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import nl.tudelft.contextproject.core.Main;
+import nl.tudelft.contextproject.core.entities.MenuButton;
 
 /**
  * The main menu screen.
@@ -22,8 +18,8 @@ import nl.tudelft.contextproject.core.Main;
 public class MainMenuScreen implements Screen {
     protected final Main main;
     protected Stage stage;
-    protected Skin skin;
     protected SpriteBatch spriteBatch;
+    protected MenuButton playButton;
 
     /**
      * Create a new main menu screen.
@@ -43,37 +39,16 @@ public class MainMenuScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin();
-
-        // Store a white texture under white
-        Pixmap pixmap = new Pixmap(100, 100, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.TEAL);
-        pixmap.fill();
-        skin.add("white", new Texture(pixmap));
-
-        // Store default libgdx font under default
-        BitmapFont bfont = new BitmapFont();
-        skin.add("default", bfont);
-
-        // Create a simple button style
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
-        textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
-        textButtonStyle.font = skin.getFont("default");
-        skin.add("default", textButtonStyle);
-
         // Create the Play button
-        final TextButton textButton = new TextButton("PLAY", textButtonStyle);
-        textButton.setPosition(270, 100);
-        textButton.addListener(new ChangeListener() {
+        playButton = MenuButton.createMenuButton("PLAY");
+        playButton.setPosition(270, 100);
+        playButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 main.setScreen(GameScreen.createDefaultGameScreen(main));
             }
         });
-        stage.addActor(textButton);
+        stage.addActor(playButton);
 
         Texture img = new Texture(Gdx.files.internal("conceptlogo1.png"));
         Image actor = new Image(img);
@@ -118,6 +93,6 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
+        playButton.getSkin().dispose();
     }
 }
