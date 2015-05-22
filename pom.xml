@@ -16,10 +16,60 @@
         <gwt.maven.version>2.6.0</gwt.maven.version>
     </properties>
 
+    <developers>
+        <developer>
+            <id>lclark</id>
+            <name>Liam Clark</name>
+            <roles>
+                <role>Level Editor</role>
+                <role>QA Editor</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>mhoppenbrouwer</id>
+            <name>Mitchell Hoppenbrouwer</name>
+            <roles>
+                <role>Animator</role>
+                <role>Product (Brand) Manager</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>mkoole</id>
+            <name>Martin Koole</name>
+            <roles>
+                <role>Lead Artist</role>
+                <role>Technical Artist</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>irijsdijk</id>
+            <name>Ike Rijsdijk</name>
+            <roles>
+                <role>Game Designer</role>
+                <role>Audio Engineer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>jrijsdijk</id>
+            <name>Jorai Rijsdijk</name>
+            <roles>
+                <role>Project Manager</role>
+                <role>Lead Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
 	<scm>
 		<developerConnection>scm:git:ssh://git@github.com/erackron/context-project</developerConnection>
+		<connection>scm:git:https://github.com/erackron/context-project.git</connection>
 		<tag>HEAD</tag>
+		<url>https://github.com/erackron/context-project</url>
 	</scm>
+
+    <ciManagement>
+        <system>Travis CI</system>
+        <url>https://travis-ci.org/Erackron/Context-Project</url>
+    </ciManagement>
 
     <dependencies>
         <!-- core dependencies -->

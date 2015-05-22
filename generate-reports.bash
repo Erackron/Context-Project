@@ -1,7 +1,16 @@
 #!/bin/sh
-# Execute maven install to make sure mvn site can resolve the contextproject-core dependency in the desktop submodule
-echo ${TEXT_RED}Executing mvn install -DskiptTests=true, as somehow mvn site makes the desktop module unable to find it\'s core dependency otherwise${RESET_FORMATTING}
-mvn install -DskipTests=true
+skip_install=false
+if [ "$#" -gt 0 ]; then
+	if [ "$1" == "true" ]; then
+		skip_install=true
+	fi
+fi
+
+if [ "$skip_install" == "false" ]; then
+	# Execute maven install to make sure mvn site can resolve the contextproject-core dependency in the desktop submodule
+	echo ${TEXT_RED}Executing mvn install -DskiptTests=true, as somehow mvn site makes the desktop module unable to find it\'s core dependency otherwise${RESET_FORMATTING}
+	mvn install -DskipTests=true
+fi
 
 # Execute maven site
 echo ${TEXT_RED}Executing the actual mvn site command${RESET_FORMATTING}
