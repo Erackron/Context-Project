@@ -69,10 +69,7 @@ public enum Colour {
      * @return The new colour resulting from the blending process.
      */
     public static Colour combine(Collection<Colour> colours) {
-        if (colours.size() != 2) {
-            return BLACK;
-        } else {
-
+        if (colours.size() == 2) {
             // Returns combinations.
             if (colours.contains(RED) && colours.contains(BLUE)) {
                 return PURPLE;
@@ -95,6 +92,8 @@ public enum Colour {
                 }
             }
         }
+
+        return BLACK;
     }
 
     public Color getLibgdxColor() {
