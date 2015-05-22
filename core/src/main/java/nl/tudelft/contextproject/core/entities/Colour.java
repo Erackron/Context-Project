@@ -15,8 +15,8 @@ public enum Colour {
     ORANGE(255 / 255f, 165 / 255f, 0, -5963521),
     BLACK(0, 0, 0, 255);
 
-    private Color libgdxColor;
-    private int pixelValue;
+    private final Color libgdxColor;
+    private final int pixelValue;
 
     /**
      * Constructor method.
