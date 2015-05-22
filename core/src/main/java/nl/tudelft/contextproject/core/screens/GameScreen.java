@@ -87,6 +87,18 @@ public class GameScreen implements Screen {
         return new GameScreen(main, players);
     }
 
+    protected void drawPlayerStatus(Player player, boolean isActive) {
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        Vector2 playerPos = player.getPosition();
+        Vector2 brushPos = player.getBrushPosition();
+        shapeRenderer.setColor(isActive ? Color.GRAY : Color.BLACK);
+        shapeRenderer.circle(playerPos.x, playerPos.y, 10);
+        shapeRenderer.setColor(player.getColourPalette().getCurrentColour().getLibgdxColor());
+        shapeRenderer.circle(brushPos.x, brushPos.y, 2);
+        shapeRenderer.end();
+    }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1f, 1f, 1f, 1);
@@ -102,15 +114,7 @@ public class GameScreen implements Screen {
 
         // Draw player status
         for (int i = 0; i < numPlayers; i++) {
-            shapeRenderer.setProjectionMatrix(camera.combined);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            Vector2 playerPos = players.get(i).getPosition();
-            Vector2 brushPos = players.get(i).getBrushPosition();
-            shapeRenderer.setColor(i == activePlayer ? Color.GRAY : Color.BLACK);
-            shapeRenderer.circle(playerPos.x, playerPos.y, 10);
-            shapeRenderer.setColor(players.get(i).getColourPalette().getCurrentColour().getLibgdxColor());
-            shapeRenderer.circle(brushPos.x, brushPos.y, 2);
-            shapeRenderer.end();
+            drawPlayerStatus(players.get(i), i == activePlayer);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -121,11 +125,11 @@ public class GameScreen implements Screen {
                 .getColourPalette().getCurrentColour().getLibgdxColor());
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
-            drawings.get(activePlayer).drawTriangle(movement.getStartOfMovement(),movement.getCenterOfPlayer(),
+            drawings.get(activePlayer).drawTriangle(movement.getStartOfMovement(), movement
+                            .getCenterOfPlayer(),
                     movement.getEndOfMovement());
             movement = movementAPI.nextMovement();
         }
-
 
         // Update drawing if needed
         for (int i = 0; i < numPlayers; i++) {

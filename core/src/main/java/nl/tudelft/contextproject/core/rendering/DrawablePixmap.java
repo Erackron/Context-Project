@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -36,6 +35,7 @@ public class DrawablePixmap implements Disposable {
 
     /**
      * Create a drawable Pixmap object wrapping an actual Pixmap.
+     *
      * @param camera The camera to use when mapping coordinates to the screen
      */
     public DrawablePixmap(Camera camera, Player player) {
@@ -55,7 +55,8 @@ public class DrawablePixmap implements Disposable {
 
     /**
      * Draws a line between two Vector2 coordinates using the currently set colour.
-     * The coordinates are passed through {@link Camera#project(Vector3)} before being drawn.
+     * The coordinates are converted from the default coordinate system (0,0 is bottom left) to the
+     * pixmap coordinate system (0,0 is top left) before being drawn.
      *
      * @param start The first point
      * @param end   The second point
@@ -79,18 +80,27 @@ public class DrawablePixmap implements Disposable {
         updateNeeded = true;
     }
 
-    public void drawTriangle(Vector2 start, Vector2 center, Vector2 end) {
-        drawTriangle((int) start.x,
-                (int) (Constants.CAM_HEIGHT - Math.min(start.y, Constants.CAM_HEIGHT)),
-                (int) center.x,
-                (int) (Constants.CAM_HEIGHT - Math.min(center.y, Constants.CAM_HEIGHT)),
-                (int) end.x,
-                (int) (Constants.CAM_HEIGHT - Math.min(end.y, Constants.CAM_HEIGHT)));
-        updateNeeded= true;
+    /**
+     * Draw a triangle on this pixmap.
+     * The coordinates are converted from the default coordinate system (0,0 is bottom left) to the
+     * pixmap coordinate system (0,0 is top left) before being drawn.
+     *
+     * @param corner1 The first corner coordinates
+     * @param corner2 The second corner coordinates
+     * @param corner3 The third corner coordinates
+     */
+    public void drawTriangle(Vector2 corner1, Vector2 corner2, Vector2 corner3) {
+        drawTriangle((int) corner1.x,
+                (int) (Constants.CAM_HEIGHT - Math.min(corner1.y, Constants.CAM_HEIGHT)),
+                (int) corner2.x,
+                (int) (Constants.CAM_HEIGHT - Math.min(corner2.y, Constants.CAM_HEIGHT)),
+                (int) corner3.x,
+                (int) (Constants.CAM_HEIGHT - Math.min(corner3.y, Constants.CAM_HEIGHT)));
+        updateNeeded = true;
     }
 
     private void drawTriangle(int x, int y, int x1, int i, int x2, int i1) {
-        newPainting.fillTriangle(x,y,x1,i,x2,i1);
+        newPainting.fillTriangle(x, y, x1, i, x2, i1);
     }
 
     /**
@@ -106,7 +116,7 @@ public class DrawablePixmap implements Disposable {
     }
 
     /**
-     * Blend the pixels together to combine colours
+     * Blend the pixels together to combine colours.
      */
     public void blend() {
         for (int i = 0; i < Constants.CAM_WIDTH; i++) {

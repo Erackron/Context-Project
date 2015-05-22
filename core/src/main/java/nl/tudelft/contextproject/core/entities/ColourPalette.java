@@ -15,22 +15,31 @@ public class ColourPalette {
     @NonNull
     private final List<Colour> colours;
 
-    private int current =0;
+    private int current = 0;
 
-    public Colour cycle(){
-        if(current == colours.size()-1){
-            current=0;
-        }else{
-            current++;
-        }
+    /**
+     * Cycle through the colours of this ColourPalette.
+     * @return The next colour in the cycle
+     */
+    public Colour cycle() {
+        current++;
+        current %= colours.size();
         return colours.get(current);
     }
 
-    public Colour getCurrentColour(){
+    /**
+     * Get the current colour of this ColourPalette.
+     * @return The current colour
+     */
+    public Colour getCurrentColour() {
         return colours.get(current);
     }
 
-    public static ColourPalette standardPalette(){
+    /**
+     * Create a new Standard ColourPalette.
+     * @return The newly created ColourPalette
+     */
+    public static ColourPalette standardPalette() {
         List<Colour> colours = new ArrayList<>();
         colours.add(Colour.RED);
         colours.add(Colour.BLUE);

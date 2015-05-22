@@ -83,7 +83,7 @@ public class KeyboardInputProcessor extends InputAdapter {
      */
     public int update(float dt, int activePlayerId) {
         this.activePlayerId = activePlayerId;
-        Player activePlayer = players.get(this.activePlayerId);
+        final Player activePlayer = players.get(this.activePlayerId);
         deltaMovement[0] = deltaMovement[1] = 0;
 
         if (isPressed(Input.Keys.W)) {
