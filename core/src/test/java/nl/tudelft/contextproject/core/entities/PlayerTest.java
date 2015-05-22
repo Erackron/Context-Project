@@ -1,9 +1,11 @@
 package nl.tudelft.contextproject.core.entities;
 
 import com.badlogic.gdx.math.Vector2;
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -34,7 +36,7 @@ public class PlayerTest {
     public void testPositiveMove() {
         player.move(50,50);
         Mockito.verify(position).add(50,50);
-        Mockito.verify(brushPosition).add(50,50);
+        Mockito.verify(brushPosition).add(50, 50);
     }
 
     @Test
@@ -68,14 +70,37 @@ public class PlayerTest {
 
     @Test
     public void testTurnBrush() {
-        player.turnBrush(330, 1);
-        Mockito.verify(brushPosition).add(1, 0);
+        ArgumentMatcher<Float> matcher = new ArgumentMatcher<Float>() {
+            @Override
+            public boolean matches(Object o) {
+                Float f = (Float) o;
+                if (-49f > f && f > -51f) {
+                    return true;
+                }
+                return false;
+            }
+        };
+
+        player.turnBrush(Math.PI, 1);
+        Mockito.verify(brushPosition).set(Mockito.floatThat(matcher), Mockito.anyFloat());
+
     }
 
     @Test
     public void testTurnBrush2() {
-        player.turnBrush(90, 1);
-        Mockito.verify(brushPosition).add(0, 1);
-    }
+        ArgumentMatcher<Float> matcher = new ArgumentMatcher<Float>() {
+            @Override
+            public boolean matches(Object o) {
+                Float f = (Float) o;
+                if (49f < f && f < 51f) {
+                    return true;
+                }
+                return false;
+            }
+        };
 
+        player.turnBrush(Math.PI / 2, 1);
+        Mockito.verify(brushPosition).set(Mockito.anyFloat(), Mockito.floatThat(matcher));
+
+    }
 }
