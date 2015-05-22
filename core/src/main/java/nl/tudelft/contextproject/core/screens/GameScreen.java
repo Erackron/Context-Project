@@ -29,7 +29,7 @@ public class GameScreen implements Screen {
     protected OrthographicCamera camera;
     protected ShapeRenderer shapeRenderer;
     protected DrawablePixmap drawing;
-    protected List<DrawablePixmap> drawings;
+    protected DrawablePixmap draw;
     protected SpriteBatch batch;
     protected final Main main;
     protected MovementAPI movementAPI;
@@ -58,10 +58,8 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
 
         shapeRenderer = new ShapeRenderer();
-        drawings = new ArrayList<>();
-        for (int i = 0; i < numPlayers; i++) {
-            drawings.add(new DrawablePixmap(camera, players.get(i)));
-        }
+        draw = new DrawablePixmap(camera,players.get(activePlayer).getColourPalette()
+                .getCurrentColour().getLibgdxColor());
         batch = main.getBatch();
 
         movementAPI = MovementAPI.getMovementAPI();
@@ -120,27 +118,23 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
-        drawings.get(activePlayer).getNewPainting().setColor(players.get(activePlayer)
+        draw.getNewPainting().setColor(players.get(activePlayer)
                 .getColourPalette().getCurrentColour().getLibgdxColor());
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
-            drawings.get(activePlayer).drawTriangle(movement.getStartOfMovement(), movement
-                            .getCenterOfPlayer(),
+            draw.drawTriangle(movement.getStartOfMovement(),movement.getCenterOfPlayer(),
+
                     movement.getEndOfMovement());
             movement = movementAPI.nextMovement();
         }
 
         // Update drawing if needed
-        for (int i = 0; i < numPlayers; i++) {
-            drawings.get(i).update();
-        }
+        draw.update();
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(background,0,0);
-        for (int i = 0; i < numPlayers; i++) {
-            batch.draw(drawings.get(i).getCanvas(), 0, 0);
-        }
+        batch.draw(draw.getCanvas(), 0, 0);
         batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
