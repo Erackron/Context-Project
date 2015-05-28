@@ -58,7 +58,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
 
         shapeRenderer = new ShapeRenderer();
-        draw = new DrawablePixmap(camera,players.get(activePlayer).getColourPalette()
+        draw = new DrawablePixmap(players.get(activePlayer).getColourPalette()
                 .getCurrentColour().getLibgdxColor());
         batch = main.getBatch();
 

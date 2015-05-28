@@ -23,7 +23,6 @@ import java.util.Arrays;
 public class DrawablePixmap implements Disposable {
     protected Color eraseColour = Color.BLACK;
     protected int brushSize = 1;
-    protected Camera camera;
 
     protected Pixmap painting;
     protected Pixmap newPainting;
@@ -35,10 +34,9 @@ public class DrawablePixmap implements Disposable {
     /**
      * Create a drawable Pixmap object wrapping an actual Pixmap.
      *
-     * @param camera The camera to use when mapping coordinates to the screen
      * @param colour The paint colour that will be used
      */
-    public DrawablePixmap(Camera camera, Color colour) {
+    public DrawablePixmap(Color colour) {
         this.painting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
         painting.setColor(colour);
@@ -47,7 +45,6 @@ public class DrawablePixmap implements Disposable {
                 Pixmap.Format.RGBA8888);
         newPainting.setColor(colour);
 
-        this.camera = camera;
         this.canvas = new Texture(painting);
         canvas.bind();
     }
@@ -120,19 +117,31 @@ public class DrawablePixmap implements Disposable {
     public void blend() {
         for (int i = 0; i < Constants.CAM_WIDTH; i++) {
             for (int j = 0; j < Constants.CAM_HEIGHT; j++) {
-                int newPixel = newPainting.getPixel(i, j);
-                int oldPixel = painting.getPixel(i, j);
+                int newPixel = getNewPixel(i, j);
+                int oldPixel = getOldPixel(i, j);
 
                 if (newPixel != oldPixel && oldPixel != 0 && newPixel != 0) {
                     Colour first = Colour.getColour(newPixel);
                     Colour second = Colour.getColour(oldPixel);
                     Colour blend = Colour.combine(Arrays.asList(first, second));
 
-                    newPainting.setColor(blend.getLibgdxColor());
-                    newPainting.drawPixel(i, j);
+                    setNewPixel(i, j, blend);
                 }
             }
         }
+    }
+
+    public int getNewPixel(int i, int j) {
+        return newPainting.getPixel(i, j);
+    }
+
+    public void setNewPixel(int i, int j, Colour color) {
+        newPainting.setColor(color.getLibgdxColor());
+        newPainting.drawPixel(i, j);
+    }
+
+    public int getOldPixel(int i, int j) {
+        return painting.getPixel(i, j);
     }
 
     @Override
