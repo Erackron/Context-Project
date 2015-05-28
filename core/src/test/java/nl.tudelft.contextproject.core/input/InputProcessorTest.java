@@ -75,14 +75,7 @@ public class InputProcessorTest {
         processor.update(1f,activePlayerId);
         Mockito.verify(player).move(75,0);
     }
-
-//    @Test
-//    public void toggleTest() {
-//        processor.keyUp(Input.Keys.C);
-//        processor.update(1f, activePlayerId);
-//        Mockito.verify(player).getColourPalette().cycle();
-//        assertFalse(processor.isToggled());
-//    }
+    
     @Test
     public void turnBrushTest() {
         keys.put(Input.Keys.LEFT,true);
