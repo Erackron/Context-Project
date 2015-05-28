@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.core.entities;
 
 import com.badlogic.gdx.graphics.Color;
+import lombok.Getter;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -16,6 +17,8 @@ public enum Colour {
     BLACK(0, 0, 0, 255);
 
     private final Color libgdxColor;
+
+    @Getter
     private final int pixelValue;
 
     /**
@@ -96,7 +99,9 @@ public enum Colour {
         return BLACK;
     }
 
-    public Color getLibgdxColor() {
-        return libgdxColor;
-    }
+    /**
+     * Method to return the LibgdxColor when drawing.
+     * @return The libgdxColor;
+     */
+    public Color getLibgdxColor() {return libgdxColor;}
 }

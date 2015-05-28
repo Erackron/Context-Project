@@ -1,10 +1,11 @@
 package nl.tudelft.contextproject.core.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -50,6 +51,12 @@ public class ColourTest {
     }
 
     @Test
+    public void combineSameColourTest() {
+        Colour test = Colour.combine(Arrays.asList(Colour.RED, Colour.RED));
+        assertTrue(test == Colour.RED);
+    }
+
+    @Test
     public void combineComplementaryTest() {
         Colour test = Colour.combine(Arrays.asList(Colour.GREEN, Colour.RED));
         assertTrue(test == Colour.BLACK);
@@ -86,6 +93,28 @@ public class ColourTest {
         assertFalse(Colour.areComplementary(Arrays.asList(Colour.BLUE, Colour.YELLOW, Colour.PURPLE)));
     }
 
+    @Test
+    public void getPrimaryColourTest() {
+        Colour red = Colour.RED;
+        assertEquals(Colour.getColour(red.getPixelValue()), red);
+    }
 
+    @Test
+    public void getSecondaryColourTest() {
+        Colour orange = Colour.ORANGE;
+        assertEquals(Colour.getColour(orange.getPixelValue()), orange);
+    }
 
+    @Test
+    public void getNoValidColourTest() {
+        Colour black = Colour.BLACK;
+        assertEquals(Colour.getColour(0), black);
+    }
+
+    @Test
+    public void getLibgdxColorTest() {
+        Colour colourblue = Colour.BLUE;
+        Color colorblue = Color.BLUE;
+        assertEquals(colorblue, colourblue.getLibgdxColor());
+    }
 }
