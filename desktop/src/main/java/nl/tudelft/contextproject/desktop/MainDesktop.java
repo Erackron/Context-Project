@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.java;
+package nl.tudelft.contextproject.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;

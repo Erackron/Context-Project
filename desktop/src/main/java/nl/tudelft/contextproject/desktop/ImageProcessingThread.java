@@ -1,6 +1,6 @@
-package nl.tudelft.contextproject.java;
+package nl.tudelft.contextproject.desktop;
 
-import nl.tudelft.contextproject.imageprocessing.ImageProcessing;
+import nl.tudelft.contextproject.ImageProcessing;
 
 public class ImageProcessingThread implements Runnable {
     private volatile boolean running = true;

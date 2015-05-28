@@ -1,4 +1,4 @@
-package nl.tudelft.context.project.imageprocessing;
+package nl.tudelft.contextproject;
 
 public class ImageProcessing {
     public ImageProcessing() {

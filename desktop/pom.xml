@@ -15,7 +15,7 @@
     <name>Main desktop</name>
 
     <properties>
-        <mainClass>nl.tudelft.contextproject.java.MainDesktop</mainClass>
+        <mainClass>nl.tudelft.contextproject.desktop.MainDesktop</mainClass>
     </properties>
 
     <dependencies>
