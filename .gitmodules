@@ -1,4 +1,0 @@
-[submodule "image-processing"]
-	path = image-processing
-	url = https://github.com/Erackron/Context-Project-OpenCV.git
-	branch = master
