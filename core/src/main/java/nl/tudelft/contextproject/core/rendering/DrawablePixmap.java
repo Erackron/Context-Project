@@ -86,6 +86,15 @@ public class DrawablePixmap implements Disposable {
                 (int) (Constants.CAM_HEIGHT - Math.min(corner3.y, Constants.CAM_HEIGHT)));
     }
 
+    /**
+     * Fills a triangl using the given points
+     * @param x The x-coordinate for the first point.
+     * @param y The y-coordinate for the first point.
+     * @param x1 The x-coordinate for the second point.
+     * @param i The y-coordinate for the second point.
+     * @param x2 The x-coordinate for the third point.
+     * @param i1 The y-coordinate for the third point.
+     */
     private void drawTriangle(int x, int y, int x1, int i, int x2, int i1) {
         newPainting.fillTriangle(x, y, x1, i, x2, i1);
         updateNeeded = true;
