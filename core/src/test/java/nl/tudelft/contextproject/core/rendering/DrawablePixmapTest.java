@@ -19,17 +19,14 @@ import static org.mockito.Mockito.*;
  */
 public class DrawablePixmapTest {
 
-    @Mock
     protected Pixmap painting;
     protected int pixel;
 
-    @Mock
     protected Pixmap newPainting;
     protected int newPixel;
 
-    @Mock
-    Texture texture;
-    DrawablePixmap drawablePixmap;
+    protected Texture texture;
+    protected DrawablePixmap drawablePixmap;
 
     @Before
     public void setUp() {
