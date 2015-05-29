@@ -89,12 +89,7 @@ public class DrawablePixmapTest {
         Vector2 corner3 = new Vector2(2, 1);
 
         drawablePixmap.drawTriangle(corner1, corner2, corner3);
-        verify(newPainting, times(1)).fillTriangle((int) corner1.x,
-                (int) (Constants.CAM_HEIGHT - Math.min(corner1.y, Constants.CAM_HEIGHT)),
-                (int) corner2.x,
-                (int) (Constants.CAM_HEIGHT - Math.min(corner2.y, Constants.CAM_HEIGHT)),
-                (int) corner3.x,
-                (int) (Constants.CAM_HEIGHT - Math.min(corner3.y, Constants.CAM_HEIGHT)));
+        verify(newPainting).fillTriangle(1, 749, 1, 748, 2,749);
         assertTrue(drawablePixmap.updateNeeded);
     }
 
