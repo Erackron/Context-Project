@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.core.rendering;
 
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -7,20 +9,19 @@ import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Colour;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
-
+@RunWith(MockitoJUnitRunner.class)
 public class DrawablePixmapTest {
-
+    @Mock
     protected Pixmap painting;
     protected int pixel;
-
+    @Mock
     protected Pixmap newPainting;
     protected int newPixel;
-
+    @Mock
     protected Texture texture;
     protected DrawablePixmap drawablePixmap;
 
@@ -29,10 +30,6 @@ public class DrawablePixmapTest {
         pixel = Colour.RED.getPixelValue();
         newPixel = Colour.YELLOW.getPixelValue();
 
-        painting = mock(Pixmap.class);
-        newPainting = mock(Pixmap.class);
-        texture = mock(Texture.class);
-
         drawablePixmap = new DrawablePixmap(painting, newPainting, texture);
         when(painting.getPixel(0, 0)).thenReturn(pixel);
         when(newPainting.getPixel(0, 0)).thenReturn(newPixel);
@@ -40,22 +37,22 @@ public class DrawablePixmapTest {
 
     @Test
     public void constructorTest() {
-        assertTrue(drawablePixmap != null);
+        verify(texture).bind();
     }
 
     @Test
     public void blendTest() {
         drawablePixmap.blend(0, 0, 1, 1);
-        verify(newPainting, times(1)).setColor(Colour.ORANGE.getLibgdxColor());
-        verify(newPainting, times(1)).drawPixel(0, 0);
+        verify(newPainting).setColor(Colour.ORANGE.getLibgdxColor());
+        verify(newPainting).drawPixel(0, 0);
     }
 
     @Test
     public void updateTrueTest() {
         drawablePixmap.updateNeeded = true;
         drawablePixmap.update(0, 0, 1, 1);
-        verify(painting, times(1)).drawPixmap(newPainting, 0, 0);
-        verify(texture, times(1)).draw(newPainting, 0, 0);
+        verify(painting).drawPixmap(newPainting, 0, 0);
+        verify(texture).draw(newPainting, 0, 0);
         assertFalse(drawablePixmap.updateNeeded);
     }
 
@@ -71,15 +68,15 @@ public class DrawablePixmapTest {
     @Test
     public void disposeTest() {
         drawablePixmap.dispose();
-        verify(painting, times(1)).dispose();
-        verify(newPainting, times(1)).dispose();
-        verify(texture, times(1)).dispose();
+        verify(painting).dispose();
+        verify(newPainting).dispose();
+        verify(texture).dispose();
     }
 
     @Test
     public void drawLineTest() {
         drawablePixmap.drawLine(new Vector2(1, 1), new Vector2(2, 2));
-        verify(newPainting, times(1)).drawLine(1, Constants.CAM_HEIGHT - 1, 2, Constants.CAM_HEIGHT
+        verify(newPainting).drawLine(1, Constants.CAM_HEIGHT - 1, 2, Constants.CAM_HEIGHT
                 - 2);
         assertTrue(drawablePixmap.updateNeeded);
     }
@@ -92,12 +89,7 @@ public class DrawablePixmapTest {
         Vector2 corner3 = new Vector2(2, 1);
 
         drawablePixmap.drawTriangle(corner1, corner2, corner3);
-        verify(newPainting, times(1)).fillTriangle((int) corner1.x,
-                (int) (Constants.CAM_HEIGHT - Math.min(corner1.y, Constants.CAM_HEIGHT)),
-                (int) corner2.x,
-                (int) (Constants.CAM_HEIGHT - Math.min(corner2.y, Constants.CAM_HEIGHT)),
-                (int) corner3.x,
-                (int) (Constants.CAM_HEIGHT - Math.min(corner3.y, Constants.CAM_HEIGHT)));
+        verify(newPainting).fillTriangle(1, 749, 1, 748, 2,749);
         assertTrue(drawablePixmap.updateNeeded);
     }
 
