@@ -1,8 +1,8 @@
 package nl.tudelft.contextproject.core.input;
 
+import static org.junit.Assert.assertEquals;
 import com.badlogic.gdx.math.Vector2;
 import org.junit.Test;
-import static org.junit.Assert.assertTrue;
 
 
 public class KeyboardMovementTest {
@@ -14,21 +14,18 @@ public class KeyboardMovementTest {
     @Test
     public void returnCentreTest() {
         Vector2 playercentre = movement.getCenterOfPlayer();
-        assertTrue(playercentre.x == 100);
-        assertTrue(playercentre.y == 100);
+        assertEquals(centre,playercentre);
     }
 
     @Test
     public void returnStartTest() {
         Vector2 startmovement = movement.getStartOfMovement();
-        assertTrue(startmovement.x == 100);
-        assertTrue(startmovement.y == 50);
+        assertEquals(start,startmovement);
     }
 
     @Test
     public void returnEndTest() {
         Vector2 endmovement = movement.getEndOfMovement();
-        assertTrue(endmovement.x == 100);
-        assertTrue(endmovement.y == 150);
+        assertEquals(end,endmovement);
     }
 }
