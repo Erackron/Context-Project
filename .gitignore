@@ -170,3 +170,4 @@ dependency-reduced-pom.xml
 buildNumber.properties
 
 *.png
+/blobParams
