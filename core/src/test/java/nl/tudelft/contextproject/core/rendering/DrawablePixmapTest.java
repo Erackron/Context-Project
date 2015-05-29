@@ -43,16 +43,16 @@ public class DrawablePixmapTest {
     @Test
     public void blendTest() {
         drawablePixmap.blend(0, 0, 1, 1);
-        verify(newPainting, times(1)).setColor(Colour.ORANGE.getLibgdxColor());
-        verify(newPainting, times(1)).drawPixel(0, 0);
+        verify(newPainting).setColor(Colour.ORANGE.getLibgdxColor());
+        verify(newPainting).drawPixel(0, 0);
     }
 
     @Test
     public void updateTrueTest() {
         drawablePixmap.updateNeeded = true;
         drawablePixmap.update(0, 0, 1, 1);
-        verify(painting, times(1)).drawPixmap(newPainting, 0, 0);
-        verify(texture, times(1)).draw(newPainting, 0, 0);
+        verify(painting).drawPixmap(newPainting, 0, 0);
+        verify(texture).draw(newPainting, 0, 0);
         assertFalse(drawablePixmap.updateNeeded);
     }
 
@@ -68,15 +68,15 @@ public class DrawablePixmapTest {
     @Test
     public void disposeTest() {
         drawablePixmap.dispose();
-        verify(painting, times(1)).dispose();
-        verify(newPainting, times(1)).dispose();
-        verify(texture, times(1)).dispose();
+        verify(painting).dispose();
+        verify(newPainting).dispose();
+        verify(texture).dispose();
     }
 
     @Test
     public void drawLineTest() {
         drawablePixmap.drawLine(new Vector2(1, 1), new Vector2(2, 2));
-        verify(newPainting, times(1)).drawLine(1, Constants.CAM_HEIGHT - 1, 2, Constants.CAM_HEIGHT
+        verify(newPainting).drawLine(1, Constants.CAM_HEIGHT - 1, 2, Constants.CAM_HEIGHT
                 - 2);
         assertTrue(drawablePixmap.updateNeeded);
     }
