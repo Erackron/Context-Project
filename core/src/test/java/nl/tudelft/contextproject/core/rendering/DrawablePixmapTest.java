@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.core.rendering;
 
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -7,20 +9,19 @@ import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Colour;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
-
+@RunWith(MockitoJUnitRunner.class)
 public class DrawablePixmapTest {
-
+    @Mock
     protected Pixmap painting;
     protected int pixel;
-
+    @Mock
     protected Pixmap newPainting;
     protected int newPixel;
-
+    @Mock
     protected Texture texture;
     protected DrawablePixmap drawablePixmap;
 
@@ -28,10 +29,6 @@ public class DrawablePixmapTest {
     public void setUp() {
         pixel = Colour.RED.getPixelValue();
         newPixel = Colour.YELLOW.getPixelValue();
-
-        painting = mock(Pixmap.class);
-        newPainting = mock(Pixmap.class);
-        texture = mock(Texture.class);
 
         drawablePixmap = new DrawablePixmap(painting, newPainting, texture);
         when(painting.getPixel(0, 0)).thenReturn(pixel);
