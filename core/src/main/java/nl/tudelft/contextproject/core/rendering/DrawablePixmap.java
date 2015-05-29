@@ -21,8 +21,6 @@ import java.util.Arrays;
  */
 @Data
 public class DrawablePixmap implements Disposable {
-    protected Color eraseColour = Color.BLACK;
-    protected int brushSize = 1;
 
     protected Pixmap painting;
     protected Pixmap newPainting;
@@ -32,9 +30,10 @@ public class DrawablePixmap implements Disposable {
     protected boolean updateNeeded = false;
 
     /**
-     * Create a drawable Pixmap object wrapping an actual Pixmap.
-     *
-     * @param
+     * Creates a DrawablePixmap object that wraps two actual pixmaps.
+     * @param painting The Pixmap that will store all of the painting.
+     * @param newPainting The Pixmap that will store only recent painting.
+     * @param canvas The texture that will be drawn containing all the blended painting
      */
     public DrawablePixmap(Pixmap painting, Pixmap newPainting, Texture canvas) {
         this.painting = painting;
@@ -65,8 +64,7 @@ public class DrawablePixmap implements Disposable {
      * @param y2 The y-coordinate of the second point
      */
     public void drawLine(int x1, int y1, int x2, int y2) {
-        Gdx.gl.glLineWidth(brushSize);
-        painting.drawLine(x1, y1, x2, y2);
+        newPainting.drawLine(x1, y1, x2, y2);
         updateNeeded = true;
     }
 
@@ -86,21 +84,21 @@ public class DrawablePixmap implements Disposable {
                 (int) (Constants.CAM_HEIGHT - Math.min(corner2.y, Constants.CAM_HEIGHT)),
                 (int) corner3.x,
                 (int) (Constants.CAM_HEIGHT - Math.min(corner3.y, Constants.CAM_HEIGHT)));
-        updateNeeded = true;
     }
 
     private void drawTriangle(int x, int y, int x1, int i, int x2, int i1) {
         newPainting.fillTriangle(x, y, x1, i, x2, i1);
+        updateNeeded = true;
     }
 
     /**
      * Redraw the painting onto the canvas if needed.
      */
-    public void update() {
+    public void update(int x, int y, int width, int height) {
         if (updateNeeded) {
-            blend(0, 0, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
-            painting.drawPixmap(newPainting, 0, 0);
-            canvas.draw(newPainting, 0, 0);
+            blend(x, y, width, height);
+            painting.drawPixmap(newPainting, x, y);
+            canvas.draw(newPainting, x, y);
             updateNeeded = false;
         }
     }
@@ -115,36 +113,28 @@ public class DrawablePixmap implements Disposable {
     public void blend(int x, int y, int width, int height) {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                int newPixel = getNewPixel(i, j);
-                int oldPixel = getOldPixel(i, j);
+                int newPixel = newPainting.getPixel(i, j);
+                int oldPixel = painting.getPixel(i, j);
 
                 if (newPixel != oldPixel && oldPixel != 0 && newPixel != 0) {
                     Colour first = Colour.getColour(newPixel);
                     Colour second = Colour.getColour(oldPixel);
                     Colour blend = Colour.combine(Arrays.asList(first, second));
 
-                    setNewPixel(i, j, blend);
+                    newPainting.setColor(blend.getLibgdxColor());
+                    newPainting.drawPixel(i, j);
                 }
             }
         }
     }
 
-    public int getNewPixel(int i, int j) {
-        return newPainting.getPixel(i, j);
-    }
-
-    public void setNewPixel(int i, int j, Colour color) {
-        newPainting.setColor(color.getLibgdxColor());
-        newPainting.drawPixel(i, j);
-    }
-
-    public int getOldPixel(int i, int j) {
-        return painting.getPixel(i, j);
-    }
-
+    /**
+     * Disposes the Pixmap and Texture objects.
+     */
     @Override
     public void dispose() {
         painting.dispose();
+        newPainting.dispose();
         canvas.dispose();
     }
 

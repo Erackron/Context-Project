@@ -132,7 +132,7 @@ public class GameScreen implements Screen {
         }
 
         // Update drawing if needed
-        draw.update();
+        draw.update(0, 0, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
