@@ -7,16 +7,12 @@ import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Colour;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
-/**
- * Created by Ike on 29-5-2015.
- */
 public class DrawablePixmapTest {
 
     protected Pixmap painting;
@@ -44,7 +40,7 @@ public class DrawablePixmapTest {
 
     @Test
     public void constructorTest() {
-        assertTrue(drawablePixmap instanceof DrawablePixmap);
+        assertTrue(drawablePixmap != null);
     }
 
     @Test
@@ -131,8 +127,4 @@ public class DrawablePixmapTest {
     public void getCanvasTest() {
         assertEquals(drawablePixmap.getCanvas(), texture);
     }
-
-
-
-
 }

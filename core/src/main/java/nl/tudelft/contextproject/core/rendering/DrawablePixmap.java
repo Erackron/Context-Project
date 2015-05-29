@@ -1,8 +1,5 @@
 package nl.tudelft.contextproject.core.rendering;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -12,7 +9,6 @@ import lombok.Data;
 import lombok.Setter;
 import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Colour;
-import nl.tudelft.contextproject.core.entities.Player;
 
 import java.util.Arrays;
 
@@ -120,8 +116,8 @@ public class DrawablePixmap implements Disposable {
      * @param height The height of the rectangle that needs to be blended.
      */
     public void blend(int x, int y, int width, int height) {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        for (int i = x; i < width; i++) {
+            for (int j = y; j < height; j++) {
                 int newPixel = newPainting.getPixel(i, j);
                 int oldPixel = painting.getPixel(i, j);
 
@@ -146,5 +142,4 @@ public class DrawablePixmap implements Disposable {
         newPainting.dispose();
         canvas.dispose();
     }
-
 }
