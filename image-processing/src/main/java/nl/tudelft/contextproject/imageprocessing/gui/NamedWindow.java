@@ -10,8 +10,8 @@ import java.awt.image.DataBufferByte;
 import javax.swing.JFrame;
 
 public class NamedWindow extends Thread {
-    protected final JFrame frame;
-    protected final ImagePanel panel;
+    protected JFrame frame;
+    protected ImagePanel panel;
     protected Mat currentMat;
     protected boolean started = false;
     protected volatile boolean running = true;
