@@ -34,18 +34,12 @@ public class DrawablePixmap implements Disposable {
     /**
      * Create a drawable Pixmap object wrapping an actual Pixmap.
      *
-     * @param colour The paint colour that will be used
+     * @param
      */
-    public DrawablePixmap(Color colour) {
-        this.painting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
-                Pixmap.Format.RGBA8888);
-        painting.setColor(colour);
-
-        this.newPainting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
-                Pixmap.Format.RGBA8888);
-        newPainting.setColor(colour);
-
-        this.canvas = new Texture(painting);
+    public DrawablePixmap(Pixmap painting, Pixmap newPainting, Texture canvas) {
+        this.painting = painting;
+        this.newPainting = newPainting;
+        this.canvas = canvas;
         canvas.bind();
     }
 
@@ -104,7 +98,7 @@ public class DrawablePixmap implements Disposable {
      */
     public void update() {
         if (updateNeeded) {
-            blend();
+            blend(0, 0, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
             painting.drawPixmap(newPainting, 0, 0);
             canvas.draw(newPainting, 0, 0);
             updateNeeded = false;
@@ -112,11 +106,15 @@ public class DrawablePixmap implements Disposable {
     }
 
     /**
-     * Blend the pixels together to combine colours.
+     * Blend pixels together to combine colours.
+     * @param x The x coordinate of where to start.
+     * @param y The y coordinate of where to start
+     * @param width The width of the rectangle that needs to be blended.
+     * @param height The height of the rectangle that needs to be blended.
      */
-    public void blend() {
-        for (int i = 0; i < Constants.CAM_WIDTH; i++) {
-            for (int j = 0; j < Constants.CAM_HEIGHT; j++) {
+    public void blend(int x, int y, int width, int height) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 int newPixel = getNewPixel(i, j);
                 int oldPixel = getOldPixel(i, j);
 
