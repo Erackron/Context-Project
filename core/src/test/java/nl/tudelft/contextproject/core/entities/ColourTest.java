@@ -60,7 +60,7 @@ public class ColourTest {
         @Test
         public void combineThreeColoursTest() {
             Colour test = Colour.combine(Arrays.asList(Colour.RED, Colour.BLUE, Colour.YELLOW));
-            assertTrue(test == Colour.BLACK);
+            assertEquals(test, Colour.BLACK);
         }
 
 
