@@ -3,10 +3,7 @@ package nl.tudelft.contextproject.core.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -58,8 +55,14 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
 
         shapeRenderer = new ShapeRenderer();
-        draw = new DrawablePixmap(camera,players.get(activePlayer).getColourPalette()
-                .getCurrentColour().getLibgdxColor());
+
+        Pixmap pixmap = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
+                Pixmap.Format.RGBA8888);
+        Pixmap newPixmap = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
+                Pixmap.Format.RGBA8888);
+        Texture texture = new Texture(pixmap);
+
+        draw = new DrawablePixmap(pixmap, newPixmap, texture);
         batch = main.getBatch();
 
         movementAPI = MovementAPI.getMovementAPI();
@@ -129,7 +132,7 @@ public class GameScreen implements Screen {
         }
 
         // Update drawing if needed
-        draw.update();
+        draw.update(0, 0, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
@@ -146,27 +149,19 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) {}
 
     @Override
-    public void show() {
-
-    }
+    public void show() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     @Override
-    public void pause() {
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-    }
+    public void resume() {}
 
     @Override
     public void dispose() {

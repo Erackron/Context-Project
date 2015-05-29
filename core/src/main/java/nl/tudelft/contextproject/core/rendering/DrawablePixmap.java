@@ -1,8 +1,5 @@
 package nl.tudelft.contextproject.core.rendering;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -12,7 +9,6 @@ import lombok.Data;
 import lombok.Setter;
 import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Colour;
-import nl.tudelft.contextproject.core.entities.Player;
 
 import java.util.Arrays;
 
@@ -21,9 +17,6 @@ import java.util.Arrays;
  */
 @Data
 public class DrawablePixmap implements Disposable {
-    protected Color eraseColour = Color.BLACK;
-    protected int brushSize = 1;
-    protected Camera camera;
 
     protected Pixmap painting;
     protected Pixmap newPainting;
@@ -33,22 +26,15 @@ public class DrawablePixmap implements Disposable {
     protected boolean updateNeeded = false;
 
     /**
-     * Create a drawable Pixmap object wrapping an actual Pixmap.
-     *
-     * @param camera The camera to use when mapping coordinates to the screen
-     * @param colour The paint colour that will be used
+     * Creates a DrawablePixmap object that wraps two actual pixmaps.
+     * @param painting The Pixmap that will store all of the painting.
+     * @param newPainting The Pixmap that will store only recent painting.
+     * @param canvas The texture that will be drawn containing all the blended painting
      */
-    public DrawablePixmap(Camera camera, Color colour) {
-        this.painting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
-                Pixmap.Format.RGBA8888);
-        painting.setColor(colour);
-
-        this.newPainting = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
-                Pixmap.Format.RGBA8888);
-        newPainting.setColor(colour);
-
-        this.camera = camera;
-        this.canvas = new Texture(painting);
+    public DrawablePixmap(Pixmap painting, Pixmap newPainting, Texture canvas) {
+        this.painting = painting;
+        this.newPainting = newPainting;
+        this.canvas = canvas;
         canvas.bind();
     }
 
@@ -74,8 +60,7 @@ public class DrawablePixmap implements Disposable {
      * @param y2 The y-coordinate of the second point
      */
     public void drawLine(int x1, int y1, int x2, int y2) {
-        Gdx.gl.glLineWidth(brushSize);
-        painting.drawLine(x1, y1, x2, y2);
+        newPainting.drawLine(x1, y1, x2, y2);
         updateNeeded = true;
     }
 
@@ -95,31 +80,44 @@ public class DrawablePixmap implements Disposable {
                 (int) (Constants.CAM_HEIGHT - Math.min(corner2.y, Constants.CAM_HEIGHT)),
                 (int) corner3.x,
                 (int) (Constants.CAM_HEIGHT - Math.min(corner3.y, Constants.CAM_HEIGHT)));
-        updateNeeded = true;
     }
 
+    /**
+     * Fills a triangl using the given points
+     * @param x The x-coordinate for the first point.
+     * @param y The y-coordinate for the first point.
+     * @param x1 The x-coordinate for the second point.
+     * @param i The y-coordinate for the second point.
+     * @param x2 The x-coordinate for the third point.
+     * @param i1 The y-coordinate for the third point.
+     */
     private void drawTriangle(int x, int y, int x1, int i, int x2, int i1) {
         newPainting.fillTriangle(x, y, x1, i, x2, i1);
+        updateNeeded = true;
     }
 
     /**
      * Redraw the painting onto the canvas if needed.
      */
-    public void update() {
+    public void update(int x, int y, int width, int height) {
         if (updateNeeded) {
-            blend();
-            painting.drawPixmap(newPainting, 0, 0);
-            canvas.draw(newPainting, 0, 0);
+            blend(x, y, width, height);
+            painting.drawPixmap(newPainting, x, y);
+            canvas.draw(newPainting, x, y);
             updateNeeded = false;
         }
     }
 
     /**
-     * Blend the pixels together to combine colours.
+     * Blend pixels together to combine colours.
+     * @param x The x coordinate of where to start.
+     * @param y The y coordinate of where to start
+     * @param width The width of the rectangle that needs to be blended.
+     * @param height The height of the rectangle that needs to be blended.
      */
-    public void blend() {
-        for (int i = 0; i < Constants.CAM_WIDTH; i++) {
-            for (int j = 0; j < Constants.CAM_HEIGHT; j++) {
+    public void blend(int x, int y, int width, int height) {
+        for (int i = x; i < width; i++) {
+            for (int j = y; j < height; j++) {
                 int newPixel = newPainting.getPixel(i, j);
                 int oldPixel = painting.getPixel(i, j);
 
@@ -135,10 +133,13 @@ public class DrawablePixmap implements Disposable {
         }
     }
 
+    /**
+     * Disposes the Pixmap and Texture objects.
+     */
     @Override
     public void dispose() {
         painting.dispose();
+        newPainting.dispose();
         canvas.dispose();
     }
-
 }

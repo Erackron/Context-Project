@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -74,7 +75,7 @@ public class InputProcessorTest {
         processor.update(1f,activePlayerId);
         Mockito.verify(player).move(75,0);
     }
-
+    
     @Test
     public void turnBrushTest() {
         keys.put(Input.Keys.LEFT,true);
@@ -105,7 +106,7 @@ public class InputProcessorTest {
         processor.activePlayerId=1;
         processor.keyDown(key);
         verify(player).getBrushPosition();
-        verify(keys).put(key,true);
+        verify(keys).put(key, true);
     }
 
     @Test
@@ -117,4 +118,36 @@ public class InputProcessorTest {
         verify(keys, Mockito.times(2)).put(key,false);
     }
 
+    @Test
+    public void KeyDownNUM_1tTest() {
+        int key = Input.Keys.NUM_1;
+        keys.put(key,true);
+        processor.keyDown(key);
+        assertTrue(processor.playerToggles[0]);
+        verify(keys, Mockito.times(2)).put(key,false);
+    }
+
+    @Test
+    public void KeyDownATest() {
+        int key = Input.Keys.A;
+        processor.keyDown(key);
+        verify(keys).put(key, true);
+    }
+
+    @Test
+    public void KeyUpSpaceTest() {
+        int key = Input.Keys.SPACE;
+        processor.activePlayerId=1;
+        processor.keyUp(key);
+        verify(player).getPosition();
+        verify(player).getBrushPosition();
+        verify(keys, Mockito.times(2)).put(key,false);
+    }
+
+    @Test
+    public void KeyUpATest() {
+        int key = Input.Keys.A;
+        processor.keyUp(key);
+        verify(keys, Mockito.times(2)).put(key, false);
+    }
 }
