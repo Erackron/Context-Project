@@ -37,7 +37,7 @@ public class DrawablePixmapTest {
 
     @Test
     public void constructorTest() {
-        assertTrue(drawablePixmap != null);
+        verify(texture).bind();
     }
 
     @Test
