@@ -9,6 +9,8 @@ before_install:
 env:
   - BUILD_PR_BRANCH=true
   - BUILD_PR_BRANCH=false
+script:
+  - mvn test -B -Djava.awt.headless=true
 matrix:
   allow_failures:
     - env:

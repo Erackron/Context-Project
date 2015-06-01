@@ -20,15 +20,26 @@ public class NamedWindow extends Thread {
     /**
      * Create a new NamedWindow.
      *
-     * @param namedWindow The name of the window
+     * @param windowName The name of the window
      */
-    public NamedWindow(String namedWindow) {
-        frame = new JFrame(namedWindow);
-        frame.getContentPane().setLayout(new FlowLayout());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public NamedWindow(String windowName) {
+        this(windowName, new JFrame(windowName));
+    }
+
+    /**
+     * Create a new NamedWindow using a pre-existing JFrame.
+     *
+     * @param windowName The name of the window
+     * @param frame       The JFrame to use for this window
+     */
+    public NamedWindow(String windowName, JFrame frame) {
+        this.frame = frame;
+        this.frame.setName(windowName);
+        this.frame.getContentPane().setLayout(new FlowLayout());
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel = new ImagePanel();
-        frame.getContentPane().add(panel);
+        this.frame.getContentPane().add(panel);
     }
 
     /**

@@ -1,11 +1,16 @@
 package nl.tudelft.contextproject.imageprocessing.gui;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.opencv.core.Mat;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
@@ -24,8 +29,22 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NamedWindowTest {
-    @Spy
-    protected NamedWindow namedWindow = new NamedWindow("TestWindow");
+    protected NamedWindow namedWindow;
+    @Mock
+    protected Container container;
+    @Mock
+    protected JFrame frame;
+
+    @Before
+    public void setup() {
+        doReturn(container).when(frame).getContentPane();
+        doNothing().when(container).setLayout(any(LayoutManager.class));
+        doReturn(mock(Component.class)).when(container).add(any(Component.class));
+
+        doNothing().when(frame).setDefaultCloseOperation(anyInt());
+
+        namedWindow = spy(new NamedWindow("TestWindow", frame));
+    }
 
     @Test
     public void testImShowThreadStart() {
