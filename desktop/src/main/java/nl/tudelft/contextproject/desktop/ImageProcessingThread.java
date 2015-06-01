@@ -24,5 +24,6 @@ public class ImageProcessingThread implements Runnable {
                 running = false;
             }
         }
+        imageProcessingInstance.cleanUp();
     }
 }
