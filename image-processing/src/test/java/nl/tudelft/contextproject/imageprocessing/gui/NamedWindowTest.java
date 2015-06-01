@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.opencv.core.Mat;
 
@@ -75,7 +74,6 @@ public class NamedWindowTest {
     @Test
     public void testDestroyWindow() {
         namedWindow.running = true;
-        namedWindow.frame = spy(JFrame.class);
 
         namedWindow.destroyWindow();
 
