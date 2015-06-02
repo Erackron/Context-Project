@@ -256,5 +256,6 @@
     <modules>
         <module>core</module>
         <module>desktop</module>
+        <module>image-processing</module>
     </modules>
 </project>
