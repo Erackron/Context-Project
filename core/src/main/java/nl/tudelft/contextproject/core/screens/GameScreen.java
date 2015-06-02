@@ -90,10 +90,15 @@ public class GameScreen implements Screen {
 
     protected void drawPlayerStatus(Player player, boolean isActive) {
         shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         Vector2 playerPos = player.getPosition();
         Vector2 brushPos = player.getBrushPosition();
-        shapeRenderer.setColor(isActive ? Color.GRAY : Color.BLACK);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.circle(playerPos.x, playerPos.y, 12);
+        shapeRenderer.end();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(isActive ? player.getColourPalette().getCurrentColour().getLibgdxColor() : Color.BLACK);
         shapeRenderer.circle(playerPos.x, playerPos.y, 10);
         shapeRenderer.setColor(player.getColourPalette().getCurrentColour().getLibgdxColor());
         shapeRenderer.circle(brushPos.x, brushPos.y, 2);
@@ -143,13 +148,7 @@ public class GameScreen implements Screen {
         for (int i = 0; i < numPlayers; i++) {
             drawPlayerStatus(players.get(i), i == activePlayer);
         }
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(players.get(activePlayer).getColourPalette().getCurrentColour()
-                .getLibgdxColor());
-        shapeRenderer.rect(800, 100, 100, 100);
-        shapeRenderer.end();
-
+        
     }
 
     public void createColourSpots(){
