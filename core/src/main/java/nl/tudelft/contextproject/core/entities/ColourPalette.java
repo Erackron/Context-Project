@@ -27,6 +27,10 @@ public class ColourPalette {
         return colours.get(current);
     }
 
+    public void setCurrent(int colourindex){
+        current = colourindex;
+    }
+
     /**
      * Get the current colour of this ColourPalette.
      * @return The current colour

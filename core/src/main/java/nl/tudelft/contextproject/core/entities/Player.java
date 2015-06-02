@@ -86,5 +86,33 @@ public class Player {
     public void move(float dx, float dy) {
         position.add(dx,dy);
         brushPosition.add(dx,dy);
+        checkPosition();
+    }
+
+    public void setRed(){
+        colourPalette.setCurrent(0);
+    }
+
+    public void setBlue(){
+        colourPalette.setCurrent(1);
+    }
+
+    public void setYellow(){
+        colourPalette.setCurrent(2);
+    }
+
+    public void checkPosition(){
+        if(position.x > 9f && position.x < 61f){
+            if(position.y > 99f && position.y < 151f){
+                setRed();
+            }
+            if(position.y > 199f && position.y < 251f){
+                setBlue();
+            }
+            if(position.y > 299f && position.y < 351f){
+                setYellow();
+            }
+
+        }
     }
 }

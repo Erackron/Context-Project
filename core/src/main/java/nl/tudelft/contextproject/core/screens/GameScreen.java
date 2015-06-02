@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import nl.tudelft.contextproject.core.Main;
 import nl.tudelft.contextproject.core.config.Constants;
+import nl.tudelft.contextproject.core.entities.Colour;
 import nl.tudelft.contextproject.core.entities.ColourPalette;
 import nl.tudelft.contextproject.core.entities.Player;
 import nl.tudelft.contextproject.core.input.KeyboardInputProcessor;
@@ -112,10 +113,6 @@ public class GameScreen implements Screen {
         activePlayer = inputProcessor.update(delta, activePlayer);
         activePlayer = activePlayer >= numPlayers ? oldActive : activePlayer;
 
-        // Draw player status
-        for (int i = 0; i < numPlayers; i++) {
-            drawPlayerStatus(players.get(i), i == activePlayer);
-        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
@@ -136,9 +133,16 @@ public class GameScreen implements Screen {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(background,0,0);
         batch.draw(draw.getCanvas(), 0, 0);
+        batch.draw(background,0,0);
         batch.end();
+
+        createColourSpots();
+
+        // Draw player status
+        for (int i = 0; i < numPlayers; i++) {
+            drawPlayerStatus(players.get(i), i == activePlayer);
+        }
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(players.get(activePlayer).getColourPalette().getCurrentColour()
@@ -146,6 +150,33 @@ public class GameScreen implements Screen {
         shapeRenderer.rect(800, 100, 100, 100);
         shapeRenderer.end();
 
+    }
+
+    public void createColourSpots(){
+        createRedSpot();
+        createBlueSpot();
+        createYellowSpot();
+    }
+
+    public void createRedSpot(){
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Colour.RED.getLibgdxColor());
+        shapeRenderer.rect(10, 100, 50, 50);
+        shapeRenderer.end();
+    }
+
+    public void createBlueSpot(){
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Colour.BLUE.getLibgdxColor());
+        shapeRenderer.rect(10, 200, 50, 50);
+        shapeRenderer.end();
+    }
+
+    public void createYellowSpot(){
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Colour.YELLOW.getLibgdxColor());
+        shapeRenderer.rect(10, 300, 50, 50);
+        shapeRenderer.end();
     }
 
     @Override
