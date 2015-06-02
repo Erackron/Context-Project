@@ -14,6 +14,13 @@
     <packaging>jar</packaging>
     <name>Main Image Processing</name>
 
+    <repositories>
+        <repository>
+            <id>private-dependency-repo</id>
+            <url>https://erackron.com/repo/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>nl.tudelft</groupId>
