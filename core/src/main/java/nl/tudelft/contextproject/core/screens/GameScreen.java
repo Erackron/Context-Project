@@ -100,7 +100,7 @@ public class GameScreen implements Screen {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(isActive ? player.getColourPalette().getCurrentColour().getLibgdxColor() : Color.BLACK);
         shapeRenderer.circle(playerPos.x, playerPos.y, 10);
-        shapeRenderer.setColor(player.getColourPalette().getCurrentColour().getLibgdxColor());
+        shapeRenderer.setColor(Colour.BLACK.getLibgdxColor());
         shapeRenderer.circle(brushPos.x, brushPos.y, 2);
         shapeRenderer.end();
     }
@@ -139,7 +139,7 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(draw.getCanvas(), 0, 0);
-        batch.draw(background,0,0);
+        batch.draw(background, 0, 0);
         batch.end();
 
         createColourSpots();
@@ -155,26 +155,34 @@ public class GameScreen implements Screen {
         createRedSpot();
         createBlueSpot();
         createYellowSpot();
+        createWhiteSpot();
     }
 
     public void createRedSpot(){
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Colour.RED.getLibgdxColor());
-        shapeRenderer.rect(10, 100, 50, 50);
+        shapeRenderer.rect(13, 100, 40, 40);
         shapeRenderer.end();
     }
 
     public void createBlueSpot(){
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Colour.BLUE.getLibgdxColor());
-        shapeRenderer.rect(10, 200, 50, 50);
+        shapeRenderer.rect(13, 200, 40, 40);
         shapeRenderer.end();
     }
 
     public void createYellowSpot(){
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Colour.YELLOW.getLibgdxColor());
-        shapeRenderer.rect(10, 300, 50, 50);
+        shapeRenderer.rect(13, 300, 40, 40);
+        shapeRenderer.end();
+    }
+
+    public void createWhiteSpot(){
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Colour.WHITE.getLibgdxColor());
+        shapeRenderer.rect(13, 400, 40, 40);
         shapeRenderer.end();
     }
 

@@ -48,6 +48,7 @@ public class ColourPalette {
         colours.add(Colour.RED);
         colours.add(Colour.BLUE);
         colours.add(Colour.YELLOW);
+        colours.add(Colour.BLACK);
         return new ColourPalette(colours);
     }
 }

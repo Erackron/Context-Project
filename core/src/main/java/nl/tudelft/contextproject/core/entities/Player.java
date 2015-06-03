@@ -89,9 +89,7 @@ public class Player {
         checkPosition();
     }
 
-    public void setRed(){
-        colourPalette.setCurrent(0);
-    }
+    public void setRed(){colourPalette.setCurrent(0);    }
 
     public void setBlue(){
         colourPalette.setCurrent(1);
@@ -101,8 +99,12 @@ public class Player {
         colourPalette.setCurrent(2);
     }
 
+    public void setWhite(){
+        colourPalette.setCurrent(3);
+    }
+
     public void checkPosition(){
-        if(position.x > 9f && position.x < 61f){
+        if(position.x > 12f && position.x < 54f){
             if(position.y > 99f && position.y < 151f){
                 setRed();
             }
@@ -111,6 +113,9 @@ public class Player {
             }
             if(position.y > 299f && position.y < 351f){
                 setYellow();
+            }
+            if(position.y > 399f && position.y < 451f){
+                setWhite();
             }
 
         }

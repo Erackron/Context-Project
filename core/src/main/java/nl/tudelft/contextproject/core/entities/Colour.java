@@ -14,7 +14,8 @@ public enum Colour {
     GREEN(34 / 255f, 170 / 255f, 34 / 255f, 581575423),
     PURPLE(128 / 255f, 0, 128 / 255f, -2147450625),
     ORANGE(255 / 255f, 165 / 255f, 0, -5963521),
-    BLACK(0, 0, 0, 255);
+    BLACK(0, 0, 0, 255),
+    WHITE(1, 1, 1, 0);
 
     private final Color libgdxColor;
 
@@ -74,6 +75,9 @@ public enum Colour {
     public static Colour combine(Collection<Colour> colours) {
         if (colours.size() == 2) {
             // Returns combinations.
+            if (colours.contains(WHITE)){
+                return WHITE;
+            }
             if (colours.contains(RED) && colours.contains(BLUE)) {
                 return PURPLE;
             } else if (colours.contains(RED) && colours.contains(YELLOW)) {
