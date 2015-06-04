@@ -102,29 +102,67 @@ public class PlayerTest {
         Mockito.verify(brushPosition).set(Mockito.anyFloat(), Mockito.floatThat(matcher));
 
     }
-/*
+
     @Test
     public void testSetRed() {
         player.setRed();
-        assertEquals(Colour.RED, player.getColourPalette().getCurrentColour());
+        Mockito.verify(colourPalette).setCurrent(0);
     }
 
     @Test
     public void testSetBlue() {
         player.setBlue();
-        assertEquals(Colour.BLUE, player.getColourPalette().getCurrentColour());
+        Mockito.verify(colourPalette).setCurrent(1);
     }
 
     @Test
     public void testSetYellow() {
         player.setYellow();
-        assertEquals(Colour.YELLOW, player.getColourPalette().getCurrentColour());
+        Mockito.verify(colourPalette).setCurrent(2);
     }
 
     @Test
     public void testSetWhite(){
         player.setWhite();
-        assertEquals(Colour.ERASER, player.getColourPalette().getCurrentColour());
+        Mockito.verify(colourPalette).setCurrent(3);
     }
-    */
+
+    @Test
+    public void testCheckPositionRed() {
+        player.position.x = 33f;
+        player.position.y = 134f;
+        player.checkPosition();
+        Mockito.verify(colourPalette).setCurrent(0);
+
+    }
+
+    @Test
+    public void testCheckPositionBlue() {
+        player.position.x = 14f;
+        player.position.y = 225f;
+        player.checkPosition();
+        Mockito.verify(colourPalette).setCurrent(1);
+
+    }
+
+    @Test
+    public void testCheckPositionYellow() {
+        player.position.x = 26f;
+        player.position.y = 342f;
+        player.checkPosition();
+        Mockito.verify(colourPalette).setCurrent(2);
+
+    }
+
+    @Test
+    public void testCheckPositionEraser() {
+        player.position.x = 42f;
+        player.position.y = 412f;
+        player.checkPosition();
+        Mockito.verify(colourPalette).setCurrent(3);
+
+    }
+
+
+
 }

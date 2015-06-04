@@ -91,16 +91,16 @@ public class GameScreen implements Screen {
     protected void drawPlayerStatus(Player player, boolean isActive) {
         shapeRenderer.setProjectionMatrix(camera.combined);
         Vector2 playerPos = player.getPosition();
-        Vector2 brushPos = player.getBrushPosition();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.BLACK);
         shapeRenderer.circle(playerPos.x, playerPos.y, 12);
         shapeRenderer.end();
 
         Colour playerColour = player.getColourPalette().getCurrentColour();
-        if (playerColour.getPixelValue() == 2139062271){
+        if (playerColour.getPixelValue() == 2139062271) {
             playerColour = Colour.WHITE;
         }
+        Vector2 brushPos = player.getBrushPosition();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(isActive ? playerColour.getLibgdxColor() : Color.BLACK);
         shapeRenderer.circle(playerPos.x, playerPos.y, 10);
@@ -155,35 +155,50 @@ public class GameScreen implements Screen {
         
     }
 
-    public void createColourSpots(){
+    /**
+     * Creates areas to change colour on screen.
+     */
+    public void createColourSpots() {
         createRedSpot();
         createBlueSpot();
         createYellowSpot();
         createWhiteSpot();
     }
 
-    public void createRedSpot(){
+    /**
+     * Creates the red area.
+     */
+    public void createRedSpot() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Colour.RED.getLibgdxColor());
         shapeRenderer.rect(13, 100, 40, 40);
         shapeRenderer.end();
     }
 
-    public void createBlueSpot(){
+    /**
+     * Creates Blue area.
+     */
+    public void createBlueSpot() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Colour.BLUE.getLibgdxColor());
         shapeRenderer.rect(13, 200, 40, 40);
         shapeRenderer.end();
     }
 
-    public void createYellowSpot(){
+    /**
+     * Creates Yellow area.
+     */
+    public void createYellowSpot() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Colour.YELLOW.getLibgdxColor());
         shapeRenderer.rect(13, 300, 40, 40);
         shapeRenderer.end();
     }
 
-    public void createWhiteSpot(){
+    /**
+     * Creates White area for eraser.
+     */
+    public void createWhiteSpot() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Colour.WHITE.getLibgdxColor());
         shapeRenderer.rect(13, 400, 40, 40);
