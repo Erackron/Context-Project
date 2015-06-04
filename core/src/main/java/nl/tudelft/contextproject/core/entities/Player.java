@@ -89,11 +89,9 @@ public class Player {
         checkPosition();
     }
 
-    public void setRed(){colourPalette.setCurrent(0);    }
+    public void setRed(){colourPalette.setCurrent(0); }
 
-    public void setBlue(){
-        colourPalette.setCurrent(1);
-    }
+    public void setBlue(){colourPalette.setCurrent(1); }
 
     public void setYellow(){
         colourPalette.setCurrent(2);
