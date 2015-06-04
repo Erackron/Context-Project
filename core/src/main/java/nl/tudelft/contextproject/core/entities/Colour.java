@@ -76,9 +76,6 @@ public enum Colour {
     public static Colour combine(Collection<Colour> colours) {
         if (colours.size() == 2) {
             // Returns combinations.
-            if (colours.contains(ERASER)){
-                return BLACK;
-            }
             if (colours.contains(RED) && colours.contains(BLUE)) {
                 return PURPLE;
             } else if (colours.contains(RED) && colours.contains(YELLOW)) {

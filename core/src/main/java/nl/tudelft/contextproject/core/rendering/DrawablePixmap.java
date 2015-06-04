@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject.core.rendering;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -127,9 +126,16 @@ public class DrawablePixmap implements Disposable {
                     Colour second = Colour.getColour(oldPixel);
                     Colour blend = Colour.combine(Arrays.asList(first, second));
 
-                    newPainting.setColor(Color.GRAY);
+                    newPainting.setColor(blend.getLibgdxColor());
                     newPainting.drawPixel(i, j);
-                    System.out.println(newPainting.getPixel(i, j));
+                }
+
+                if (newPixel != 0){
+                    Colour first = Colour.getColour(newPixel);
+                    if (first.getPixelValue() == 2139062271){
+                        newPainting.setColor(Colour.WHITE.getLibgdxColor());
+                        newPainting.drawPixel(i, j);
+                    }
                 }
             }
         }

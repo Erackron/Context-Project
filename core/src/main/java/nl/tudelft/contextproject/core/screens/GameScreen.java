@@ -97,8 +97,12 @@ public class GameScreen implements Screen {
         shapeRenderer.circle(playerPos.x, playerPos.y, 12);
         shapeRenderer.end();
 
+        Colour playerColour = player.getColourPalette().getCurrentColour();
+        if (playerColour.getPixelValue() == 2139062271){
+            playerColour = Colour.WHITE;
+        }
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(isActive ? player.getColourPalette().getCurrentColour().getLibgdxColor() : Color.BLACK);
+        shapeRenderer.setColor(isActive ? playerColour.getLibgdxColor() : Color.BLACK);
         shapeRenderer.circle(playerPos.x, playerPos.y, 10);
         shapeRenderer.setColor(Colour.BLACK.getLibgdxColor());
         shapeRenderer.circle(brushPos.x, brushPos.y, 2);
