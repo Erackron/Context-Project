@@ -35,14 +35,14 @@ public class PlayerTest {
     @Test
     public void constructorOverLoadTest() {
         player = new Player(colourPalette,30,30);
-        assertEquals(new Vector2(30f,30f),player.getPosition());
+        assertEquals(new Vector2(30f, 30f), player.getPosition());
         assertEquals(new Vector2(80f,30f),player.getBrushPosition());
     }
 
     @Test
     public void testPositiveMove() {
         player.move(50,50);
-        Mockito.verify(position).add(50,50);
+        Mockito.verify(position).add(50, 50);
         Mockito.verify(brushPosition).add(50, 50);
     }
 
@@ -102,4 +102,29 @@ public class PlayerTest {
         Mockito.verify(brushPosition).set(Mockito.anyFloat(), Mockito.floatThat(matcher));
 
     }
+/*
+    @Test
+    public void testSetRed() {
+        player.setRed();
+        assertEquals(Colour.RED, player.getColourPalette().getCurrentColour());
+    }
+
+    @Test
+    public void testSetBlue() {
+        player.setBlue();
+        assertEquals(Colour.BLUE, player.getColourPalette().getCurrentColour());
+    }
+
+    @Test
+    public void testSetYellow() {
+        player.setYellow();
+        assertEquals(Colour.YELLOW, player.getColourPalette().getCurrentColour());
+    }
+
+    @Test
+    public void testSetWhite(){
+        player.setWhite();
+        assertEquals(Colour.ERASER, player.getColourPalette().getCurrentColour());
+    }
+    */
 }

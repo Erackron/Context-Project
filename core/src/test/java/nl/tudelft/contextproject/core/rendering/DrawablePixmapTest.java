@@ -21,6 +21,7 @@ public class DrawablePixmapTest {
     @Mock
     protected Pixmap newPainting;
     protected int newPixel;
+    protected int newPixel2;
     @Mock
     protected Texture texture;
     protected DrawablePixmap drawablePixmap;
@@ -29,10 +30,13 @@ public class DrawablePixmapTest {
     public void setUp() {
         pixel = Colour.RED.getPixelValue();
         newPixel = Colour.YELLOW.getPixelValue();
+        newPixel2 = Colour.ERASER.getPixelValue();
 
         drawablePixmap = new DrawablePixmap(painting, newPainting, texture);
         when(painting.getPixel(0, 0)).thenReturn(pixel);
         when(newPainting.getPixel(0, 0)).thenReturn(newPixel);
+        when(painting.getPixel(1, 1)).thenReturn(pixel);
+        when(newPainting.getPixel(1, 1)).thenReturn(newPixel2);
     }
 
     @Test
@@ -42,6 +46,13 @@ public class DrawablePixmapTest {
 
     @Test
     public void blendTest() {
+        drawablePixmap.blend(0, 0, 1, 1);
+        verify(newPainting).setColor(Colour.ORANGE.getLibgdxColor());
+        verify(newPainting).drawPixel(0, 0);
+    }
+
+    @Test
+    public void blendEraserTest() {
         drawablePixmap.blend(0, 0, 1, 1);
         verify(newPainting).setColor(Colour.ORANGE.getLibgdxColor());
         verify(newPainting).drawPixel(0, 0);

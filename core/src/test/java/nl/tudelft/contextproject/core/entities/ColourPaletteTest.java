@@ -40,11 +40,5 @@ public class ColourPaletteTest {
         assertEquals(palette.getCurrent(), 2);
     }
 
-    @Test
-    public void TestSetCurrentOverSize(){
-        palette.setCurrent(6);
-        assertEquals(palette.getCurrent(), 2);
-    }
-
 }
 
