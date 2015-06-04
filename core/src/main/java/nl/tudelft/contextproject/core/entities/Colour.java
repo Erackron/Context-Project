@@ -15,7 +15,7 @@ public enum Colour {
     PURPLE(128 / 255f, 0, 128 / 255f, -2147450625),
     ORANGE(255 / 255f, 165 / 255f, 0, -5963521),
     BLACK(0, 0, 0, 255),
-    ERASER(1, 1, 1, 42),
+    ERASER(0.5f, 0.5f, 0.5f, 2139062271),
     WHITE(1, 1, 1, 0);
 
     private final Color libgdxColor;
