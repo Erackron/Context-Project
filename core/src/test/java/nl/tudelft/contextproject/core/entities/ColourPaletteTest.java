@@ -28,10 +28,22 @@ public class ColourPaletteTest {
 
     @Test
     public void TestCyclicBehaviour(){
-        for(int i=0; i<3;i++) {
+        for(int i=0; i<4;i++) {
             palette.cycle();
         }
         assertEquals(palette.getCurrentColour(),Colour.RED);
+    }
+
+    @Test
+    public void TestSetCurrent(){
+        palette.setCurrent(2);
+        assertEquals(palette.getCurrent(), 2);
+    }
+
+    @Test
+    public void TestSetCurrentOverSize(){
+        palette.setCurrent(6);
+        assertEquals(palette.getCurrent(), 2);
     }
 
 }

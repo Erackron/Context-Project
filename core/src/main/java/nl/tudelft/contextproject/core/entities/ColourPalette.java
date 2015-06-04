@@ -29,6 +29,7 @@ public class ColourPalette {
 
     public void setCurrent(int colourindex){
         current = colourindex;
+        current %= colours.size();
     }
 
     /**
