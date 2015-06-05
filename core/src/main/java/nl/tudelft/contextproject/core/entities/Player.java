@@ -3,6 +3,9 @@ package nl.tudelft.contextproject.core.entities;
 import com.badlogic.gdx.math.Vector2;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Ike on 6-5-2015.
  * This class represents the player for the keyboard input layer.
@@ -11,34 +14,30 @@ import lombok.Data;
 public class Player {
 
     protected final Vector2 position;
-
     protected final Vector2 brushPosition;
 
     protected float radius;
-
     protected double angle;
 
     private final ColourPalette colourPalette;
-
+    protected List<ColourSelectBox> colourSelectBoxes = new ArrayList<>();
 
     /**
      * Create a new Player object.
-     * @param colourPalette the colours the player has available.
+     *  @param colourPalette the colours the player has available.
+     * @param x The x coordinate of the player
+     * @param y The y coordinate of the player
      */
     public Player(ColourPalette colourPalette, float x, float y) {
-        this.colourPalette = colourPalette;
-        position = new Vector2(x, y);
-        radius = 50f;
-        angle = 0.0;
-        brushPosition = new Vector2(x + radius, y);
+        this(colourPalette, new Vector2(x, y), new Vector2(x + 50f, y), 0f, 50f);
     }
 
-    protected Player(ColourPalette colourPalette,Vector2 position, Vector2 brushPosition,
-                     float angle) {
+    protected Player(ColourPalette colourPalette, Vector2 position, Vector2 brushPosition,
+                     float angle, float radius) {
         this.colourPalette = colourPalette;
         this.position = position;
         this.brushPosition = brushPosition;
-        radius = 50f;
+        this.radius = radius;
         this.angle = angle;
     }
 
@@ -66,6 +65,7 @@ public class Player {
 
     /**
      * change the radius of the brush.
+     *
      * @param r is the value with which the radius is changed
      */
     public void changeRadius(float r) {
@@ -80,49 +80,25 @@ public class Player {
 
     /**
      * Moves the player and his brush through 2d space by specified parameters.
+     *
      * @param dx translation in x direction
      * @param dy translation in y direction
      */
     public void move(float dx, float dy) {
-        position.add(dx,dy);
-        brushPosition.add(dx,dy);
+        position.add(dx, dy);
+        brushPosition.add(dx, dy);
         checkPosition();
-    }
-
-    public void setRed() {
-        colourPalette.setCurrent(0);
-    }
-
-    public void setBlue() {
-        colourPalette.setCurrent(1);
-    }
-
-    public void setYellow() {
-        colourPalette.setCurrent(2);
-    }
-
-    public void setWhite() {
-        colourPalette.setCurrent(3);
     }
 
     /**
      * Checks position of player, and changes player colour accordingly.
      */
     public void checkPosition() {
-        if (position.x > 12f && position.x < 54f) {
-            if (position.y > 99f && position.y < 151f) {
-                setRed();
+        for (ColourSelectBox box : colourSelectBoxes) {
+            if (box.inBox(position)) {
+                colourPalette.setColour(box.getColour());
+                break;
             }
-            if (position.y > 199f && position.y < 251f) {
-                setBlue();
-            }
-            if (position.y > 299f && position.y < 351f) {
-                setYellow();
-            }
-            if (position.y > 399f && position.y < 451f) {
-                setWhite();
-            }
-
         }
     }
 }

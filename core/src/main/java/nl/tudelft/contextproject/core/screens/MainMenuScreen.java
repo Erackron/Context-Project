@@ -72,22 +72,22 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-
+        // Unnecessary, but required listener method
     }
 
     @Override
     public void hide() {
-
+        // Unnecessary, but required listener method
     }
 
     @Override
     public void pause() {
-
+        // Unnecessary, but required listener method
     }
 
     @Override
     public void resume() {
-
+        // Unnecessary, but required listener method
     }
 
     @Override

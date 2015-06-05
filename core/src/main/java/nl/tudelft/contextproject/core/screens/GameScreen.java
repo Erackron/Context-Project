@@ -3,14 +3,22 @@ package nl.tudelft.contextproject.core.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
+import lombok.Getter;
 import nl.tudelft.contextproject.core.Main;
 import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Colour;
 import nl.tudelft.contextproject.core.entities.ColourPalette;
+import nl.tudelft.contextproject.core.entities.ColourSelectBox;
 import nl.tudelft.contextproject.core.entities.Player;
 import nl.tudelft.contextproject.core.input.KeyboardInputProcessor;
 import nl.tudelft.contextproject.core.input.MovementAPI;
@@ -35,7 +43,9 @@ public class GameScreen implements Screen {
     protected int numPlayers;
     protected int activePlayer;
     protected final Texture background;
+    @Getter
     protected List<Player> players;
+    protected List<ColourSelectBox> colourSelectBoxes;
 
     /**
      * Create a new game screen.
@@ -70,6 +80,7 @@ public class GameScreen implements Screen {
         inputProcessor = new KeyboardInputProcessor(players);
         Gdx.input.setInputProcessor(inputProcessor);
 
+        createColourSpots();
 
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -131,7 +142,7 @@ public class GameScreen implements Screen {
                 .getColourPalette().getCurrentColour().getLibgdxColor());
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
-            draw.drawTriangle(movement.getStartOfMovement(),movement.getCenterOfPlayer(),
+            draw.drawTriangle(movement.getStartOfMovement(), movement.getCenterOfPlayer(),
 
                     movement.getEndOfMovement());
             movement = movementAPI.nextMovement();
@@ -146,79 +157,72 @@ public class GameScreen implements Screen {
         batch.draw(background, 0, 0);
         batch.end();
 
-        createColourSpots();
+        drawColourSpots();
 
         // Draw player status
         for (int i = 0; i < numPlayers; i++) {
             drawPlayerStatus(players.get(i), i == activePlayer);
         }
-        
+
+    }
+
+    /**
+     * Draws areas to change colour on screen.
+     */
+    public void drawColourSpots() {
+        BoundingBox boundingBox;
+        Vector3 min;
+        Vector3 size;
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        for (ColourSelectBox box : colourSelectBoxes) {
+            boundingBox = box.getBoundingBox();
+            min = boundingBox.getMin();
+            size = boundingBox.getDimensions();
+            shapeRenderer.setColor(box.getColour().getLibgdxColor());
+            shapeRenderer.rect(min.x, min.y, size.x, size.y);
+        }
     }
 
     /**
      * Creates areas to change colour on screen.
      */
     public void createColourSpots() {
-        createRedSpot();
-        createBlueSpot();
-        createYellowSpot();
-        createWhiteSpot();
-    }
+        List<Colour> baseColours = Colour.getBaseColours();
+        colourSelectBoxes = new ArrayList<>(baseColours.size());
 
-    /**
-     * Creates the red area.
-     */
-    public void createRedSpot() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Colour.RED.getLibgdxColor());
-        shapeRenderer.rect(13, 100, 40, 40);
-        shapeRenderer.end();
-    }
+        for (int i = 0; i < baseColours.size(); i++) {
+            colourSelectBoxes.add(
+                    new ColourSelectBox(baseColours.get(i), 13, 100 + 100 * i, 53, 140 + 100 * i)
+            );
+        }
 
-    /**
-     * Creates Blue area.
-     */
-    public void createBlueSpot() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Colour.BLUE.getLibgdxColor());
-        shapeRenderer.rect(13, 200, 40, 40);
-        shapeRenderer.end();
-    }
-
-    /**
-     * Creates Yellow area.
-     */
-    public void createYellowSpot() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Colour.YELLOW.getLibgdxColor());
-        shapeRenderer.rect(13, 300, 40, 40);
-        shapeRenderer.end();
-    }
-
-    /**
-     * Creates White area for eraser.
-     */
-    public void createWhiteSpot() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Colour.WHITE.getLibgdxColor());
-        shapeRenderer.rect(13, 400, 40, 40);
-        shapeRenderer.end();
+        getPlayers().forEach(player -> player.setColourSelectBoxes(colourSelectBoxes));
     }
 
     @Override
-    public void resize(int width, int height) {}
+    public void resize(int width, int height) {
+        // Unnecessary, but required listener method
+    }
 
     @Override
-    public void show() {}
+    public void show() {
+        // Unnecessary, but required listener method
+    }
 
     @Override
-    public void hide() {}
+    public void hide() {
+        // Unnecessary, but required listener method
+    }
 
     @Override
-    public void pause() {}
+    public void pause() {
+        // Unnecessary, but required listener method
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+        // Unnecessary, but required listener method
+    }
 
     @Override
     public void dispose() {
