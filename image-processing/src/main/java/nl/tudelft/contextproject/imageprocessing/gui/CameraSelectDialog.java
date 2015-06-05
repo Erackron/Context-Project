@@ -1,12 +1,14 @@
 package nl.tudelft.contextproject.imageprocessing.gui;
 
 import com.sun.istack.internal.NotNull;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import org.opencv.highgui.VideoCapture;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
+import javax.sql.rowset.serial.SerialRef;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -66,13 +68,17 @@ public class CameraSelectDialog extends JDialog {
      *
      * @param cameraSelect The camera select callback interface
      */
-    public void selectCamera(@NotNull CameraSelect cameraSelect) {
+    public void selectCamera(CameraSelect cameraSelect) {
         int amount = getAmountOfCameras();
         if (amount == 0) {
             return;
         }
         if (amount == 1) {
             cameraSelect.setSelectedCamera(0);
+            return;
+        }
+        if (cameraSelect == null) {
+            System.err.println("No callback specified");
             return;
         }
 
