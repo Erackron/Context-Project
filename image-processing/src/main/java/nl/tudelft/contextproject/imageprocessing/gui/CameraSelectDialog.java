@@ -1,14 +1,11 @@
 package nl.tudelft.contextproject.imageprocessing.gui;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import org.opencv.highgui.VideoCapture;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-import javax.sql.rowset.serial.SerialRef;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
