@@ -10,34 +10,35 @@ import static org.junit.Assert.assertEquals;
  */
 public class ColourPaletteTest {
     private ColourPalette palette;
+
     @Before
-    public void Setup(){
-        palette=ColourPalette.standardPalette();
+    public void Setup() {
+        palette = ColourPalette.standardPalette();
     }
 
     @Test
-    public void TestStartColour(){
-        assertEquals(palette.getCurrentColour(), Colour.RED);
+    public void TestStartColour() {
+        assertEquals(palette.getColours().get(0), palette.getCurrentColour());
     }
 
     @Test
-    public void TestCycle(){
+    public void TestCycle() {
         palette.cycle();
-        assertEquals(palette.getCurrentColour(),Colour.BLUE);
+        assertEquals(palette.getColours().get(1), palette.getCurrentColour());
     }
 
     @Test
-    public void TestCyclicBehaviour(){
-        for(int i=0; i<4;i++) {
+    public void TestCyclicBehaviour() {
+        for (int i = 0; i < palette.getColours().size(); i++) {
             palette.cycle();
         }
-        assertEquals(palette.getCurrentColour(),Colour.RED);
+        assertEquals(palette.getColours().get(0), palette.getCurrentColour());
     }
 
     @Test
-    public void TestSetCurrent(){
+    public void TestSetCurrent() {
         palette.setCurrent(2);
-        assertEquals(palette.getCurrent(), 2);
+        assertEquals(2, palette.getCurrent());
     }
 
 }
