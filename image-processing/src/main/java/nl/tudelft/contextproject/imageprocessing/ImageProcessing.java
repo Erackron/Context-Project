@@ -4,10 +4,8 @@ package nl.tudelft.contextproject.imageprocessing;
 import nl.tudelft.contextproject.imageprocessing.framehandlers.FrameHandler;
 import nl.tudelft.contextproject.imageprocessing.gui.CameraSelectDialog;
 import org.opencv.core.Core;
-import org.opencv.core.MatOfKeyPoint;
 import org.opencv.features2d.FeatureDetector;
 import org.opencv.highgui.VideoCapture;
-import org.opencv.video.BackgroundSubtractorMOG2;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,16 +40,6 @@ public class ImageProcessing {
             System.err.println("Unable to open the camera. Exiting");
             System.exit(-1);
         }
-
-        BackgroundSubtractorMOG2 bgSubtractor = new BackgroundSubtractorMOG2(500, 16, false);
-        bgSubtractor.setInt("nmixtures", 3);
-
-        // Create motion templating handler
-        MatOfKeyPoint keyPoints = new MatOfKeyPoint();
-
-        // Create blobframe handler
-        FeatureDetector simpleBlobDetector = FeatureDetector.create(FeatureDetector.SIMPLEBLOB);
-        loadBlobParams(simpleBlobDetector, "blobParams");
 
         frameHandler = new FrameHandler(videoCapture);
     }
