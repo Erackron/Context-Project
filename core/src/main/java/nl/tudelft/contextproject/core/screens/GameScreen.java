@@ -176,7 +176,9 @@ public class GameScreen implements Screen {
             boundingBox = box.getBoundingBox();
             min = boundingBox.getMin();
             size = boundingBox.getDimensions();
-            shapeRenderer.setColor(box.getColour().getLibgdxColor());
+            Colour colour = box.getColour();
+            boolean eraser = (colour.getPixelValue() == 2139062271);
+            shapeRenderer.setColor(eraser ? Colour.WHITE.getLibgdxColor() : colour.getLibgdxColor());
             shapeRenderer.rect(min.x, min.y, size.x, size.y);
         }
         shapeRenderer.end();
