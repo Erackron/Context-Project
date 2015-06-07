@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.imageprocessing;
 
 
 import nl.tudelft.contextproject.imageprocessing.framehandlers.BlobDetectionFrameHandler;
+import nl.tudelft.contextproject.imageprocessing.gui.CameraSelectDialog;
 import org.opencv.core.Core;
 import org.opencv.core.MatOfKeyPoint;
 import org.opencv.features2d.FeatureDetector;
@@ -16,6 +17,8 @@ import java.nio.file.StandardCopyOption;
 
 public class ImageProcessing {
     protected BlobDetectionFrameHandler blobDetectionFrameHandler;
+    protected CameraSelectDialog cameraSelectWindow;
+    protected int selectedCamera = -1;
 
     static {
         nu.pattern.OpenCV.loadShared();
@@ -26,11 +29,19 @@ public class ImageProcessing {
      * Create a new ImageProcessing instance.
      */
     public ImageProcessing() {
+        cameraSelectWindow = new CameraSelectDialog();
+        cameraSelectWindow.selectCamera(cameraId -> selectedCamera = cameraId);
 
-        VideoCapture videoCapture = new VideoCapture(0);
+        if (selectedCamera == -1) {
+            System.err.println("No camera selected. Exiting");
+            System.exit(-1);
+        }
+
+        VideoCapture videoCapture = new VideoCapture(selectedCamera);
+        videoCapture.open(selectedCamera);
 
         if (!videoCapture.isOpened()) {
-            System.err.println("Unable to open the camera");
+            System.err.println("Unable to open the camera. Exiting");
             System.exit(-1);
         }
 
