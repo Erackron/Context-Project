@@ -1,7 +1,7 @@
 package nl.tudelft.contextproject.imageprocessing;
 
 
-import nl.tudelft.contextproject.imageprocessing.framehandlers.BlobDetectionFrameHandler;
+import nl.tudelft.contextproject.imageprocessing.framehandlers.FrameHandler;
 import nl.tudelft.contextproject.imageprocessing.gui.CameraSelectDialog;
 import org.opencv.core.Core;
 import org.opencv.core.MatOfKeyPoint;
@@ -16,7 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 public class ImageProcessing {
-    protected BlobDetectionFrameHandler blobDetectionFrameHandler;
+    protected FrameHandler frameHandler;
     protected CameraSelectDialog cameraSelectWindow;
     protected VideoCapture videoCapture = null;
 
@@ -53,7 +53,7 @@ public class ImageProcessing {
         FeatureDetector simpleBlobDetector = FeatureDetector.create(FeatureDetector.SIMPLEBLOB);
         loadBlobParams(simpleBlobDetector, "blobParams");
 
-        blobDetectionFrameHandler = new BlobDetectionFrameHandler(videoCapture);
+        frameHandler = new FrameHandler(videoCapture);
     }
 
     private void loadBlobParams(FeatureDetector simpleBlobDetector, String blobParams) {
@@ -73,13 +73,13 @@ public class ImageProcessing {
      * This should be called every image processing cycle until the end of the program
      */
     public void loop() throws Exception {
-        blobDetectionFrameHandler.loop();
+        frameHandler.loop();
     }
 
     /**
      * Called when the ImageProcessing thread is stopping to enbale cleaning up created thins.
      */
     public void cleanUp() {
-        blobDetectionFrameHandler.cleanUp();
+        frameHandler.cleanUp();
     }
 }

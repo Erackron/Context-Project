@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlobDetectionFrameHandler {
+public class FrameHandler {
     protected final VideoCapture capture;
     protected final NamedWindow frameWindow;
     protected final NamedWindow foregroundWindow;
@@ -33,11 +33,11 @@ public class BlobDetectionFrameHandler {
     protected long end;
 
     /**
-     * Create a new BlobDetectionFrameHandler.
+     * Create a new FrameHandler.
      *
      * @param capture            The video capture to get the frames from
      */
-    public BlobDetectionFrameHandler(VideoCapture capture) {
+    public FrameHandler(VideoCapture capture) {
         KeyReleasedListener listener = new KeyReleasedListener() {
             @Override
             public void keyReleased(KeyEvent keyEvent) {
@@ -170,7 +170,7 @@ public class BlobDetectionFrameHandler {
     }
 
     /**
-     * Last method of the BlobDetectionFrameHandler to be called before program shutdown.
+     * Last method of the FrameHandler to be called before program shutdown.
      */
     public void cleanUp() {
         frameWindow.destroyWindow();
