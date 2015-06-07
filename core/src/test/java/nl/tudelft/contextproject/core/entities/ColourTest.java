@@ -109,6 +109,14 @@ public class ColourTest {
         }
 
         @Test
+        public void paintOnEraserTest() {
+            Colour white = Colour.WHITE;
+            Colour red = Colour.RED;
+            Colour actual = Colour.combine(Arrays.asList(red, white));
+            assertEquals(red, actual);
+        }
+
+        @Test
         public void getLibgdxColorTest() {
             Colour colourblue = Colour.BLUE;
             Color colorblue = Color.BLUE;
