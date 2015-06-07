@@ -53,8 +53,7 @@ public class ImageProcessing {
         FeatureDetector simpleBlobDetector = FeatureDetector.create(FeatureDetector.SIMPLEBLOB);
         loadBlobParams(simpleBlobDetector, "blobParams");
 
-        blobDetectionFrameHandler = new BlobDetectionFrameHandler(
-                videoCapture, bgSubtractor, simpleBlobDetector, keyPoints);
+        blobDetectionFrameHandler = new BlobDetectionFrameHandler(videoCapture);
     }
 
     private void loadBlobParams(FeatureDetector simpleBlobDetector, String blobParams) {

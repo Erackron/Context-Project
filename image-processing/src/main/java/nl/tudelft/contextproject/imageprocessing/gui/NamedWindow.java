@@ -4,6 +4,7 @@ import org.opencv.core.Mat;
 
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -94,6 +95,10 @@ public class NamedWindow extends Thread {
             }
         }
         frame.setVisible(false);
+    }
+
+    public void setKeyListener(KeyListener keyListener) {
+        frame.addKeyListener(keyListener);
     }
 
     /**
