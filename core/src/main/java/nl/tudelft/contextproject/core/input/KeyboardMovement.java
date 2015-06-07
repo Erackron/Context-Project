@@ -9,20 +9,17 @@ import com.badlogic.gdx.math.Vector2;
 public class KeyboardMovement implements PlayerMovement {
 
     private Vector2 center;
-    private Vector2 start;
-    private Vector2 end;
+    private float radius;
 
     /**
      * Create a new KeyboardMovement instance.
      *
      * @param center The center of the player
-     * @param start  The start of the movement
-     * @param end    The end of the movement
+     * @param radius  The radius of the circle
      */
-    public KeyboardMovement(Vector2 center, Vector2 start, Vector2 end) {
+    public KeyboardMovement(Vector2 center, float radius) {
         this.center = center;
-        this.start = start;
-        this.end = end;
+        this.radius = radius;
     }
 
     @Override
@@ -31,12 +28,7 @@ public class KeyboardMovement implements PlayerMovement {
     }
 
     @Override
-    public Vector2 getStartOfMovement() {
-        return start;
+    public float getRadiusOfCircle() { return radius;
     }
 
-    @Override
-    public Vector2 getEndOfMovement() {
-        return end;
-    }
 }

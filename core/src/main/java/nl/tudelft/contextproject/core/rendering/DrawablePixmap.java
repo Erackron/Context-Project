@@ -96,6 +96,18 @@ public class DrawablePixmap implements Disposable {
         updateNeeded = true;
     }
 
+    public void drawCircle(Vector2 centre, float radius) {
+        drawCircle((int) centre.x ,
+                (int) (Constants.CAM_HEIGHT - Math.min(centre.y, Constants.CAM_HEIGHT)),
+                (int) radius);
+    }
+
+    private void drawCircle(int x, int y, int radius) {
+        newPainting.fillCircle(x, y, radius);
+        updateNeeded = true;
+    }
+
+
     /**
      * Redraw the painting onto the canvas if needed.
      */

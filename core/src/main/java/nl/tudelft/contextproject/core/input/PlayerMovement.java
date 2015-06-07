@@ -18,11 +18,5 @@ public interface PlayerMovement {
      * Get the coordinates where the movement started.
      * @return The start coordinates
      */
-    Vector2 getStartOfMovement();
-
-    /**
-     * Get the coordinates where the movement ended.
-     * @return The end coordinates
-     */
-    Vector2 getEndOfMovement();
+    float getRadiusOfCircle();
 }

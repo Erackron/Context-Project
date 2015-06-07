@@ -174,7 +174,7 @@ public class KeyboardInputProcessor extends InputAdapter {
         if (i == Input.Keys.SPACE) {
             center = players.get(activePlayerId).getPosition().cpy();
             end = players.get(activePlayerId).getBrushPosition().cpy();
-            MovementAPI.getMovementAPI().addMovement(new KeyboardMovement(center, start, end));
+            MovementAPI.getMovementAPI().addMovement(new KeyboardMovement(center, 12f));
             keys.put(i, false);
 
         } else if (keys.containsKey(i) && i != Input.Keys.C) {

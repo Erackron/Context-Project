@@ -142,9 +142,7 @@ public class GameScreen implements Screen {
                 .getColourPalette().getCurrentColour().getLibgdxColor());
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
-            draw.drawTriangle(movement.getStartOfMovement(), movement.getCenterOfPlayer(),
-
-                    movement.getEndOfMovement());
+            draw.drawCircle(movement.getCenterOfPlayer(), movement.getRadiusOfCircle());
             movement = movementAPI.nextMovement();
         }
 
@@ -181,6 +179,7 @@ public class GameScreen implements Screen {
             shapeRenderer.setColor(box.getColour().getLibgdxColor());
             shapeRenderer.rect(min.x, min.y, size.x, size.y);
         }
+        shapeRenderer.end();
     }
 
     /**
