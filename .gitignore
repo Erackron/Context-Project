@@ -170,5 +170,6 @@ dependency-reduced-pom.xml
 buildNumber.properties
 
 *.png
+*.mp4
 /blobParams
 /nu/
