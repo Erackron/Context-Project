@@ -20,6 +20,7 @@ public class KeyboardInputProcessor extends InputAdapter {
     protected HashMap<Integer, Boolean> keys;
     protected boolean toggled;
     protected boolean[] playerToggles = new boolean[9];
+    protected boolean paintToggled;
     protected List<Player> players;
     protected int numPlayers;
     protected int activePlayerId;
@@ -113,6 +114,12 @@ public class KeyboardInputProcessor extends InputAdapter {
             toggled = false;
         }
 
+        if (paintToggled) {
+            center = players.get(activePlayerId).getPosition().cpy();
+            MovementAPI.getMovementAPI().addMovement(new KeyboardMovement(center, 12f));
+            paintToggled = false;
+        }
+
         if (isPressed(Input.Keys.DOWN)) {
             activePlayer.changeRadius(-deltaRadius * dt);
             activePlayer.turnBrush(0, dt);
@@ -144,8 +151,8 @@ public class KeyboardInputProcessor extends InputAdapter {
     public boolean keyDown(int i) {
         switch (i) {
             case Input.Keys.SPACE:
-                start = (players.get(activePlayerId).getBrushPosition().cpy());
-                keys.put(i, true);
+                keys.put(i, !keys.get(i));
+                paintToggled = true;
                 break;
             case Input.Keys.C:
                 keys.put(i, !keys.get(i));
@@ -171,16 +178,9 @@ public class KeyboardInputProcessor extends InputAdapter {
      */
     @Override
     public boolean keyUp(int i) {
-        if (i == Input.Keys.SPACE) {
-            center = players.get(activePlayerId).getPosition().cpy();
-            end = players.get(activePlayerId).getBrushPosition().cpy();
-            MovementAPI.getMovementAPI().addMovement(new KeyboardMovement(center, 12f));
-            keys.put(i, false);
-
-        } else if (keys.containsKey(i) && i != Input.Keys.C) {
+        if (keys.containsKey(i) && i != Input.Keys.C && i != Input.Keys.SPACE) {
             keys.put(i, false);
         }
-
         return true;
     }
 
