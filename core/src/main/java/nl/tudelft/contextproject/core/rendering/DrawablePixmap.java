@@ -121,14 +121,20 @@ public class DrawablePixmap implements Disposable {
                 int newPixel = newPainting.getPixel(i, j);
                 int oldPixel = painting.getPixel(i, j);
 
-                if (newPixel != oldPixel && oldPixel != 0 && newPixel != 0) {
+                if (newPixel != 0) {
                     Colour first = Colour.getColour(newPixel);
-                    Colour second = Colour.getColour(oldPixel);
-                    Colour blend = Colour.combine(Arrays.asList(first, second));
-
-                    newPainting.setColor(blend.getLibgdxColor());
-                    newPainting.drawPixel(i, j);
+                    if (first.getPixelValue() == 2139062271) {
+                        newPainting.setColor(Colour.WHITE.getLibgdxColor());
+                        newPainting.drawPixel(i, j);
+                    } else if (newPixel != oldPixel && oldPixel != 0) {
+                        Colour second = Colour.getColour(oldPixel);
+                        Colour blend = Colour.combine(Arrays.asList(first, second));
+                        newPainting.setColor(blend.getLibgdxColor());
+                        newPainting.drawPixel(i, j);
+                    }
                 }
+
+
             }
         }
     }

@@ -1,9 +1,8 @@
 package nl.tudelft.contextproject.core.entities;
 
-import static org.junit.Assert.assertEquals;
-
 import com.badlogic.gdx.math.Vector2;
 import lombok.Data;
+import nl.tudelft.contextproject.core.screens.GameScreen;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +10,12 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.Collections;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.doReturn;
 
 
 /**
@@ -24,25 +29,30 @@ public class PlayerTest {
     private Vector2 brushPosition;
     @Mock
     ColourPalette colourPalette;
+    @Mock
+    GameScreen gameScreen;
 
     private Player player;
 
     @Before
     public void setUp() {
-        player = new Player(colourPalette,position,brushPosition,0);
+        player = new Player(colourPalette, position, brushPosition, 0, 50f);
+        doReturn(Collections.singletonList(player)).when(gameScreen).getPlayers();
+        doCallRealMethod().when(gameScreen).createColourSpots();
+        gameScreen.createColourSpots();
     }
 
     @Test
     public void constructorOverLoadTest() {
-        player = new Player(colourPalette,30,30);
-        assertEquals(new Vector2(30f,30f),player.getPosition());
-        assertEquals(new Vector2(80f,30f),player.getBrushPosition());
+        player = new Player(colourPalette, 30, 30);
+        assertEquals(new Vector2(30f, 30f), player.getPosition());
+        assertEquals(new Vector2(80f, 30f), player.getBrushPosition());
     }
 
     @Test
     public void testPositiveMove() {
-        player.move(50,50);
-        Mockito.verify(position).add(50,50);
+        player.move(50, 50);
+        Mockito.verify(position).add(50, 50);
         Mockito.verify(brushPosition).add(50, 50);
     }
 
@@ -89,7 +99,7 @@ public class PlayerTest {
 
     @Test
     public void testTurnBrush() {
-        FloatMatcher matcher = new FloatMatcher(-51f,-49f);
+        FloatMatcher matcher = new FloatMatcher(-51f, -49f);
         player.turnBrush(Math.PI, 1);
         Mockito.verify(brushPosition).set(Mockito.floatThat(matcher), Mockito.anyFloat());
 
@@ -97,9 +107,43 @@ public class PlayerTest {
 
     @Test
     public void testTurnBrush2() {
-        FloatMatcher matcher = new FloatMatcher(49f,51f);
+        FloatMatcher matcher = new FloatMatcher(49f, 51f);
         player.turnBrush(Math.PI / 2, 1);
         Mockito.verify(brushPosition).set(Mockito.anyFloat(), Mockito.floatThat(matcher));
 
     }
+
+    @Test
+    public void testCheckPositionRed() {
+        player.position.x = 33f;
+        player.position.y = 134f;
+        player.checkPosition();
+        Mockito.verify(colourPalette).setColour(Colour.RED);
+    }
+
+    @Test
+    public void testCheckPositionBlue() {
+        player.position.x = 14f;
+        player.position.y = 225f;
+        player.checkPosition();
+        Mockito.verify(colourPalette).setColour(Colour.BLUE);
+    }
+
+    @Test
+    public void testCheckPositionYellow() {
+        player.position.x = 26f;
+        player.position.y = 332f;
+        player.checkPosition();
+        Mockito.verify(colourPalette).setColour(Colour.YELLOW);
+    }
+
+    @Test
+    public void testCheckPositionEraser() {
+        player.position.x = 42f;
+        player.position.y = 412f;
+        player.checkPosition();
+        Mockito.verify(colourPalette).setColour(Colour.ERASER);
+    }
+
+
 }

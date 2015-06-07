@@ -105,7 +105,7 @@ public class ColourTest {
         @Test
         public void getNoValidColourTest() {
             Colour black = Colour.BLACK;
-            assertEquals(Colour.getColour(0), black);
+            assertEquals(Colour.getColour(5), black);
         }
 
         @Test

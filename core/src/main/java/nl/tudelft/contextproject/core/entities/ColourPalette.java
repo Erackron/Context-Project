@@ -4,7 +4,7 @@ package nl.tudelft.contextproject.core.entities;
 import lombok.Data;
 import lombok.NonNull;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,6 +19,7 @@ public class ColourPalette {
 
     /**
      * Cycle through the colours of this ColourPalette.
+     *
      * @return The next colour in the cycle
      */
     public Colour cycle() {
@@ -28,7 +29,30 @@ public class ColourPalette {
     }
 
     /**
+     * Set the colour index of the active colour.
+     *
+     * @param colourindex The colour index to set it to
+     */
+    public void setCurrent(int colourindex) {
+        current = colourindex;
+    }
+
+    /**
+     * Set the active colour to a specified colour.
+     * Does nothing if the colour is not in this ColourPalette.
+     *
+     * @param colour The colour to set the active colour to
+     */
+    public void setColour(Colour colour) {
+        int index = colours.indexOf(colour);
+        if (index != -1) {
+            current = index;
+        }
+    }
+
+    /**
      * Get the current colour of this ColourPalette.
+     *
      * @return The current colour
      */
     public Colour getCurrentColour() {
@@ -37,13 +61,12 @@ public class ColourPalette {
 
     /**
      * Create a new Standard ColourPalette.
+     *
      * @return The newly created ColourPalette
      */
     public static ColourPalette standardPalette() {
-        List<Colour> colours = new ArrayList<>();
-        colours.add(Colour.RED);
-        colours.add(Colour.BLUE);
-        colours.add(Colour.YELLOW);
-        return new ColourPalette(colours);
+        return new ColourPalette(
+                Arrays.asList(Colour.RED, Colour.BLUE, Colour.YELLOW, Colour.ERASER)
+        );
     }
 }
