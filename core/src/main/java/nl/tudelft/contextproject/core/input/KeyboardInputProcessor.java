@@ -103,10 +103,9 @@ public class KeyboardInputProcessor extends InputAdapter {
         activePlayer.move(deltaMovement[0],deltaMovement[1]);
 
         if (isPressed(Input.Keys.LEFT)) {
-            activePlayer.turnBrush(ANGLE, dt);
         }
         if (isPressed(Input.Keys.RIGHT)) {
-            activePlayer.turnBrush(-ANGLE, dt);
+
         }
 
         if (isToggled()) {
@@ -121,13 +120,11 @@ public class KeyboardInputProcessor extends InputAdapter {
         }
 
         if (isPressed(Input.Keys.DOWN)) {
-            activePlayer.changeRadius(-deltaRadius * dt);
-            activePlayer.turnBrush(0, dt);
+
         }
 
         if (isPressed(Input.Keys.UP)) {
-            activePlayer.changeRadius(deltaRadius * dt);
-            activePlayer.turnBrush(0, dt);
+
         }
 
         for (int i = 0; i < playerToggles.length; i++) {

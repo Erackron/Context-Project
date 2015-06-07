@@ -111,12 +111,10 @@ public class GameScreen implements Screen {
         if (playerColour.getPixelValue() == 2139062271) {
             playerColour = Colour.WHITE;
         }
-        Vector2 brushPos = player.getBrushPosition();
+
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(isActive ? playerColour.getLibgdxColor() : Color.BLACK);
         shapeRenderer.circle(playerPos.x, playerPos.y, 10);
-        shapeRenderer.setColor(Colour.BLACK.getLibgdxColor());
-        shapeRenderer.circle(brushPos.x, brushPos.y, 2);
         shapeRenderer.end();
     }
 
@@ -178,7 +176,8 @@ public class GameScreen implements Screen {
             size = boundingBox.getDimensions();
             Colour colour = box.getColour();
             boolean eraser = (colour.getPixelValue() == 2139062271);
-            shapeRenderer.setColor(eraser ? Colour.WHITE.getLibgdxColor() : colour.getLibgdxColor());
+            shapeRenderer.setColor(eraser ? Colour.WHITE.getLibgdxColor()
+                    : colour.getLibgdxColor());
             shapeRenderer.rect(min.x, min.y, size.x, size.y);
         }
         shapeRenderer.end();
