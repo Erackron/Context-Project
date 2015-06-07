@@ -18,7 +18,8 @@ public enum Colour {
     ORANGE(255 / 255f, 165 / 255f, 0, -5963521),
     BLACK(0, 0, 0, 255),
     ERASER(0.5f, 0.5f, 0.5f, 2139062271),
-    WHITE(1, 1, 1, 0);
+    WHITE(1, 1, 1, 0),
+    EXCEPTION(1, 0.68f, 0.68f, -5394945);
 
     private final Color libgdxColor;
 
@@ -86,20 +87,20 @@ public enum Colour {
             } else if (areComplementary(colours)) {
                 return BLACK;
             } else {
-
-                Iterator<Colour> it = colours.iterator();
-                Colour first = it.next();
-                Colour second = it.next();
-
-                if (first == RED || first == BLUE || first == YELLOW) {
-                    return first;
-                } else {
-                    return second;
-                }
+//
+//                Iterator<Colour> it = colours.iterator();
+//                Colour first = it.next();
+//                Colour second = it.next();
+//
+//                if (first == RED || first == BLUE || first == YELLOW) {
+//                    return first;
+//                } else {
+//                    return second;
+//                }
             }
         }
 
-        return BLACK;
+        return EXCEPTION;
     }
 
     /**

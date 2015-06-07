@@ -141,12 +141,13 @@ public class DrawablePixmap implements Disposable {
                     } else if (newPixel != oldPixel && oldPixel != 0) {
                         Colour second = Colour.getColour(oldPixel);
                         Colour blend = Colour.combine(Arrays.asList(first, second));
+                        if (blend.getPixelValue() == -5394945) {
+                            blend = second;
+                        }
                         newPainting.setColor(blend.getLibgdxColor());
                         newPainting.drawPixel(i, j);
                     }
                 }
-
-
             }
         }
     }
