@@ -8,14 +8,14 @@ import org.junit.Test;
 
 
 public class KeyboardMovementTest {
-    Vector2 centre = new Vector2(100,100);
+    Vector2 center = new Vector2(100,100);
     float radius = 12f;
-    KeyboardMovement movement = new KeyboardMovement(centre, radius);
+    KeyboardMovement movement = new KeyboardMovement(center, radius);
 
     @Test
-    public void returnCentreTest() {
-        Vector2 playercentre = movement.getCenterOfPlayer();
-        assertEquals(centre, playercentre);
+    public void returnCenterTest() {
+        Vector2 playercenter = movement.getCenterOfPlayer();
+        assertEquals(center, playercenter);
     }
 
     @Test

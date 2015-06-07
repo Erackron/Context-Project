@@ -86,20 +86,8 @@ public enum Colour {
                 return GREEN;
             } else if (areComplementary(colours)) {
                 return BLACK;
-            } else {
-//
-//                Iterator<Colour> it = colours.iterator();
-//                Colour first = it.next();
-//                Colour second = it.next();
-//
-//                if (first == RED || first == BLUE || first == YELLOW) {
-//                    return first;
-//                } else {
-//                    return second;
-//                }
             }
         }
-
         return EXCEPTION;
     }
 

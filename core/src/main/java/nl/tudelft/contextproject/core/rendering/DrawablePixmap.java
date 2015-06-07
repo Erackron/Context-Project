@@ -83,7 +83,7 @@ public class DrawablePixmap implements Disposable {
     }
 
     /**
-     * Fills a triangl using the given points
+     * Fills a triangle using the given points
      * @param x The x-coordinate for the first point.
      * @param y The y-coordinate for the first point.
      * @param x1 The x-coordinate for the second point.
@@ -96,12 +96,23 @@ public class DrawablePixmap implements Disposable {
         updateNeeded = true;
     }
 
-    public void drawCircle(Vector2 centre, float radius) {
-        drawCircle((int) centre.x ,
-                (int) (Constants.CAM_HEIGHT - Math.min(centre.y, Constants.CAM_HEIGHT)),
+    /**
+     * Draws a circle on this pixmap
+     * @param center The center of the circle.
+     * @param radius The radius of the circle.
+     */
+    public void drawCircle(Vector2 center, float radius) {
+        drawCircle((int) center.x ,
+                (int) (Constants.CAM_HEIGHT - Math.min(center.y, Constants.CAM_HEIGHT)),
                 (int) radius);
     }
 
+    /**
+     * Fills a circle using the given point and radius.
+     * @param x The x-coordinate for the center.
+     * @param y The y-coordinate for the center.
+     * @param radius The radius of the circle.
+     */
     private void drawCircle(int x, int y, int radius) {
         newPainting.fillCircle(x, y, radius);
         updateNeeded = true;
