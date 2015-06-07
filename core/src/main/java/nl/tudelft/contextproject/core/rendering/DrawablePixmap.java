@@ -11,6 +11,7 @@ import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Colour;
 
 import java.util.Arrays;
+import java.util.Vector;
 
 /**
  * This class is a wrapper for Pixmap and Texture to enable storing the drawing of the players.
@@ -118,6 +119,22 @@ public class DrawablePixmap implements Disposable {
         updateNeeded = true;
     }
 
+    /**
+     * Creates a circle based on the boundingbox.
+     * @param bottomLeft    The bottomleft corner of the boundingbox.
+     * @param topRight      The topright corner of the boundingbox.
+     */
+    public void drawBox(Vector2 bottomLeft, Vector2 topRight) {
+        float centerX = (bottomLeft.x + topRight.x) / 2;
+        float centerY = (bottomLeft.y + topRight.y) / 2;
+        Vector2 circleCenter = new Vector2(centerX, centerY);
+
+        double diffX = centerX - bottomLeft.x;
+//        double diffY = centerY - bottomLeft.y;
+//        float radius = (float) Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
+
+        drawCircle(circleCenter, (float) diffX);
+    }
 
     /**
      * Redraw the painting onto the canvas if needed.

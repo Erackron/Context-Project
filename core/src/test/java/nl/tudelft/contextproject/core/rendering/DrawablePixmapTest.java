@@ -145,6 +145,15 @@ public class DrawablePixmapTest {
     }
 
     @Test
+    public void drawBoxTest() {
+        Vector2 bottom = new Vector2(100, 300);
+        Vector2 top = new Vector2(150, 350);
+
+        drawablePixmap.drawBox(bottom, top);
+        verify(newPainting).fillCircle(125, 425, 25);
+    }
+
+    @Test
     public void getPaintingTest() {
         assertEquals(drawablePixmap.getPainting(), painting);
     }
