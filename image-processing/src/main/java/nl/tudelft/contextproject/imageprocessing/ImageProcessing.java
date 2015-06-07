@@ -4,14 +4,7 @@ package nl.tudelft.contextproject.imageprocessing;
 import nl.tudelft.contextproject.imageprocessing.framehandlers.FrameHandler;
 import nl.tudelft.contextproject.imageprocessing.gui.CameraSelectDialog;
 import org.opencv.core.Core;
-import org.opencv.features2d.FeatureDetector;
 import org.opencv.highgui.VideoCapture;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 public class ImageProcessing {
     protected FrameHandler frameHandler;
@@ -43,18 +36,6 @@ public class ImageProcessing {
 
         frameHandler = new FrameHandler(videoCapture);
     }
-
-    private void loadBlobParams(FeatureDetector simpleBlobDetector, String blobParams) {
-        InputStream inputStream = ImageProcessing.class.getResourceAsStream("/" + blobParams);
-        try {
-            Files.copy(inputStream, new File(blobParams).toPath(),
-                    StandardCopyOption.REPLACE_EXISTING);
-            simpleBlobDetector.read(blobParams);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     /**
      * The main image processing loop.
