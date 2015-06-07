@@ -18,7 +18,7 @@ import java.nio.file.StandardCopyOption;
 public class ImageProcessing {
     protected BlobDetectionFrameHandler blobDetectionFrameHandler;
     protected CameraSelectDialog cameraSelectWindow;
-    protected int selectedCamera = -1;
+    protected VideoCapture videoCapture = null;
 
     static {
         nu.pattern.OpenCV.loadShared();
@@ -30,15 +30,13 @@ public class ImageProcessing {
      */
     public ImageProcessing() {
         cameraSelectWindow = new CameraSelectDialog();
-        cameraSelectWindow.selectCamera(cameraId -> selectedCamera = cameraId);
+        cameraSelectWindow.selectCamera(camera -> videoCapture = camera);
 
-        if (selectedCamera == -1) {
+        if (videoCapture == null) {
             System.err.println("No camera selected. Exiting");
             System.exit(-1);
         }
 
-        VideoCapture videoCapture = new VideoCapture(selectedCamera);
-        videoCapture.open(selectedCamera);
 
         if (!videoCapture.isOpened()) {
             System.err.println("Unable to open the camera. Exiting");
