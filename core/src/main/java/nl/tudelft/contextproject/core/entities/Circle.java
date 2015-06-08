@@ -1,9 +1,11 @@
 package nl.tudelft.contextproject.core.entities;
 
+import com.badlogic.gdx.math.Vector2;
 import lombok.Data;
+import nl.tudelft.contextproject.core.input.PlayerPosition;
 
 @Data
-public class Circle {
+public class Circle implements PlayerPosition {
     protected double x;
     protected double y;
     protected float radius;
@@ -19,5 +21,15 @@ public class Circle {
         this.x = centerX;
         this.y = centerY;
         this.radius = radius;
+    }
+
+    @Override
+    public Vector2 getCenterOfPlayer() {
+        return new Vector2((float) x, (float) y);
+    }
+
+    @Override
+    public float getRadiusOfCircle() {
+        return radius;
     }
 }

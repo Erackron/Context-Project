@@ -6,16 +6,16 @@ import nl.tudelft.contextproject.core.config.Constants;
 /**
  * The API class which enables the input layer to communicate brush strokes with the core.
  */
-public final class MovementAPI {
+public final class PlayerAPI {
     // The singleton instance of this API
-    static final MovementAPI movementAPI = new MovementAPI();
-    protected AtomicQueue<PlayerMovement> movementQueue;
+    static final PlayerAPI PLAYER_API = new PlayerAPI();
+    protected AtomicQueue<PlayerPosition> playerQueue;
 
     /**
      * The protected constructor of this API.
      */
-    private MovementAPI() {
-        movementQueue = new AtomicQueue<>(Constants.MOVEMENT_QUEUE_CAPACITY);
+    private PlayerAPI() {
+        playerQueue = new AtomicQueue<>(Constants.MOVEMENT_QUEUE_CAPACITY);
     }
 
     /**
@@ -24,17 +24,17 @@ public final class MovementAPI {
      * @param movement The movement to add
      * @return Whether the movement was added to the queue
      */
-    public boolean addMovement(PlayerMovement movement) {
-        return movementQueue.put(movement);
+    public boolean addPosition(PlayerPosition movement) {
+        return playerQueue.put(movement);
     }
 
     /**
      * Get the next movement from the input queue.
      *
-     * @return A PlayerMovement instance or null if the queue is empty
+     * @return A PlayerPosition instance or null if the queue is empty
      */
-    public PlayerMovement nextMovement() {
-        return movementQueue.poll();
+    public PlayerPosition nextPosition() {
+        return playerQueue.poll();
     }
 
     /**
@@ -42,7 +42,7 @@ public final class MovementAPI {
      *
      * @return The singleton instance of the movement API
      */
-    public static MovementAPI getMovementAPI() {
-        return movementAPI;
+    public static PlayerAPI getPlayerApi() {
+        return PLAYER_API;
     }
 }

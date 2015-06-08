@@ -14,40 +14,40 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
-public class MovementAPITest {
-    MovementAPI api = MovementAPI.getMovementAPI();
+public class PlayerAPITest {
+    PlayerAPI api = PlayerAPI.getPlayerApi();
 
     @Before
     public void setupCleanAPI() {
-        api.movementQueue = new AtomicQueue<>(Constants.MOVEMENT_QUEUE_CAPACITY);
+        api.playerQueue = new AtomicQueue<>(Constants.MOVEMENT_QUEUE_CAPACITY);
     }
 
     @Test
     public void testSingletonCreation() {
-        assertEquals(api, MovementAPI.movementAPI);
+        assertEquals(api, PlayerAPI.PLAYER_API);
         assertNotNull(api);
     }
 
     @Test
     public void testQueueEmpty() {
-        assertNull(api.nextMovement());
+        assertNull(api.nextPosition());
     }
 
     @Test
     public void testAddAndGet() {
-        PlayerMovement movement = mock(PlayerMovement.class);
-        api.addMovement(movement);
+        PlayerPosition movement = mock(PlayerPosition.class);
+        api.addPosition(movement);
 
-        assertEquals(movement, api.nextMovement());
-        assertNull(api.nextMovement());
+        assertEquals(movement, api.nextPosition());
+        assertNull(api.nextPosition());
     }
 
     @Test
     public void testQueueFull() {
-        PlayerMovement movement = mock(PlayerMovement.class);
-        api.movementQueue = spy(api.movementQueue);
+        PlayerPosition movement = mock(PlayerPosition.class);
+        api.playerQueue = spy(api.playerQueue);
 
-        doReturn(false).when(api.movementQueue).put(any(PlayerMovement.class));
-        assertFalse(api.addMovement(movement));
+        doReturn(false).when(api.playerQueue).put(any(PlayerPosition.class));
+        assertFalse(api.addPosition(movement));
     }
 }

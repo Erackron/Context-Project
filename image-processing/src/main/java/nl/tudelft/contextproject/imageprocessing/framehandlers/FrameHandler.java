@@ -1,6 +1,8 @@
 package nl.tudelft.contextproject.imageprocessing.framehandlers;
 
+import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Circle;
+import nl.tudelft.contextproject.core.input.PlayerAPI;
 import nl.tudelft.contextproject.imageprocessing.gui.NamedWindow;
 import nl.tudelft.contextproject.imageprocessing.listener.KeyReleasedListener;
 import org.opencv.core.Core;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FrameHandler {
+    protected PlayerAPI playerAPI = PlayerAPI.getPlayerApi();
+
     protected VideoCapture capture;
     protected NamedWindow frameWindow;
     protected NamedWindow foregroundWindow;
@@ -102,7 +106,11 @@ public class FrameHandler {
 
         edges.release();
         edges = findSegments(current, foreground);
+        for (int i = 0; i < detectedCircles.size(); i++) {
+            detectedCircles.set(i, scale(detectedCircles.get(i)));
+        }
 
+        detectedCircles.forEach(playerAPI::addPosition);
         Core.add(current, edges, current);
 
         frameWindow.imShow(current);
@@ -110,6 +118,24 @@ public class FrameHandler {
         backgroundWindow.imShow(edges);
     }
 
+    /**
+     * Scaling method to correctly map coordinates from camera to field.
+     *
+     * @param circle Circle that needs to be scaled.
+     * @return Scaled circle.
+     */
+    protected Circle scale(Circle circle) {
+        double centerX = circle.getX();
+        double centerY = circle.getY();
+        float radius   = circle.getRadius();
+
+        circle.setX(((double) Constants.CAM_WIDTH / foreground.cols()) * centerX);
+        circle.setY((double) Constants.CAM_HEIGHT - (((double) Constants.CAM_HEIGHT
+                / foreground.rows()) * centerY));
+        circle.setRadius((float)((double) Constants.CAM_WIDTH / foreground.cols()) * radius);
+
+        return circle;
+    }
     /**
      * Apply background subtraction on the current frame.
      *

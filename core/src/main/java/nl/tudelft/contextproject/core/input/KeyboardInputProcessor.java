@@ -175,7 +175,7 @@ public class KeyboardInputProcessor extends InputAdapter {
     public void paintDraw(boolean drawOn) {
         if (drawOn) {
             center = players.get(activePlayerId).getPosition().cpy();
-            MovementAPI.getMovementAPI().addMovement(new KeyboardMovement(center, 12f));
+            PlayerAPI.getPlayerApi().addPosition(new KeyboardPosition(center, 12f));
         }
     }
 

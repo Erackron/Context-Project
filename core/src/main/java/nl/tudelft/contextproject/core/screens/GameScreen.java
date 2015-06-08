@@ -21,8 +21,8 @@ import nl.tudelft.contextproject.core.entities.ColourPalette;
 import nl.tudelft.contextproject.core.entities.ColourSelectBox;
 import nl.tudelft.contextproject.core.entities.Player;
 import nl.tudelft.contextproject.core.input.KeyboardInputProcessor;
-import nl.tudelft.contextproject.core.input.MovementAPI;
-import nl.tudelft.contextproject.core.input.PlayerMovement;
+import nl.tudelft.contextproject.core.input.PlayerAPI;
+import nl.tudelft.contextproject.core.input.PlayerPosition;
 import nl.tudelft.contextproject.core.rendering.DrawablePixmap;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class GameScreen implements Screen {
     protected DrawablePixmap draw;
     protected SpriteBatch batch;
     protected final Main main;
-    protected MovementAPI movementAPI;
+    protected PlayerAPI playerAPI;
     protected KeyboardInputProcessor inputProcessor;
     protected int numPlayers;
     protected int activePlayer;
@@ -76,7 +76,7 @@ public class GameScreen implements Screen {
         draw = new DrawablePixmap(pixmap, newPixmap, texture);
         batch = main.getBatch();
 
-        movementAPI = MovementAPI.getMovementAPI();
+        playerAPI = PlayerAPI.getPlayerApi();
         inputProcessor = new KeyboardInputProcessor(players);
         Gdx.input.setInputProcessor(inputProcessor);
 
@@ -94,7 +94,7 @@ public class GameScreen implements Screen {
     public static GameScreen createDefaultGameScreen(final Main main) {
         ArrayList<Player> players = new ArrayList<>(9);
         for (int i = 0; i < 9; i++) {
-            players.add(new Player(ColourPalette.standardPalette(), 100f + 50f * i, 100f));
+            players.add(new Player(ColourPalette.standardPalette(), 100f + 50f * i, 100f, 12f));
         }
         return new GameScreen(main, players);
     }
@@ -137,10 +137,10 @@ public class GameScreen implements Screen {
 
         draw.getNewPainting().setColor(players.get(activePlayer)
                 .getColourPalette().getCurrentColour().getLibgdxColor());
-        PlayerMovement movement = movementAPI.nextMovement();
+        PlayerPosition movement = playerAPI.nextPosition();
         while (movement != null) {
             draw.drawCircle(movement.getCenterOfPlayer(), movement.getRadiusOfCircle());
-            movement = movementAPI.nextMovement();
+            movement = playerAPI.nextPosition();
         }
 
         // Update drawing if needed
