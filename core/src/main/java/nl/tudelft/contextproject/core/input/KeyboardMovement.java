@@ -15,7 +15,7 @@ public class KeyboardMovement implements PlayerMovement {
      * Create a new KeyboardMovement instance.
      *
      * @param center The center of the player
-     * @param radius  The radius of the circle
+     * @param radius The radius of the circle
      */
     public KeyboardMovement(Vector2 center, float radius) {
         this.center = center;
@@ -28,7 +28,8 @@ public class KeyboardMovement implements PlayerMovement {
     }
 
     @Override
-    public float getRadiusOfCircle() { return radius;
+    public float getRadiusOfCircle() {
+        return radius;
     }
 
 }

@@ -131,7 +131,6 @@ public class GameScreen implements Screen {
         activePlayer = inputProcessor.update(delta, activePlayer);
         activePlayer = activePlayer >= numPlayers ? oldActive : activePlayer;
 
-
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
