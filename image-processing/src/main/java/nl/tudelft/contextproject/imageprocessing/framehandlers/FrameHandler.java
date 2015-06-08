@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.imageprocessing.framehandlers;
 
 import nl.tudelft.contextproject.core.entities.Circle;
+import nl.tudelft.contextproject.core.input.PlayerAPI;
 import nl.tudelft.contextproject.imageprocessing.gui.NamedWindow;
 import nl.tudelft.contextproject.imageprocessing.listener.KeyReleasedListener;
 import org.opencv.core.Core;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FrameHandler {
+    protected PlayerAPI playerAPI = PlayerAPI.getPlayerApi();
+
     protected VideoCapture capture;
     protected NamedWindow frameWindow;
     protected NamedWindow foregroundWindow;
@@ -102,6 +105,7 @@ public class FrameHandler {
 
         edges.release();
         edges = findSegments(current, foreground);
+        detectedCircles.forEach(playerAPI::addPosition);
 
         Core.add(current, edges, current);
 
