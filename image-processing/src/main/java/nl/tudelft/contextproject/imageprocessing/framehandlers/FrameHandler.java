@@ -21,10 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FrameHandler {
-    protected final VideoCapture capture;
-    protected final NamedWindow frameWindow = new NamedWindow("Frame");
-    protected final NamedWindow foregroundWindow = new NamedWindow("Foreground");
-    protected final NamedWindow backgroundWindow = new NamedWindow("Background");
+    protected VideoCapture capture;
+    protected NamedWindow frameWindow = new NamedWindow("Frame");
+    protected NamedWindow foregroundWindow = new NamedWindow("Foreground");
+    protected NamedWindow backgroundWindow = new NamedWindow("Background");
 
     protected Mat foreground = new Mat();
     protected Mat background = new Mat();
@@ -72,8 +72,6 @@ public class FrameHandler {
 
         end = System.currentTimeMillis();
         System.out.printf("duration: %.2fs\n", (end - start) / 1000f);
-        // previous.release();
-        // previous = current.clone();
     }
 
     /**
