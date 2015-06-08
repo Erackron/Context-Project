@@ -22,9 +22,9 @@ import java.util.List;
 
 public class FrameHandler {
     protected VideoCapture capture;
-    protected NamedWindow frameWindow = new NamedWindow("Frame");
-    protected NamedWindow foregroundWindow = new NamedWindow("Foreground");
-    protected NamedWindow backgroundWindow = new NamedWindow("Background");
+    protected NamedWindow frameWindow;
+    protected NamedWindow foregroundWindow;
+    protected NamedWindow backgroundWindow;
 
     protected Mat foreground = new Mat();
     protected Mat background = new Mat();
@@ -42,6 +42,21 @@ public class FrameHandler {
      * @param capture The video capture to get the frames from
      */
     public FrameHandler(VideoCapture capture) {
+        this(capture, new NamedWindow("Foreground"), new NamedWindow("Background"), new
+                NamedWindow("Frame"));
+    }
+
+    /**
+     * Create a new FrameHandler using existing NamedWindows.
+     *
+     * @param capture The video capture to get the frames from
+     * @param foregroundWindow The foreground window
+     * @param backgroundWindow The background window
+     * @param frameWindow The frame window
+     */
+    public FrameHandler(VideoCapture capture, NamedWindow foregroundWindow, NamedWindow
+            backgroundWindow, NamedWindow frameWindow) {
+
         KeyReleasedListener listener = new KeyReleasedListener() {
             @Override
             public void keyReleased(KeyEvent keyEvent) {
@@ -51,8 +66,11 @@ public class FrameHandler {
             }
         };
         this.capture = capture;
+        this.frameWindow = frameWindow;
         this.frameWindow.setKeyListener(listener);
+        this.foregroundWindow = foregroundWindow;
         this.foregroundWindow.setKeyListener(listener);
+        this.backgroundWindow = backgroundWindow;
         this.backgroundWindow.setKeyListener(listener);
 
         setBackground();

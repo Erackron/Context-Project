@@ -32,11 +32,7 @@ public class FrameHandlerTest {
     @Before
     public void setup() {
         doReturn(true).when(videoCapture).read(any());
-        frameHandler = new FrameHandler(videoCapture);
-
-        frameHandler.foregroundWindow = testWindow;
-        frameHandler.backgroundWindow = testWindow;
-        frameHandler.frameWindow = testWindow;
+        frameHandler = new FrameHandler(videoCapture, testWindow, testWindow, testWindow);
 
         frameHandler.foreground = testMat;
         frameHandler.background = testMat;
