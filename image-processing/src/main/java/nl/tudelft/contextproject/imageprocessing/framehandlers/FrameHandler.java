@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject.imageprocessing.framehandlers;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Circle;
 import nl.tudelft.contextproject.core.input.PlayerAPI;
@@ -121,7 +120,7 @@ public class FrameHandler {
 
     /**
      * Scaling method to correctly map coordinates from camera to field.
-     * 
+     *
      * @param circle Circle that needs to be scaled.
      * @return Scaled circle.
      */
@@ -130,9 +129,10 @@ public class FrameHandler {
         double centerY = circle.getY();
         float radius   = circle.getRadius();
 
-        circle.setX((Constants.CAM_WIDTH / foreground.cols()) * centerX);
-        circle.setY(Constants.CAM_HEIGHT - (Constants.CAM_HEIGHT / foreground.rows()) * centerY);
-        circle.setRadius((Constants.CAM_WIDTH / foreground.cols()) * radius);
+        circle.setX(((double) Constants.CAM_WIDTH / foreground.cols()) * centerX);
+        circle.setY((double) Constants.CAM_HEIGHT - (((double) Constants.CAM_HEIGHT
+                / foreground.rows()) * centerY));
+        circle.setRadius((float)((double) Constants.CAM_WIDTH / foreground.cols()) * radius);
 
         return circle;
     }
