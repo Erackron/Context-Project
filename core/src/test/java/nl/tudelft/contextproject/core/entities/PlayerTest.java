@@ -32,7 +32,7 @@ public class PlayerTest {
 
     @Before
     public void setUp() {
-        player = new Player(colourPalette, position);
+        player = new Player(colourPalette, position, 12f);
         doReturn(Collections.singletonList(player)).when(gameScreen).getPlayers();
         doCallRealMethod().when(gameScreen).createColourSpots();
         gameScreen.createColourSpots();
@@ -40,7 +40,7 @@ public class PlayerTest {
 
     @Test
     public void constructorOverLoadTest() {
-        player = new Player(colourPalette, 30, 30);
+        player = new Player(colourPalette, 30, 30, 12f);
         assertEquals(new Vector2(30f, 30f), player.getPosition());
     }
 

@@ -94,7 +94,7 @@ public class GameScreen implements Screen {
     public static GameScreen createDefaultGameScreen(final Main main) {
         ArrayList<Player> players = new ArrayList<>(9);
         for (int i = 0; i < 9; i++) {
-            players.add(new Player(ColourPalette.standardPalette(), 100f + 50f * i, 100f));
+            players.add(new Player(ColourPalette.standardPalette(), 100f + 50f * i, 100f, 12f));
         }
         return new GameScreen(main, players);
     }

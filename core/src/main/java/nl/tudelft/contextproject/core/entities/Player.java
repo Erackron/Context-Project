@@ -13,24 +13,35 @@ import java.util.List;
 @Data
 public class Player {
 
-    protected final Vector2 position;
+    protected Vector2 position;
+    protected float radius;
 
     private final ColourPalette colourPalette;
     protected List<ColourSelectBox> colourSelectBoxes = new ArrayList<>();
 
     /**
      * Create a new Player object.
-     *  @param colourPalette the colours the player has available.
-     * @param x The x coordinate of the player
-     * @param y The y coordinate of the player
+     *
+     * @param colourPalette The colours the player has available
+     * @param x             The x coordinate of the player
+     * @param y             The y coordinate of the player
+     * @param radius        The radius of the player
      */
-    public Player(ColourPalette colourPalette, float x, float y) {
-        this(colourPalette, new Vector2(x, y));
+    public Player(ColourPalette colourPalette, float x, float y, float radius) {
+        this(colourPalette, new Vector2(x, y), radius);
     }
 
-    protected Player(ColourPalette colourPalette, Vector2 position) {
+    /**
+     * Create a new Player object.
+     *
+     * @param colourPalette The colours the player has available
+     * @param position      The position of the player
+     * @param radius        The radius of the player
+     */
+    protected Player(ColourPalette colourPalette, Vector2 position, float radius) {
         this.colourPalette = colourPalette;
         this.position = position;
+        this.radius = radius;
     }
 
     /**
