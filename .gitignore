@@ -171,4 +171,4 @@ buildNumber.properties
 
 *.png
 /blobParams
-/nu/
+nu/
