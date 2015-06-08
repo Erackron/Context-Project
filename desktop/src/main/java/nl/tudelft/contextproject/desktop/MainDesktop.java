@@ -18,7 +18,6 @@ public class MainDesktop {
         LwjglApplication humanPencils = new LwjglApplication(new Main(), config);
 
         // Start image processing
-        /*
         ImageProcessingThread imageProcessingThread = new ImageProcessingThread();
         new Thread(imageProcessingThread).start();
 
@@ -28,6 +27,5 @@ public class MainDesktop {
                 imageProcessingThread.stop();
             }
         });
-        */
     }
 }

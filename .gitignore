@@ -172,4 +172,4 @@ buildNumber.properties
 *.png
 *.mp4
 /blobParams
-/nu/
+nu/

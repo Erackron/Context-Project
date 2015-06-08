@@ -111,12 +111,10 @@ public class GameScreen implements Screen {
         if (playerColour.getPixelValue() == 2139062271) {
             playerColour = Colour.WHITE;
         }
-        Vector2 brushPos = player.getBrushPosition();
+
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(isActive ? playerColour.getLibgdxColor() : Color.BLACK);
         shapeRenderer.circle(playerPos.x, playerPos.y, 10);
-        shapeRenderer.setColor(Colour.BLACK.getLibgdxColor());
-        shapeRenderer.circle(brushPos.x, brushPos.y, 2);
         shapeRenderer.end();
     }
 
@@ -133,7 +131,6 @@ public class GameScreen implements Screen {
         activePlayer = inputProcessor.update(delta, activePlayer);
         activePlayer = activePlayer >= numPlayers ? oldActive : activePlayer;
 
-
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
@@ -142,9 +139,7 @@ public class GameScreen implements Screen {
                 .getColourPalette().getCurrentColour().getLibgdxColor());
         PlayerMovement movement = movementAPI.nextMovement();
         while (movement != null) {
-            draw.drawTriangle(movement.getStartOfMovement(), movement.getCenterOfPlayer(),
-
-                    movement.getEndOfMovement());
+            draw.drawCircle(movement.getCenterOfPlayer(), movement.getRadiusOfCircle());
             movement = movementAPI.nextMovement();
         }
 
@@ -163,7 +158,6 @@ public class GameScreen implements Screen {
         for (int i = 0; i < numPlayers; i++) {
             drawPlayerStatus(players.get(i), i == activePlayer);
         }
-
     }
 
     /**
@@ -178,9 +172,13 @@ public class GameScreen implements Screen {
             boundingBox = box.getBoundingBox();
             min = boundingBox.getMin();
             size = boundingBox.getDimensions();
-            shapeRenderer.setColor(box.getColour().getLibgdxColor());
+            Colour colour = box.getColour();
+            boolean eraser = (colour.getPixelValue() == 2139062271);
+            shapeRenderer.setColor(eraser ? Colour.WHITE.getLibgdxColor()
+                    : colour.getLibgdxColor());
             shapeRenderer.rect(min.x, min.y, size.x, size.y);
         }
+        shapeRenderer.end();
     }
 
     /**

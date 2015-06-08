@@ -11,6 +11,7 @@ import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Colour;
 
 import java.util.Arrays;
+import java.util.Vector;
 
 /**
  * This class is a wrapper for Pixmap and Texture to enable storing the drawing of the players.
@@ -83,7 +84,7 @@ public class DrawablePixmap implements Disposable {
     }
 
     /**
-     * Fills a triangl using the given points
+     * Fills a triangle using the given points
      * @param x The x-coordinate for the first point.
      * @param y The y-coordinate for the first point.
      * @param x1 The x-coordinate for the second point.
@@ -94,6 +95,45 @@ public class DrawablePixmap implements Disposable {
     private void drawTriangle(int x, int y, int x1, int i, int x2, int i1) {
         newPainting.fillTriangle(x, y, x1, i, x2, i1);
         updateNeeded = true;
+    }
+
+    /**
+     * Draws a circle on this pixmap
+     * @param center The center of the circle.
+     * @param radius The radius of the circle.
+     */
+    public void drawCircle(Vector2 center, float radius) {
+        drawCircle((int) center.x ,
+                (int) (Constants.CAM_HEIGHT - Math.min(center.y, Constants.CAM_HEIGHT)),
+                (int) radius);
+    }
+
+    /**
+     * Fills a circle using the given point and radius.
+     * @param x The x-coordinate for the center.
+     * @param y The y-coordinate for the center.
+     * @param radius The radius of the circle.
+     */
+    private void drawCircle(int x, int y, int radius) {
+        newPainting.fillCircle(x, y, radius);
+        updateNeeded = true;
+    }
+
+    /**
+     * Creates a circle based on the boundingbox.
+     * @param bottomLeft    The bottomleft corner of the boundingbox.
+     * @param topRight      The topright corner of the boundingbox.
+     */
+    public void drawBox(Vector2 bottomLeft, Vector2 topRight) {
+        float centerX = (bottomLeft.x + topRight.x) / 2;
+        float centerY = (bottomLeft.y + topRight.y) / 2;
+        Vector2 circleCenter = new Vector2(centerX, centerY);
+
+        double diffX = centerX - bottomLeft.x;
+//        double diffY = centerY - bottomLeft.y;
+//        float radius = (float) Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
+
+        drawCircle(circleCenter, (float) diffX);
     }
 
     /**
@@ -129,12 +169,13 @@ public class DrawablePixmap implements Disposable {
                     } else if (newPixel != oldPixel && oldPixel != 0) {
                         Colour second = Colour.getColour(oldPixel);
                         Colour blend = Colour.combine(Arrays.asList(first, second));
+                        if (blend.getPixelValue() == -5394945) {
+                            blend = second;
+                        }
                         newPainting.setColor(blend.getLibgdxColor());
                         newPainting.drawPixel(i, j);
                     }
                 }
-
-
             }
         }
     }

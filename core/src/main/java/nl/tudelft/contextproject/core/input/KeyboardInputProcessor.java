@@ -15,19 +15,15 @@ import java.util.List;
 public class KeyboardInputProcessor extends InputAdapter {
 
     public static final float PIXELS_PER_UPDATE = 75.0f;
-    public static final double ANGLE = Math.PI / 2.0;
 
     protected HashMap<Integer, Boolean> keys;
     protected boolean toggled;
     protected boolean[] playerToggles = new boolean[9];
+    protected boolean paintToggled;
     protected List<Player> players;
     protected int numPlayers;
     protected int activePlayerId;
     protected float[] deltaMovement = new float[2];
-    protected float deltaRadius = 100f;
-
-    protected Vector2 start;
-    protected Vector2 end;
     protected Vector2 center;
 
 
@@ -46,10 +42,6 @@ public class KeyboardInputProcessor extends InputAdapter {
         keys.put(Input.Keys.S, false);
         keys.put(Input.Keys.A, false);
         keys.put(Input.Keys.D, false);
-        keys.put(Input.Keys.UP, false);
-        keys.put(Input.Keys.DOWN, false);
-        keys.put(Input.Keys.LEFT, false);
-        keys.put(Input.Keys.RIGHT, false);
         keys.put(Input.Keys.SPACE, false);
         keys.put(Input.Keys.C, false);
         for (int i = Input.Keys.NUM_1; i <= Input.Keys.NUM_9; i++) {
@@ -88,39 +80,29 @@ public class KeyboardInputProcessor extends InputAdapter {
 
         if (isPressed(Input.Keys.W)) {
             move(Direction.NORTH, dt);
+            paintDraw(isPaintToggled());
         }
+
         if (isPressed(Input.Keys.S)) {
             move(Direction.SOUTH, dt);
+            paintDraw(isPaintToggled());
         }
+
         if (isPressed(Input.Keys.A)) {
             move(Direction.WEST, dt);
+            paintDraw(isPaintToggled());
         }
+
         if (isPressed(Input.Keys.D)) {
             move(Direction.EAST, dt);
+            paintDraw(isPaintToggled());
         }
 
         activePlayer.move(deltaMovement[0],deltaMovement[1]);
 
-        if (isPressed(Input.Keys.LEFT)) {
-            activePlayer.turnBrush(ANGLE, dt);
-        }
-        if (isPressed(Input.Keys.RIGHT)) {
-            activePlayer.turnBrush(-ANGLE, dt);
-        }
-
         if (isToggled()) {
             activePlayer.getColourPalette().cycle();
             toggled = false;
-        }
-
-        if (isPressed(Input.Keys.DOWN)) {
-            activePlayer.changeRadius(-deltaRadius * dt);
-            activePlayer.turnBrush(0, dt);
-        }
-
-        if (isPressed(Input.Keys.UP)) {
-            activePlayer.changeRadius(deltaRadius * dt);
-            activePlayer.turnBrush(0, dt);
         }
 
         for (int i = 0; i < playerToggles.length; i++) {
@@ -129,7 +111,6 @@ public class KeyboardInputProcessor extends InputAdapter {
                 playerToggles[i] = false;
             }
         }
-
         return activePlayerId;
     }
 
@@ -144,8 +125,8 @@ public class KeyboardInputProcessor extends InputAdapter {
     public boolean keyDown(int i) {
         switch (i) {
             case Input.Keys.SPACE:
-                start = (players.get(activePlayerId).getBrushPosition().cpy());
-                keys.put(i, true);
+                keys.put(i, !keys.get(i));
+                paintToggled = !paintToggled;
                 break;
             case Input.Keys.C:
                 keys.put(i, !keys.get(i));
@@ -171,16 +152,9 @@ public class KeyboardInputProcessor extends InputAdapter {
      */
     @Override
     public boolean keyUp(int i) {
-        if (i == Input.Keys.SPACE) {
-            center = players.get(activePlayerId).getPosition().cpy();
-            end = players.get(activePlayerId).getBrushPosition().cpy();
-            MovementAPI.getMovementAPI().addMovement(new KeyboardMovement(center, start, end));
-            keys.put(i, false);
-
-        } else if (keys.containsKey(i) && i != Input.Keys.C) {
+        if (keys.containsKey(i) && i != Input.Keys.C && i != Input.Keys.SPACE) {
             keys.put(i, false);
         }
-
         return true;
     }
 
@@ -194,7 +168,23 @@ public class KeyboardInputProcessor extends InputAdapter {
         return keys.get(key);
     }
 
+    /**
+     * Method that enables drawing option.
+     * @param drawOn Boolean that indicates the draw toggle.
+     */
+    public void paintDraw(boolean drawOn) {
+        if (drawOn) {
+            center = players.get(activePlayerId).getPosition().cpy();
+            MovementAPI.getMovementAPI().addMovement(new KeyboardMovement(center, 12f));
+        }
+    }
+
     public boolean isToggled() {
         return toggled;
     }
+
+    public boolean isPaintToggled() {
+        return paintToggled;
+    }
 }
+
