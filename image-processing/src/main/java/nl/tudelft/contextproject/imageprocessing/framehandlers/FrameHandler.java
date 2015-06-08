@@ -126,11 +126,11 @@ public class FrameHandler {
 
         int count = 0;
         Scalar colour = new Scalar(0, 0, 255);
-        for (MatOfPoint contour : contours) {
-            MatOfPoint2f contourPolyEl2f = new MatOfPoint2f();
-            MatOfPoint contourPolyEl = new MatOfPoint();
-            MatOfPoint2f contour2f = new MatOfPoint2f();
+        MatOfPoint2f contourPolyEl2f = new MatOfPoint2f();
+        MatOfPoint contourPolyEl = new MatOfPoint();
+        MatOfPoint2f contour2f = new MatOfPoint2f();
 
+        for (MatOfPoint contour : contours) {
             contour.convertTo(contour2f, CvType.CV_32FC2);
             Imgproc.approxPolyDP(contour2f, contourPolyEl2f, 3, true);
             contourPolyEl2f.convertTo(contourPolyEl, CvType.CV_32SC2);
