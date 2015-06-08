@@ -69,9 +69,9 @@ public class InputProcessorTest {
 
     @Test
     public void updateTestEast() {
-        keys.put(Input.Keys.D,true);
-        processor.update(1f,activePlayerId);
-        Mockito.verify(player).move(75,0);
+        keys.put(Input.Keys.D, true);
+        processor.update(1f, activePlayerId);
+        Mockito.verify(player).move(75, 0);
     }
 
     @Test
@@ -80,6 +80,15 @@ public class InputProcessorTest {
         keys.put(key,true);
         processor.keyDown(key);
         assertTrue(processor.toggled);
+        verify(keys, Mockito.times(2)).put(key, false);
+    }
+
+    @Test
+    public void KeyDownSPACETest() {
+        int key = Input.Keys.SPACE;
+        keys.put(key,true);
+        processor.keyDown(key);
+        assertTrue(processor.paintToggled);
         verify(keys, Mockito.times(2)).put(key,false);
     }
 
@@ -104,5 +113,13 @@ public class InputProcessorTest {
         int key = Input.Keys.A;
         processor.keyUp(key);
         verify(keys, Mockito.times(2)).put(key, false);
+    }
+
+    @Test
+    public void paintDrawTest() {
+        boolean drawOn = true;
+        processor.update(1f, activePlayerId);
+        processor.paintDraw(drawOn);
+        Mockito.verify(player).getPosition();
     }
 }

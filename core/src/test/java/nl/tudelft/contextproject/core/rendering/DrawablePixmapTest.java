@@ -22,17 +22,26 @@ public class DrawablePixmapTest {
     protected Pixmap painting2;
     protected int pixel2;
     @Mock
+    protected Pixmap painting3;
+    protected int pixel3;
+    @Mock
     protected Pixmap newPainting;
     protected int newPixel;
     @Mock
     protected Pixmap newPainting2;
     protected int newPixel2;
     @Mock
+    protected Pixmap newPainting3;
+    protected int newPixel3;
+    @Mock
     protected Texture texture;
     @Mock
     protected Texture texture2;
+    @Mock
+    protected Texture texture3;
     protected DrawablePixmap drawablePixmap;
     protected DrawablePixmap drawablePixmap2;
+    protected DrawablePixmap drawablePixmap3;
 
     @Before
     public void setUp() {
@@ -40,13 +49,18 @@ public class DrawablePixmapTest {
         newPixel = Colour.YELLOW.getPixelValue();
         pixel2 = Colour.BLUE.getPixelValue();
         newPixel2 = Colour.ERASER.getPixelValue();
+        pixel3 = Colour.ORANGE.getPixelValue();
+        newPixel3 = Colour.RED.getPixelValue();
 
         drawablePixmap = new DrawablePixmap(painting, newPainting, texture);
         drawablePixmap2 = new DrawablePixmap(painting2, newPainting2, texture2);
+        drawablePixmap3 = new DrawablePixmap(painting3, newPainting3, texture3);
         when(painting.getPixel(0, 0)).thenReturn(pixel);
         when(newPainting.getPixel(0, 0)).thenReturn(newPixel);
         when(painting2.getPixel(0, 0)).thenReturn(pixel2);
         when(newPainting2.getPixel(0, 0)).thenReturn(newPixel2);
+        when(painting3.getPixel(0, 0)).thenReturn(pixel3);
+        when(newPainting3.getPixel(0, 0)).thenReturn(newPixel3);
     }
 
     @Test
@@ -66,6 +80,13 @@ public class DrawablePixmapTest {
         drawablePixmap2.blend(0, 0, 1, 1);
         verify(newPainting2).setColor(Colour.WHITE.getLibgdxColor());
         verify(newPainting2).drawPixel(0, 0);
+    }
+
+    @Test
+    public void blendExceptionTest() {
+        drawablePixmap3.blend(0, 0, 1, 1);
+        verify(newPainting3).setColor(Colour.ORANGE.getLibgdxColor());
+        verify(newPainting3).drawPixel(0, 0);
     }
 
     @Test
@@ -104,14 +125,32 @@ public class DrawablePixmapTest {
 
     @Test
     public void drawTriangleTest() {
-
         Vector2 corner1 = new Vector2(1, 1);
         Vector2 corner2 = new Vector2(1, 2);
         Vector2 corner3 = new Vector2(2, 1);
 
         drawablePixmap.drawTriangle(corner1, corner2, corner3);
-        verify(newPainting).fillTriangle(1, 749, 1, 748, 2,749);
+        verify(newPainting).fillTriangle(1, 749, 1, 748, 2, 749);
         assertTrue(drawablePixmap.updateNeeded);
+    }
+
+    @Test
+    public void drawCircleTest() {
+        Vector2 center = new Vector2(1f, 1f);
+        float radius = 12f;
+
+        drawablePixmap.drawCircle(center, radius);
+        verify(newPainting).fillCircle(1, 749, 12);
+        assertTrue(drawablePixmap.updateNeeded);
+    }
+
+    @Test
+    public void drawBoxTest() {
+        Vector2 bottom = new Vector2(100, 300);
+        Vector2 top = new Vector2(150, 350);
+
+        drawablePixmap.drawBox(bottom, top);
+        verify(newPainting).fillCircle(125, 425, 25);
     }
 
     @Test

@@ -42,10 +42,6 @@ public class KeyboardInputProcessor extends InputAdapter {
         keys.put(Input.Keys.S, false);
         keys.put(Input.Keys.A, false);
         keys.put(Input.Keys.D, false);
-        keys.put(Input.Keys.UP, false);
-        keys.put(Input.Keys.DOWN, false);
-        keys.put(Input.Keys.LEFT, false);
-        keys.put(Input.Keys.RIGHT, false);
         keys.put(Input.Keys.SPACE, false);
         keys.put(Input.Keys.C, false);
         for (int i = Input.Keys.NUM_1; i <= Input.Keys.NUM_9; i++) {
@@ -172,6 +168,10 @@ public class KeyboardInputProcessor extends InputAdapter {
         return keys.get(key);
     }
 
+    /**
+     * Method that enables drawing option.
+     * @param drawOn Boolean that indicates the draw toggle.
+     */
     public void paintDraw(boolean drawOn) {
         if (drawOn) {
             center = players.get(activePlayerId).getPosition().cpy();
@@ -183,5 +183,8 @@ public class KeyboardInputProcessor extends InputAdapter {
         return toggled;
     }
 
-    public boolean isPaintToggled() {return paintToggled; }
+    public boolean isPaintToggled() {
+        return paintToggled;
+    }
 }
+

@@ -29,10 +29,10 @@ public class ColourTest {
                     {Colour.RED , Colour.BLUE,Colour.PURPLE},
                     {Colour.RED,Colour.YELLOW,Colour.ORANGE},
                     {Colour.BLUE,Colour.YELLOW,Colour.GREEN},
-                    {Colour.ORANGE,Colour.YELLOW,Colour.YELLOW},
-                    {Colour.PURPLE,Colour.BLUE,Colour.BLUE},
-                    {Colour.GREEN,Colour.BLUE,Colour.BLUE},
-                    {Colour.RED,Colour.RED,Colour.RED},
+                    {Colour.ORANGE,Colour.YELLOW,Colour.EXCEPTION},
+                    {Colour.PURPLE,Colour.BLUE,Colour.EXCEPTION},
+                    {Colour.GREEN,Colour.BLUE,Colour.EXCEPTION},
+                    {Colour.RED,Colour.RED,Colour.EXCEPTION},
                     {Colour.GREEN,Colour.RED,Colour.BLACK}
             });
         }
@@ -60,7 +60,7 @@ public class ColourTest {
         @Test
         public void combineThreeColoursTest() {
             Colour test = Colour.combine(Arrays.asList(Colour.RED, Colour.BLUE, Colour.YELLOW));
-            assertEquals(test, Colour.BLACK);
+            assertEquals(test, Colour.EXCEPTION);
         }
 
 
@@ -106,6 +106,14 @@ public class ColourTest {
         public void getNoValidColourTest() {
             Colour black = Colour.BLACK;
             assertEquals(Colour.getColour(5), black);
+        }
+
+        @Test
+        public void paintOnEraserTest() {
+            Colour white = Colour.WHITE;
+            Colour red = Colour.RED;
+            Colour actual = Colour.combine(Arrays.asList(red, white));
+            assertEquals(red, actual);
         }
 
         @Test

@@ -159,7 +159,6 @@ public class GameScreen implements Screen {
         for (int i = 0; i < numPlayers; i++) {
             drawPlayerStatus(players.get(i), i == activePlayer);
         }
-
     }
 
     /**
