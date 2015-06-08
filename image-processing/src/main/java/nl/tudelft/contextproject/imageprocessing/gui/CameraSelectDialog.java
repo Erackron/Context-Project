@@ -5,6 +5,7 @@ import org.opencv.highgui.VideoCapture;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,7 +22,7 @@ public class CameraSelectDialog extends JDialog {
     private JComboBox<Integer> cameraList;
     private JLabel videoSourceLabel;
     private CameraSelect selectCallback;
-    private List<VideoCapture> videoCaptureList;
+    private List<VideoCapture> videoCaptureList = new ArrayList<>();
 
     /**
      * Create a new CameraSelectDialog window.
@@ -52,7 +53,13 @@ public class CameraSelectDialog extends JDialog {
 
     private void onOK() {
         int selectedCamera = cameraList.getItemAt(cameraList.getSelectedIndex());
-        selectCallback.setSelectedCamera(selectedCamera);
+        selectCallback.setSelectedCamera(videoCaptureList.get(selectedCamera));
+        for (int i = 0; i < videoCaptureList.size(); i++) {
+            if (i == selectedCamera) {
+                continue;
+            }
+            videoCaptureList.get(i).release();
+        }
         dispose();
     }
 
@@ -71,7 +78,7 @@ public class CameraSelectDialog extends JDialog {
             return;
         }
         if (amount == 1) {
-            cameraSelect.setSelectedCamera(0);
+            cameraSelect.setSelectedCamera(videoCaptureList.get(0));
             return;
         }
         if (cameraSelect == null) {
@@ -99,6 +106,7 @@ public class CameraSelectDialog extends JDialog {
                 temp.release();
                 return i;
             }
+            videoCaptureList.add(temp);
         }
         return maxTested;
     }
@@ -107,8 +115,8 @@ public class CameraSelectDialog extends JDialog {
         /**
          * Set the selected camera.
          *
-         * @param cameraId The id of the selected camera
+         * @param camera The the selected camera
          */
-        void setSelectedCamera(int cameraId);
+        void setSelectedCamera(VideoCapture camera);
     }
 }
