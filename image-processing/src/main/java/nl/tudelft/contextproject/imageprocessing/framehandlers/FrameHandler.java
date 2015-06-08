@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.imageprocessing.framehandlers;
 
+import nl.tudelft.contextproject.core.entities.Circle;
 import nl.tudelft.contextproject.imageprocessing.gui.NamedWindow;
 import nl.tudelft.contextproject.imageprocessing.listener.KeyReleasedListener;
 import org.opencv.core.Core;
@@ -9,6 +10,7 @@ import org.opencv.core.MatOfInt4;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.highgui.VideoCapture;
@@ -20,22 +22,24 @@ import java.util.List;
 
 public class FrameHandler {
     protected final VideoCapture capture;
-    protected final NamedWindow frameWindow;
-    protected final NamedWindow foregroundWindow;
-    protected final NamedWindow backgroundWindow;
+    protected final NamedWindow frameWindow = new NamedWindow("Frame");
+    protected final NamedWindow foregroundWindow = new NamedWindow("Foreground");
+    protected final NamedWindow backgroundWindow = new NamedWindow("Background");
 
-    protected Mat foreground;
-    protected Mat background;
-    protected Mat previous;
-    protected Mat current;
-    protected Mat edges;
+    protected Mat foreground = new Mat();
+    protected Mat background = new Mat();
+    protected Mat previous = new Mat();
+    protected Mat current = new Mat();
+    protected Mat edges = new Mat();
     protected long start;
     protected long end;
+
+    protected List<Circle> detectedCircles = new ArrayList<>(20);
 
     /**
      * Create a new FrameHandler.
      *
-     * @param capture            The video capture to get the frames from
+     * @param capture The video capture to get the frames from
      */
     public FrameHandler(VideoCapture capture) {
         KeyReleasedListener listener = new KeyReleasedListener() {
@@ -47,18 +51,9 @@ public class FrameHandler {
             }
         };
         this.capture = capture;
-        this.frameWindow = new NamedWindow("Frame");
         this.frameWindow.setKeyListener(listener);
-        this.foregroundWindow = new NamedWindow("Foreground");
         this.foregroundWindow.setKeyListener(listener);
-        this.backgroundWindow = new NamedWindow("Background");
         this.backgroundWindow.setKeyListener(listener);
-
-        this.previous = new Mat();
-        this.current = new Mat();
-        this.foreground = new Mat();
-        this.background = new Mat();
-        this.edges = new Mat();
 
         setBackground();
     }
@@ -77,8 +72,8 @@ public class FrameHandler {
 
         end = System.currentTimeMillis();
         System.out.printf("duration: %.2fs\n", (end - start) / 1000f);
-        previous.release();
-        previous = current.clone();
+        // previous.release();
+        // previous = current.clone();
     }
 
     /**
@@ -89,14 +84,14 @@ public class FrameHandler {
     protected void process(Mat current) {
         backgroundSubtraction(current, foreground);
 
-        //edgeDetection(foreground, edges);
+        edges.release();
         edges = findSegments(current, foreground);
 
         Core.add(current, edges, current);
 
         frameWindow.imShow(current);
         foregroundWindow.imShow(foreground);
-        //backgroundWindow.imShow(background);
+        backgroundWindow.imShow(edges);
     }
 
     /**
@@ -122,6 +117,7 @@ public class FrameHandler {
      * @param foreground The foreground mask (white = foreground, black = background)
      */
     protected Mat findSegments(Mat current, Mat foreground) {
+        detectedCircles.clear();
         List<MatOfPoint> contours = new ArrayList<>();
         MatOfInt4 hierarchy = new MatOfInt4();
         Imgproc.findContours(foreground, contours, hierarchy, Imgproc.RETR_CCOMP,
@@ -142,22 +138,22 @@ public class FrameHandler {
             contourPolyEl2f.convertTo(contourPolyEl, CvType.CV_32SC2);
             contourPoly.add(contourPolyEl);
 
-            //Rect boundingRect = Imgproc.boundingRect(contourPolyEl);
+            Rect boundingRect = Imgproc.boundingRect(contourPolyEl);
             Point centerPoint = new Point();
             float[] radiusEl = new float[1];
             Imgproc.minEnclosingCircle(contourPolyEl2f, centerPoint, radiusEl);
 
             Imgproc.drawContours(segments, contourPoly, count, colour, 1, Core.LINE_8, hierarchy,
                     0, new Point());
-            //Core.rectangle(segments, boundingRect.tl(), boundingRect.br(), colour, 2,
-            //        Core.LINE_8, 0);
-            if (radiusEl[0] > 10) {
+            Core.rectangle(segments, boundingRect.tl(), boundingRect.br(), colour, 2,
+                    Core.LINE_8, 0);
+            if (radiusEl[0] > 75) {
                 Core.circle(segments, centerPoint, (int) radiusEl[0], colour, 2, Core.LINE_8, 0);
+                detectedCircles.add(new Circle(centerPoint.x, centerPoint.y, radiusEl[0]));
             }
             count++;
         }
 
-        backgroundWindow.imShow(segments);
         return segments;
     }
 
@@ -175,6 +171,12 @@ public class FrameHandler {
     public void cleanUp() {
         frameWindow.destroyWindow();
         foregroundWindow.destroyWindow();
+        backgroundWindow.destroyWindow();
         capture.release();
+        previous.release();
+        current.release();
+        foreground.release();
+        background.release();
+        edges.release();
     }
 }
