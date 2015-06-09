@@ -143,12 +143,11 @@ public class FrameHandler {
      * @param foreground The Mat to store the foreground in
      */
     protected void backgroundSubtraction(Mat current, Mat foreground) {
-        Core.subtract(background, current, foreground);
-
+        Core.absdiff(background, current, foreground);
 
         Imgproc.blur(foreground, foreground, new Size(4, 4));
         Imgproc.cvtColor(foreground, foreground, Imgproc.COLOR_BGR2GRAY);
-        Imgproc.threshold(foreground, foreground, 25.0, 255.0, Imgproc.THRESH_BINARY);
+        Imgproc.threshold(foreground, foreground, 35.0, 255.0, Imgproc.THRESH_BINARY);
 
     }
 
@@ -187,9 +186,9 @@ public class FrameHandler {
 
             Imgproc.drawContours(segments, contourPoly, count, colour, 1, Core.LINE_8, hierarchy,
                     0, new Point());
-            Core.rectangle(segments, boundingRect.tl(), boundingRect.br(), colour, 2,
-                    Core.LINE_8, 0);
-            if (radiusEl[0] > 75) {
+//            Core.rectangle(segments, boundingRect.tl(), boundingRect.br(), colour, 2,
+//                    Core.LINE_8, 0);
+            if (radiusEl[0] > 35) {
                 Core.circle(segments, centerPoint, (int) radiusEl[0], colour, 2, Core.LINE_8, 0);
                 detectedCircles.add(new Circle(centerPoint.x, centerPoint.y, radiusEl[0]));
             }
