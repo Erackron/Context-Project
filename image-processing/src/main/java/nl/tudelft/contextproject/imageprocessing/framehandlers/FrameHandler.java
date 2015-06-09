@@ -37,6 +37,7 @@ public class FrameHandler {
     protected Mat edges = new Mat();
     protected long start;
     protected long end;
+    protected int count = 0;
 
     protected List<Circle> detectedCircles = new ArrayList<>(20);
 
@@ -84,6 +85,10 @@ public class FrameHandler {
      * The main detection loop.
      */
     public void loop() throws Exception {
+        count = (count + 1) % 10;
+        if (count == 0) {
+            setBackground();
+        }
         start = System.currentTimeMillis();
         // Read the frame
         if (!capture.read(current)) {
@@ -132,7 +137,7 @@ public class FrameHandler {
         circle.setX(((double) Constants.CAM_WIDTH / foreground.cols()) * centerX);
         circle.setY((double) Constants.CAM_HEIGHT - (((double) Constants.CAM_HEIGHT
                 / foreground.rows()) * centerY));
-        circle.setRadius((float)((double) Constants.CAM_WIDTH / foreground.cols()) * radius);
+        circle.setRadius((float) ((double) Constants.CAM_WIDTH / foreground.cols()) * radius);
 
         return circle;
     }
