@@ -3,14 +3,12 @@ package nl.tudelft.contextproject.core.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import lombok.Getter;
@@ -23,6 +21,7 @@ import nl.tudelft.contextproject.core.entities.Player;
 import nl.tudelft.contextproject.core.input.KeyboardInputProcessor;
 import nl.tudelft.contextproject.core.input.PlayerAPI;
 import nl.tudelft.contextproject.core.input.PlayerPosition;
+import nl.tudelft.contextproject.core.playertracking.PlayerTracker;
 import nl.tudelft.contextproject.core.rendering.DrawablePixmap;
 
 import java.util.ArrayList;
@@ -46,6 +45,7 @@ public class GameScreen implements Screen {
     @Getter
     protected List<Player> players;
     protected List<ColourSelectBox> colourSelectBoxes;
+    protected PlayerTracker playerTracker;
 
     /**
      * Create a new game screen.
@@ -82,6 +82,8 @@ public class GameScreen implements Screen {
 
         createColourSpots();
 
+        playerTracker = new PlayerTracker();
+
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
@@ -99,13 +101,8 @@ public class GameScreen implements Screen {
         return new GameScreen(main, players);
     }
 
-    protected void drawPlayerStatus(Player player, boolean isActive) {
+    protected void drawCurrentColour(Player player) {
         shapeRenderer.setProjectionMatrix(camera.combined);
-        Vector2 playerPos = player.getPosition();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.BLACK);
-        shapeRenderer.circle(playerPos.x, playerPos.y, 12);
-        shapeRenderer.end();
 
         Colour playerColour = player.getColourPalette().getCurrentColour();
         if (playerColour.getPixelValue() == 2139062271) {
@@ -113,8 +110,8 @@ public class GameScreen implements Screen {
         }
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(isActive ? playerColour.getLibgdxColor() : Color.BLACK);
-        shapeRenderer.circle(playerPos.x, playerPos.y, 10);
+        shapeRenderer.setColor(playerColour.getLibgdxColor());
+        shapeRenderer.circle(20, 20, 10);
         shapeRenderer.end();
     }
 
@@ -123,10 +120,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1f, 1f, 1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Update camera
         camera.update();
 
-        // Update the input processor
         int oldActive = activePlayer;
         activePlayer = inputProcessor.update(delta, activePlayer);
         activePlayer = activePlayer >= numPlayers ? oldActive : activePlayer;
@@ -137,13 +132,15 @@ public class GameScreen implements Screen {
 
         draw.getNewPainting().setColor(players.get(activePlayer)
                 .getColourPalette().getCurrentColour().getLibgdxColor());
-        PlayerPosition movement = playerAPI.nextPosition();
-        while (movement != null) {
-            draw.drawCircle(movement.getCenterOfPlayer(), movement.getRadiusOfCircle());
-            movement = playerAPI.nextPosition();
+        List<PlayerPosition> playerPositions = playerAPI.nextPositionFrame();
+        List<Player> detectedPlayers;
+        while (playerPositions != null) {
+            detectedPlayers = playerTracker.trackPlayers(playerPositions);
+            detectedPlayers.forEach(player ->
+                    draw.drawCircle(player.getPosition(), player.getRadius()));
+            playerPositions = playerAPI.nextPositionFrame();
         }
 
-        // Update drawing if needed
         draw.update(0, 0, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
 
         batch.setProjectionMatrix(camera.combined);
@@ -154,10 +151,7 @@ public class GameScreen implements Screen {
 
         drawColourSpots();
 
-        // Draw player status
-        for (int i = 0; i < numPlayers; i++) {
-            drawPlayerStatus(players.get(i), i == activePlayer);
-        }
+        drawCurrentColour(players.get(activePlayer));
     }
 
     /**

@@ -38,10 +38,6 @@ public class KeyboardInputProcessor extends InputAdapter {
         keys = keyMap;
         toggled = false;
 
-        keys.put(Input.Keys.W, false);
-        keys.put(Input.Keys.S, false);
-        keys.put(Input.Keys.A, false);
-        keys.put(Input.Keys.D, false);
         keys.put(Input.Keys.SPACE, false);
         keys.put(Input.Keys.C, false);
         for (int i = Input.Keys.NUM_1; i <= Input.Keys.NUM_9; i++) {
@@ -76,29 +72,6 @@ public class KeyboardInputProcessor extends InputAdapter {
     public int update(float dt, int activePlayerId) {
         this.activePlayerId = activePlayerId;
         final Player activePlayer = players.get(this.activePlayerId);
-        deltaMovement[0] = deltaMovement[1] = 0;
-
-        if (isPressed(Input.Keys.W)) {
-            move(Direction.NORTH, dt);
-            paintDraw(isPaintToggled());
-        }
-
-        if (isPressed(Input.Keys.S)) {
-            move(Direction.SOUTH, dt);
-            paintDraw(isPaintToggled());
-        }
-
-        if (isPressed(Input.Keys.A)) {
-            move(Direction.WEST, dt);
-            paintDraw(isPaintToggled());
-        }
-
-        if (isPressed(Input.Keys.D)) {
-            move(Direction.EAST, dt);
-            paintDraw(isPaintToggled());
-        }
-
-        activePlayer.move(deltaMovement[0],deltaMovement[1]);
 
         if (isToggled()) {
             activePlayer.getColourPalette().cycle();
@@ -159,23 +132,13 @@ public class KeyboardInputProcessor extends InputAdapter {
     }
 
     /**
-     * Method that returns if a key is currently pressed.
-     *
-     * @param key The keycode of the key that needs to be checked
-     * @return Whether the specified key is currently pressed.
-     */
-    public boolean isPressed(int key) {
-        return keys.get(key);
-    }
-
-    /**
      * Method that enables drawing option.
      * @param drawOn Boolean that indicates the draw toggle.
      */
     public void paintDraw(boolean drawOn) {
         if (drawOn) {
             center = players.get(activePlayerId).getPosition().cpy();
-            PlayerAPI.getPlayerApi().addPosition(new KeyboardPosition(center, 12f));
+            PlayerAPI.getPlayerApi().addPositionFrame(new KeyboardPosition(center, 12f));
         }
     }
 
