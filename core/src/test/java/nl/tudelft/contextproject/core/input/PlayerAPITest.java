@@ -30,16 +30,16 @@ public class PlayerAPITest {
 
     @Test
     public void testQueueEmpty() {
-        assertNull(api.nextPosition());
+        assertNull(api.nextPositionFrame());
     }
 
     @Test
     public void testAddAndGet() {
         PlayerPosition movement = mock(PlayerPosition.class);
-        api.addPosition(movement);
+        api.addPositionFrame(movement);
 
-        assertEquals(movement, api.nextPosition());
-        assertNull(api.nextPosition());
+        assertEquals(movement, api.nextPositionFrame().get(0));
+        assertNull(api.nextPositionFrame());
     }
 
     @Test
@@ -47,7 +47,7 @@ public class PlayerAPITest {
         PlayerPosition movement = mock(PlayerPosition.class);
         api.playerQueue = spy(api.playerQueue);
 
-        doReturn(false).when(api.playerQueue).put(any(PlayerPosition.class));
-        assertFalse(api.addPosition(movement));
+        doReturn(false).when(api.playerQueue).put(any());
+        assertFalse(api.addPositionFrame(movement));
     }
 }

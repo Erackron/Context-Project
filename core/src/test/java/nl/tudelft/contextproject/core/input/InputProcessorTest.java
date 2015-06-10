@@ -46,35 +46,6 @@ public class InputProcessorTest {
     }
 
     @Test
-    public void updateTestNorth() {
-        keys.put(Input.Keys.W, true);
-        processor.update(1f, activePlayerId);
-        Mockito.verify(player).move(0,75);
-    }
-
-    @Test
-    public void updateTestSouth() {
-        keys.put(Input.Keys.S,true);
-        processor.update(1f,activePlayerId);
-        Mockito.verify(player).move(0,-75);
-    }
-
-
-    @Test
-    public void updateTestWest() {
-        keys.put(Input.Keys.A,true);
-        processor.update(1f,activePlayerId);
-        Mockito.verify(player).move(-75,0);
-    }
-
-    @Test
-    public void updateTestEast() {
-        keys.put(Input.Keys.D, true);
-        processor.update(1f, activePlayerId);
-        Mockito.verify(player).move(75, 0);
-    }
-
-    @Test
     public void KeyDownCTest() {
         int key = Input.Keys.C;
         keys.put(key,true);
@@ -99,20 +70,6 @@ public class InputProcessorTest {
         processor.keyDown(key);
         assertTrue(processor.playerToggles[0]);
         verify(keys, Mockito.times(2)).put(key,false);
-    }
-
-    @Test
-    public void KeyDownATest() {
-        int key = Input.Keys.A;
-        processor.keyDown(key);
-        verify(keys).put(key, true);
-    }
-
-    @Test
-    public void KeyUpATest() {
-        int key = Input.Keys.A;
-        processor.keyUp(key);
-        verify(keys, Mockito.times(2)).put(key, false);
     }
 
     @Test
