@@ -19,13 +19,25 @@ public class MainDesktop {
 
         // Start image processing
         ImageProcessingThread imageProcessingThread = new ImageProcessingThread();
-        new Thread(imageProcessingThread).start();
 
-        humanPencils.addLifecycleListener(new ExitListener() {
+        ExitListener imageProcessingExitListener = new ExitListener() {
             @Override
             public void onExit() {
+                humanPencils.exit();
+            }
+        };
+
+        ExitListener libgdxExitListener = new ExitListener() {
+            @Override
+            public void onExit() {
+                imageProcessingThread.removeExitListener(imageProcessingExitListener);
                 imageProcessingThread.stop();
             }
-        });
+        };
+
+        imageProcessingThread.addExitListener(imageProcessingExitListener);
+        humanPencils.addLifecycleListener(libgdxExitListener);
+
+        new Thread(imageProcessingThread).start();
     }
 }

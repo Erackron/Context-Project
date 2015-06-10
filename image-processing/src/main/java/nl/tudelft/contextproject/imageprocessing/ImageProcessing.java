@@ -13,25 +13,23 @@ public class ImageProcessing {
 
     static {
         nu.pattern.OpenCV.loadShared();
-        System.out.printf("Using OpenCV version %s\n", Core.VERSION);
+        System.out.printf("Using OpenCV version %s%n", Core.VERSION);
     }
 
     /**
      * Create a new ImageProcessing instance.
      */
-    public ImageProcessing() {
+    public ImageProcessing() throws Exception {
         cameraSelectWindow = new CameraSelectDialog();
         cameraSelectWindow.selectCamera(camera -> videoCapture = camera);
 
         if (videoCapture == null) {
-            System.err.println("No camera selected. Exiting");
-            System.exit(-1);
+            throw new Exception("No camera selected. Exiting");
         }
 
 
         if (!videoCapture.isOpened()) {
-            System.err.println("Unable to open the camera. Exiting");
-            System.exit(-1);
+            throw new Exception("Unable to open the camera. Exiting");
         }
 
         frameHandler = new FrameHandler(videoCapture);

@@ -75,7 +75,7 @@ public class FrameHandler {
         process(current);
 
         end = System.currentTimeMillis();
-        System.out.printf("duration: %.2fs\n", (end - start) / 1000f);
+        System.out.printf("duration: %.2fs%n", (end - start) / 1000f);
     }
 
     /**
