@@ -45,6 +45,16 @@ public class PlayerTest {
     }
 
     @Test
+    public void testRadiusOfPlayer() {
+        assertEquals(12f, player.getRadius(), 0.1);
+    }
+
+    @Test
+    public void testColourPalette() {
+        assertEquals(colourPalette, player.getColourPalette());
+    }
+
+    @Test
     public void testPositiveMove() {
         player.move(50, 50);
         Mockito.verify(position).add(50, 50);
