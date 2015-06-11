@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 
 public class CircleTest {
@@ -19,7 +18,7 @@ public class CircleTest {
     @Before
     public void Setup() {
         playerAPI.setCameraInputSize(100, 75);
-        circle = new Circle(10.0, 10.0, 1f);
+        circle = new Circle(10d, 10d, 1f);
         center = new Vector2(100f, 650f);
         radius = 10f;
     }
@@ -28,11 +27,14 @@ public class CircleTest {
     public void returnCenterOfPlayerTest() {
         Vector2 playerCenter = circle.getCenterOfPlayer();
         assertEquals(center, playerCenter);
+        assertEquals(100f, circle.getX(), 1d);
+        assertEquals(650f, circle.getY(), 1d);
     }
 
     @Test
     public void returnRadiusTest() {
         float radiusOfCircle = circle.getRadiusOfCircle();
-        assertTrue(radius == radiusOfCircle);
+        assertEquals(radius, radiusOfCircle, 1d);
+        assertEquals(10f, circle.getRadius(), 1d);
     }
 }
