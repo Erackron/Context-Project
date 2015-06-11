@@ -14,8 +14,8 @@ public class KeyboardMovementTest {
 
     @Test
     public void returnCenterTest() {
-        Vector2 playercenter = movement.getCenterOfPlayer();
-        assertEquals(center, playercenter);
+        Vector2 playerCenter = movement.getCenterOfPlayer();
+        assertEquals(center, playerCenter);
     }
 
     @Test

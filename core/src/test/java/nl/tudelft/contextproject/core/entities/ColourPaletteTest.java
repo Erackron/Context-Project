@@ -36,6 +36,12 @@ public class ColourPaletteTest {
     }
 
     @Test
+    public void TestSetColour() {
+        palette.setColour(Colour.BLUE);
+        assertEquals(Colour.BLUE, palette.getCurrentColour());
+    }
+
+    @Test
     public void TestSetCurrent() {
         palette.setCurrent(2);
         assertEquals(2, palette.getCurrent());
