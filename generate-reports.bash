@@ -3,6 +3,9 @@ skip_install=false
 if [ "$#" -gt 0 ]; then
 	if [ "$1" == "true" ]; then
 		skip_install=true
+    elif [ "$1" == "-h" ]; then
+        echo "Usage: `basename $0` [skip_install]"
+        exit
 	fi
 fi
 
@@ -16,15 +19,12 @@ fi
 echo ${TEXT_RED}Executing the actual mvn site command${RESET_FORMATTING}
 mvn site
 
-# Copy core report
-echo ${TEXT_RED}Copying the core module site${RESET_FORMATTING}
-mkdir -p target/site/contextproject-core
-cp -r core/target/site/* target/site/contextproject-core/
-
-# Copy desktop report
-echo ${TEXT_RED}Copying the desktop module site${RESET_FORMATTING}
-mkdir -p target/site/contextproject-desktop
-cp -r desktop/target/site/* target/site/contextproject-desktop
-
+# Copy all submodule sites to the main site
+for i in */pom.xml; do
+    submodule=`dirname "${i}"`
+    echo ${TEXT_RED}Copying the ${submodule} module site${RESET_FORMATTING}
+    mkdir -p target/site/contextproject-${submodule}
+    cp -r ${submodule}/target/site/* target/site/contextproject-${submodule}/
+done
 
 echo ${TEXT_GREEN}Checkstyle and PMD coverage reports are in the parent site, while the coverage and findbugs report is only available at the submodule level.${RESET_FORMATTING}

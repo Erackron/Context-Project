@@ -32,16 +32,13 @@ public class FrameHandlerTest {
     @Before
     public void setup() {
         doReturn(true).when(videoCapture).read(any());
-        frameHandler = new FrameHandler(videoCapture, testWindow, testWindow, testWindow);
+        frameHandler = new FrameHandler(videoCapture, testWindow);
 
         frameHandler.foreground = testMat;
         frameHandler.background = testMat;
         frameHandler.current = testMat;
-        frameHandler.previous = testMat;
         frameHandler.edges = testMat;
     }
-
-
 
     @Test
     public void testSetBackground() {
@@ -57,7 +54,7 @@ public class FrameHandlerTest {
     public void testCleanup() {
         frameHandler.cleanUp();
 
-        verify(testWindow, times(3)).destroyWindow();
-        verify(testMat, times(5)).release();
+        verify(testWindow, times(1)).destroyWindow();
+        verify(testMat, times(4)).release();
     }
 }
