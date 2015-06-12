@@ -42,22 +42,23 @@ public class PlayerTracker {
      * @return The Player
      */
     public Player trackPlayer(PlayerPosition playerPosition) {
+        Player player;
         Optional<Pair> optPlayerDistPair = findClosestPlayerPair(playerPosition);
         Vector2 center = playerPosition.getCenterOfPlayer();
         if (optPlayerDistPair.isPresent()) {
-            Player player = optPlayerDistPair.get().getPlayer();
+            player = optPlayerDistPair.get().getPlayer();
             player.getPosition().set(center);
-            return player;
         } else {
-            return new Player(ColourPalette.standardPalette(), center.x, center.y,
+            player = new Player(ColourPalette.standardPalette(), center.x, center.y,
                     playerPosition.getRadiusOfCircle());
+            playerList.add(player);
         }
-
+        return player;
     }
 
     /**
      * Find the closest Player object to a certain player position.
-     * @param position
+     * @param position PlayerPosition to compare to.
      * @return An optional pair containing the Player and it's distance to the position.
      */
     public Optional<Pair> findClosestPlayerPair(PlayerPosition position) {

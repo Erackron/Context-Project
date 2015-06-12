@@ -1,6 +1,6 @@
 package nl.tudelft.contextproject.core.playertracking;
 
-import static org.mockito.Matchers.any;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import com.badlogic.gdx.math.Vector2;
 import nl.tudelft.contextproject.core.entities.ColourPalette;
@@ -26,12 +26,13 @@ public class PlayerTrackerTest {
     private List<Player> players;
     private List<PlayerPosition> playerPositions;
 
+    private Player player;
+
     @Mock
     private ColourPalette palette;
-    @Spy
-    private Vector2 position = new Vector2(300,300);
 
-    private Player player;
+    @Spy
+    private Vector2 position = new Vector2(300, 300);
     @Mock
     private PlayerPosition playerPosition;
 
@@ -40,17 +41,35 @@ public class PlayerTrackerTest {
         players = new ArrayList<>();
         playerTracker = new PlayerTracker(players);
         playerPositions = new ArrayList<>();
-        player =  Mockito.spy(new Player(palette,position,20));
+        player = Mockito.spy(new Player(palette, position, 20));
+        players.add(player);
+
+        when(playerPosition.getCenterOfPlayer()).thenReturn(new Vector2(310, 310));
+        when(playerPosition.getRadiusOfCircle()).thenReturn(30f);
+        players.add(player);
+        playerPositions.add(playerPosition);
     }
 
     @Test
     public void bestCaseScenario() {
-        when(playerPosition.getCenterOfPlayer()).thenReturn(new Vector2(310,310));
-        when(playerPosition.getRadiusOfCircle()).thenReturn(30f);
-        players.add(player);
-        playerPositions.add(playerPosition);
         playerTracker.trackPlayers(playerPositions);
-        Mockito.verify(position).set(any());
+        Mockito.verify(position).set(new Vector2(310, 310));
+    }
+
+    @Test
+    public void multiplePositionTest() {
+        PlayerPosition playerPosition2 = Mockito.mock(PlayerPosition.class);
+        when(playerPosition2.getCenterOfPlayer()).thenReturn(new Vector2(350, 350));
+        playerPositions.add(playerPosition2);
+        playerTracker.trackPlayers(playerPositions);
+        Mockito.verify(position).set(new Vector2(310, 310));
+    }
+
+    @Test
+    public void noOneNearTest() {
+        players.clear();
+        playerTracker.trackPlayers(playerPositions);
+        assertEquals(players.get(0).getPosition(), new Vector2(310,310));
     }
 
 }
