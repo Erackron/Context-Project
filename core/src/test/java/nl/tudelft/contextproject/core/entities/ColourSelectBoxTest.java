@@ -14,10 +14,12 @@ import static org.junit.Assert.assertEquals;
 public class ColourSelectBoxTest {
 
     private ColourSelectBox selectBox;
+    private ColourSelectBox newBox;
 
     @Before
     public void Setup(){
         selectBox = new ColourSelectBox(Colour.BLUE, 25f, 25f, 50f, 50f);
+        newBox = new ColourSelectBox(Colour.BLUE, 25f, 25f, 50f, 50f);
     }
 
     @Test
@@ -43,5 +45,10 @@ public class ColourSelectBoxTest {
     public void TestNotInBox(){
         Vector2 outBox = new Vector2(70f, 70f);
         assertFalse(selectBox.inBox(outBox));
+    }
+
+    @Test
+    public void TestEqualsBoxes() {
+        assertFalse(selectBox.equals(newBox));
     }
 }
