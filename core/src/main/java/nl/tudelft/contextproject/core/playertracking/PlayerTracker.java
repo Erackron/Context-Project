@@ -1,6 +1,8 @@
 package nl.tudelft.contextproject.core.playertracking;
 
 import com.badlogic.gdx.math.Vector2;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import nl.tudelft.contextproject.core.entities.ColourPalette;
 import nl.tudelft.contextproject.core.entities.Player;
 import nl.tudelft.contextproject.core.input.PlayerPosition;
@@ -8,10 +10,16 @@ import nl.tudelft.contextproject.core.input.PlayerPosition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PlayerTracker {
+    private static final float MAX_DISTANCE = 300;
     protected List<Player> playerList = new ArrayList<>();
+
+    public PlayerTracker(List<Player> players) {
+        playerList = players;
+    }
 
     /**
      * Process a list of PlayerPositions and return a list of Players.
@@ -26,6 +34,7 @@ public class PlayerTracker {
                 .collect(Collectors.toList());
     }
 
+
     /**
      * Process a PlayerPosition and return a Player or null if the position was invalid.
      *
@@ -33,9 +42,46 @@ public class PlayerTracker {
      * @return The Player
      */
     public Player trackPlayer(PlayerPosition playerPosition) {
-        // TODO: Actually track players instead of using every position
+        Player player;
+        Optional<Pair> optPlayerDistPair = findClosestPlayerPair(playerPosition);
         Vector2 center = playerPosition.getCenterOfPlayer();
-        return new Player(ColourPalette.standardPalette(), center.x, center.y,
-                playerPosition.getRadiusOfCircle());
+        if (optPlayerDistPair.isPresent()) {
+            player = optPlayerDistPair.get().getPlayer();
+            player.getPosition().set(center);
+        } else {
+            player = new Player(ColourPalette.standardPalette(), center.x, center.y,
+                    playerPosition.getRadiusOfCircle());
+            playerList.add(player);
+        }
+        return player;
     }
+
+    /**
+     * Find the closest Player object to a certain player position.
+     * @param position PlayerPosition to compare to.
+     * @return An optional pair containing the Player and it's distance to the position.
+     */
+    public Optional<Pair> findClosestPlayerPair(PlayerPosition position) {
+        return playerList.parallelStream()
+                .map(p -> new Pair(p, distance(p, position)))
+                .filter(pair -> pair.getDist() < MAX_DISTANCE)
+                .min(Pair::compareTo);
+    }
+
+    public static float distance(Player p, PlayerPosition playerPosition) {
+        return p.getPosition().dst(playerPosition.getCenterOfPlayer());
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class Pair implements Comparable<Pair> {
+        private Player player;
+        private float dist;
+
+        @Override
+        public int compareTo(Pair o) {
+            return Float.compare(this.dist, o.dist);
+        }
+    }
+
 }

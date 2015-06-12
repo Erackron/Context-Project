@@ -38,7 +38,7 @@ public class Player {
      * @param position      The position of the player
      * @param radius        The radius of the player
      */
-    protected Player(ColourPalette colourPalette, Vector2 position, float radius) {
+    public Player(ColourPalette colourPalette, Vector2 position, float radius) {
         this.colourPalette = colourPalette;
         this.position = position;
         this.radius = radius;
