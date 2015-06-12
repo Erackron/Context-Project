@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.core.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import lombok.Data;
+import nl.tudelft.contextproject.core.playertracking.LineSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 public class Player {
 
     protected Vector2 position;
+    protected LineSize lineSize;
     protected float radius;
 
     private final ColourPalette colourPalette;
@@ -41,6 +43,7 @@ public class Player {
     public Player(ColourPalette colourPalette, Vector2 position, float radius) {
         this.colourPalette = colourPalette;
         this.position = position;
+        this.lineSize = LineSize.getLineSize((int) radius);
         this.radius = radius;
     }
 

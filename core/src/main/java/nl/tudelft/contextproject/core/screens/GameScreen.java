@@ -137,7 +137,7 @@ public class GameScreen implements Screen {
         while (playerPositions != null) {
             detectedPlayers = playerTracker.trackPlayers(playerPositions);
             detectedPlayers.forEach(player ->
-                    draw.drawCircle(player.getPosition(), player.getRadius()));
+                    draw.drawCircle(player.getPosition(), player.getLineSize().getBrushSize()));
             playerPositions = playerAPI.nextPositionFrame();
         }
 
