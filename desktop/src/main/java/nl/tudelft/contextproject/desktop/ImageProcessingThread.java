@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ImageProcessingThread implements Runnable {
-    private volatile boolean running = true;
+    protected volatile boolean running = true;
     protected ImageProcessing imageProcessingInstance;
     protected Set<ExitListener> exitListeners = new HashSet<>();
 
