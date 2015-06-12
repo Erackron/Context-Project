@@ -40,4 +40,19 @@ public class ColourSelectBox {
     public boolean inBox(Vector2 coord) {
         return boundingBox.contains(new Vector3(coord.x, coord.y, 0));
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof ColourSelectBox) {
+            ColourSelectBox other = (ColourSelectBox) obj;
+            return this.getColour().equals(other.getColour())
+                    && this.boundingBox.getMin().equals(other.boundingBox.getMin())
+                    && this.boundingBox.getMax().equals(other.boundingBox.getMax());
+        }
+        return false;
+    }
+
 }

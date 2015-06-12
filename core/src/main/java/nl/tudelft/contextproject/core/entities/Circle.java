@@ -36,4 +36,19 @@ public class Circle implements PlayerPosition {
     public float getRadiusOfCircle() {
         return radius;
     }
+
+    @Override
+    public boolean equals (Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof Circle) {
+            Circle other = (Circle) obj;
+            Vector2 position = new Vector2((float) this.getX(), (float) this.getY());
+            Vector2 otherPosition = new Vector2((float) other.getX(), (float) other.getY());
+            return position.equals(otherPosition)
+                    && Math.abs(this.getRadius()- other.getRadius()) < 1f;
+        }
+        return false;
+    }
 }
