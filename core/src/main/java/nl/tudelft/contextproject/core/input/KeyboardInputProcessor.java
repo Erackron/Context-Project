@@ -116,21 +116,7 @@ public class KeyboardInputProcessor extends InputAdapter {
         }
         return true;
     }
-
-    /**
-     * Method that gets called when a key gets released.
-     *
-     * @param i The keycode of the key that was released
-     * @return Return true to indicate we handled the key event
-     */
-    @Override
-    public boolean keyUp(int i) {
-        if (keys.containsKey(i) && i != Input.Keys.C && i != Input.Keys.SPACE) {
-            keys.put(i, false);
-        }
-        return true;
-    }
-
+    
     /**
      * Method that enables drawing option.
      * @param drawOn Boolean that indicates the draw toggle.
@@ -144,10 +130,6 @@ public class KeyboardInputProcessor extends InputAdapter {
 
     public boolean isToggled() {
         return toggled;
-    }
-
-    public boolean isPaintToggled() {
-        return paintToggled;
     }
 }
 

@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.core.input;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.AtomicQueue;
+import lombok.NonNull;
 import nl.tudelft.contextproject.core.config.Constants;
 
 import java.util.ArrayList;
@@ -70,8 +71,8 @@ public final class PlayerAPI {
      *
      * @param cameraInputSize The size of the camera input
      */
-    public void setCameraInputSize(Vector2 cameraInputSize) {
-        this.cameraInputSize = cameraInputSize;
+    public void setCameraInputSize(@NonNull Vector2 cameraInputSize) {
+        this.cameraInputSize = new Vector2(cameraInputSize);
     }
 
     /**
@@ -80,7 +81,7 @@ public final class PlayerAPI {
      * @return The size of the camera input
      */
     public Vector2 getCameraInputSize() {
-        return cameraInputSize != null ? new Vector2(cameraInputSize) : null;
+        return cameraInputSize;
     }
 
     /**
