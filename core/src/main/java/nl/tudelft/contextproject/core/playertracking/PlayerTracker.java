@@ -48,6 +48,7 @@ public class PlayerTracker {
         if (optPlayerDistPair.isPresent()) {
             player = optPlayerDistPair.get().getPlayer();
             player.getPosition().set(center);
+            player.setRadius(playerPosition.getRadiusOfCircle());
         } else {
             player = new Player(ColourPalette.standardPalette(), center.x, center.y,
                     playerPosition.getRadiusOfCircle());
