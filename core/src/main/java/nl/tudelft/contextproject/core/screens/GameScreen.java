@@ -208,28 +208,28 @@ public class GameScreen implements Screen {
         colourSelectBoxes = new ArrayList<>(baseColours.size());
 
         colourSelectBoxes.add(
-                new ColourSelectBox(baseColours.get(0), 13, 10, 53, 325)
+                new ColourSelectBox(baseColours.get(0), 13, 10, 53, 310)
         );
         colourSelectBoxes.add(
-                new ColourSelectBox(baseColours.get(0), 53, 10, 500, 50)
+                new ColourSelectBox(baseColours.get(0), 53, 10, 313, 50)
         );
         colourSelectBoxes.add(
-                new ColourSelectBox(baseColours.get(1), 13, 325, 53, 700)
+                new ColourSelectBox(baseColours.get(1), 13, 440, 53, 700)
         );
         colourSelectBoxes.add(
-                new ColourSelectBox(baseColours.get(1), 13, 700, 403, 740)
+                new ColourSelectBox(baseColours.get(1), 13, 700, 313, 740)
         );
         colourSelectBoxes.add(
-                new ColourSelectBox(baseColours.get(2), 947, 10, 987, 325)
+                new ColourSelectBox(baseColours.get(2), 947, 10, 987, 310)
         );
         colourSelectBoxes.add(
-                new ColourSelectBox(baseColours.get(2), 500, 10, 987, 50)
+                new ColourSelectBox(baseColours.get(2), 687, 10, 987, 50)
         );
         colourSelectBoxes.add(
-                new ColourSelectBox(baseColours.get(3), 947, 325, 987, 740)
+                new ColourSelectBox(baseColours.get(3), 947, 440, 987, 740)
         );
         colourSelectBoxes.add(
-                new ColourSelectBox(baseColours.get(3), 650, 700, 987, 740)
+                new ColourSelectBox(baseColours.get(3), 687, 700, 987, 740)
         );
 
 
