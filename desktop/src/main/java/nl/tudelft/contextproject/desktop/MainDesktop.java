@@ -16,7 +16,7 @@ public class MainDesktop {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Human Pencils";
         LwjglApplication humanPencils = new LwjglApplication(new Main(), config);
-
+/*
         // Start image processing
         ImageProcessingThread imageProcessingThread = new ImageProcessingThread();
 
@@ -39,5 +39,6 @@ public class MainDesktop {
         humanPencils.addLifecycleListener(libgdxExitListener);
 
         new Thread(imageProcessingThread).start();
+        */
     }
 }

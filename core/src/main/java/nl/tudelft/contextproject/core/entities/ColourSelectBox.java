@@ -13,11 +13,11 @@ public class ColourSelectBox {
     /**
      * Create a new ColourSelectBox.
      *
-     * @param colour The colour to use
+     * @param colour      The colour to use
      * @param bottomLeftX The x coordinate of the bottom left corner
      * @param bottomLeftY The y coordinate of the bottom left corner
-     * @param topRightX The x coordinate of the top right corner
-     * @param topRightY The y coordinate of the top right corner
+     * @param topRightX   The x coordinate of the top right corner
+     * @param topRightY   The y coordinate of the top right corner
      */
     public ColourSelectBox(Colour colour, float bottomLeftX, float bottomLeftY, float topRightX,
                            float topRightY) {
@@ -27,9 +27,9 @@ public class ColourSelectBox {
     /**
      * Create a new ColourSelectBox.
      *
-     * @param colour The colour to use
+     * @param colour     The colour to use
      * @param bottomLeft The bottom left corner
-     * @param topRight The top right corner
+     * @param topRight   The top right corner
      */
     public ColourSelectBox(Colour colour, Vector2 bottomLeft, Vector2 topRight) {
         this.colour = colour;
