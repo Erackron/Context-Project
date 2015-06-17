@@ -7,26 +7,22 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-/**
- * Created by jorai on 22/05/15.
- */
 public class MenuButton extends TextButton {
     protected Skin skin;
 
-    public MenuButton(String text, Skin skin) {
-        super(text, skin);
-    }
-
-    public MenuButton(String text, Skin skin, String styleName) {
-        super(text, skin, styleName);
-    }
-
+    /**
+     * Constructor method.
+     *
+     * @param text The text to display on the button
+     * @param style The style of the button
+     */
     public MenuButton(String text, TextButtonStyle style) {
         super(text, style);
     }
 
     /**
      * Create a new MenuButton with our default style.
+     *
      * @param text The text to display on the button
      * @return The newly created MenuButton
      */
@@ -55,10 +51,20 @@ public class MenuButton extends TextButton {
         return new MenuButton(text, textButtonStyle);
     }
 
+    /**
+     * Method that returns the skin.
+     *
+     * @return The skin
+     */
     public Skin getSkin() {
         return skin;
     }
 
+    /**
+     * Method that set a new skin.
+     *
+     * @param skin The skin to be set
+     */
     public void setSkin(Skin skin) {
         this.skin = skin;
         super.setSkin(skin);

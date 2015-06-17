@@ -66,7 +66,7 @@ public enum Colour {
                 colours.contains(RED) && colours.contains(GREEN)
                         || colours.contains(YELLOW) && colours.contains(PURPLE)
                         || colours.contains(BLUE) && colours.contains(ORANGE)
-            );
+        );
     }
 
     /**
@@ -88,8 +88,7 @@ public enum Colour {
                 return BLACK;
             } else if (colours.contains(WHITE)) {
                 Iterator<Colour> it = colours.iterator();
-                Colour first = it.next();
-                return first;
+                return it.next();
             }
         }
         return EXCEPTION;
