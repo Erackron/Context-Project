@@ -9,20 +9,35 @@ import nl.tudelft.contextproject.core.entities.ColourSelectBox;
 import nl.tudelft.contextproject.core.entities.Player;
 import nl.tudelft.contextproject.core.input.PlayerPosition;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 
 public class PlayerTracker {
-    private static final float MAX_DISTANCE_SQUARED = 300 * 300;
+    private static final float MAX_DISTANCE_SQUARED = 150 * 150;
     protected List<Player> playerList = new ArrayList<>();
     @Setter
     protected List<ColourSelectBox> colourSelectBoxes = new ArrayList<>();
+    protected Logger logger;
+    protected FileHandler fh;
 
     public PlayerTracker(List<Player> players) {
         playerList = players;
+        logger = Logger.getLogger("MyLog");
+        try {
+            fh = new FileHandler("distLog.log");
+            logger.addHandler(fh);
+            fh.setFormatter(new SimpleFormatter());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 
     /**
@@ -53,6 +68,8 @@ public class PlayerTracker {
             player = optPlayerDistPair.get().getPlayer();
             player.moveTo(center);
             player.setRadius(playerPosition.getRadiusOfCircle());
+            logger.info("Found distance: " + Math.sqrt(optPlayerDistPair.get()
+                    .distSquared) + "\n");
         } else {
             player = new Player(ColourPalette.standardPalette(), center.x, center.y,
                     playerPosition.getRadiusOfCircle());
