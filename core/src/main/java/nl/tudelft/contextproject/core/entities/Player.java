@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Created by Ike on 6-5-2015.
- * This class represents the player for the keyboard input layer.
+ * This class represents the player for the player tracking.
  */
 @Data
 public class Player {
@@ -17,6 +17,7 @@ public class Player {
     protected Vector2 position;
     protected LineSize lineSize;
     protected float radius;
+    protected int playerIndex;
 
     private final ColourPalette colourPalette;
     protected List<ColourSelectBox> colourSelectBoxes = new ArrayList<>();

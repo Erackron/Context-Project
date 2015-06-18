@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import lombok.Getter;
@@ -42,6 +44,7 @@ public class GameScreen implements Screen {
     protected int numPlayers;
     protected int activePlayer;
     protected final Texture background;
+    protected final BitmapFont font;
     @Getter
     protected List<Player> players;
     protected List<ColourSelectBox> colourSelectBoxes;
@@ -86,6 +89,7 @@ public class GameScreen implements Screen {
 
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        font = new BitmapFont();
     }
 
     /**
@@ -132,25 +136,28 @@ public class GameScreen implements Screen {
 
         draw.getNewPainting().setColor(players.get(activePlayer)
                 .getColourPalette().getCurrentColour().getLibgdxColor());
-        List<PlayerPosition> playerPositions = playerAPI.nextPositionFrame();
+        batch.begin();
+        batch.setProjectionMatrix(camera.combined);
+        batch.draw(draw.getCanvas(), 0, 0);
         List<Player> detectedPlayers;
+        List<PlayerPosition> playerPositions = playerAPI.nextPositionFrame();
         while (playerPositions != null) {
             detectedPlayers = playerTracker.trackPlayers(playerPositions);
-            detectedPlayers.forEach(player ->
-                    draw.drawCircle(player.getPosition(), player.getLineSize().getBrushSize()));
+            detectedPlayers.forEach(player -> {
+                    draw.drawCircle(player.getPosition(), player.getLineSize().getBrushSize());
+                    Vector2 playerPos = player.getPosition();
+                    font.draw(batch, String.valueOf(player.getPlayerIndex() + 1), playerPos.x,
+                            playerPos.y);
+                });
             playerPositions = playerAPI.nextPositionFrame();
         }
 
         draw.update(0, 0, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
 
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        batch.draw(draw.getCanvas(), 0, 0);
         batch.draw(background, 0, 0);
         batch.end();
 
         drawColourSpots();
-
         drawCurrentColour(players.get(activePlayer));
     }
 
