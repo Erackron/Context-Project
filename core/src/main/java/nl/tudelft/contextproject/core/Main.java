@@ -3,7 +3,7 @@ package nl.tudelft.contextproject.core;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import lombok.Getter;
-import nl.tudelft.contextproject.core.screens.MainMenuScreen;
+import nl.tudelft.contextproject.core.screens.GameScreen;
 
 /**
  * Main game class.
@@ -17,6 +17,6 @@ public class Main extends Game {
     public void create() {
         batch = new SpriteBatch();
 
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(GameScreen.createDefaultGameScreen(this));
     }
 }
