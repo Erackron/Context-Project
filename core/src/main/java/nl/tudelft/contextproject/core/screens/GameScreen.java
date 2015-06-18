@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.core.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -20,7 +21,6 @@ import nl.tudelft.contextproject.core.entities.Colour;
 import nl.tudelft.contextproject.core.entities.ColourPalette;
 import nl.tudelft.contextproject.core.entities.ColourSelectBox;
 import nl.tudelft.contextproject.core.entities.Player;
-import nl.tudelft.contextproject.core.input.KeyboardInputProcessor;
 import nl.tudelft.contextproject.core.input.PlayerAPI;
 import nl.tudelft.contextproject.core.input.PlayerPosition;
 import nl.tudelft.contextproject.core.playertracking.PlayerTracker;
@@ -40,10 +40,8 @@ public class GameScreen implements Screen {
     protected SpriteBatch batch;
     protected final Main main;
     protected PlayerAPI playerAPI;
-    protected KeyboardInputProcessor inputProcessor;
     protected int numPlayers;
-    protected int activePlayer;
-    protected final Texture background;
+    protected final Texture paintingFrame;
     protected final BitmapFont font;
     @Getter
     protected List<Player> players;
@@ -60,10 +58,9 @@ public class GameScreen implements Screen {
         this.main = main;
         this.players = new ArrayList<>(players);
         numPlayers = players.size();
-        activePlayer = 0;
 
-        this.background = new Texture(Gdx.files.internal("sprites/List60px.png"));
-        background.bind();
+        this.paintingFrame = new Texture(Gdx.files.internal("sprites/List60px.png"));
+        paintingFrame.bind();
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
@@ -80,8 +77,6 @@ public class GameScreen implements Screen {
         batch = main.getBatch();
 
         playerAPI = PlayerAPI.getPlayerApi();
-        inputProcessor = new KeyboardInputProcessor(players);
-        Gdx.input.setInputProcessor(inputProcessor);
 
         createColourSpots();
 
@@ -105,20 +100,6 @@ public class GameScreen implements Screen {
         return new GameScreen(main, players);
     }
 
-    protected void drawCurrentColour(Player player) {
-        shapeRenderer.setProjectionMatrix(camera.combined);
-
-        Colour playerColour = player.getColourPalette().getCurrentColour();
-        if (playerColour.getPixelValue() == 2139062271) {
-            playerColour = Colour.WHITE;
-        }
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(playerColour.getLibgdxColor());
-        shapeRenderer.circle(20, 20, 10);
-        shapeRenderer.end();
-    }
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1f, 1f, 1f, 1);
@@ -126,39 +107,60 @@ public class GameScreen implements Screen {
 
         camera.update();
 
-        int oldActive = activePlayer;
-        activePlayer = inputProcessor.update(delta, activePlayer);
-        activePlayer = activePlayer >= numPlayers ? oldActive : activePlayer;
-
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
 
-        draw.getNewPainting().setColor(players.get(activePlayer)
-                .getColourPalette().getCurrentColour().getLibgdxColor());
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
         batch.draw(draw.getCanvas(), 0, 0);
-        List<Player> detectedPlayers;
+        batch.draw(paintingFrame, 0, 0);
+        batch.end();
+
         List<PlayerPosition> playerPositions = playerAPI.nextPositionFrame();
         while (playerPositions != null) {
-            detectedPlayers = playerTracker.trackPlayers(playerPositions);
-            detectedPlayers.forEach(player -> {
-                    draw.drawCircle(player.getPosition(), player.getLineSize().getBrushSize());
-                    Vector2 playerPos = player.getPosition();
-                    font.draw(batch, String.valueOf(player.getPlayerIndex() + 1), playerPos.x,
-                            playerPos.y);
-                });
+            drawFrame(playerTracker.trackPlayers(playerPositions));
             playerPositions = playerAPI.nextPositionFrame();
         }
 
         draw.update(0, 0, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
 
-        batch.draw(background, 0, 0);
-        batch.end();
-
         drawColourSpots();
-        drawCurrentColour(players.get(activePlayer));
+    }
+
+    /**
+     * Draw a frame of players.
+     *
+     * @param detectedPlayers The detected players to draw
+     */
+    protected void drawFrame(List<Player> detectedPlayers) {
+        batch.begin();
+        detectedPlayers.forEach(player ->
+                        font.draw(batch, String.valueOf(player.getPlayerIndex() + 1),
+                                player.getPosition().x,
+                                player.getPosition().y)
+        );
+        batch.end();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        detectedPlayers.forEach(this::drawPlayer);
+        shapeRenderer.end();
+    }
+
+    /**
+     * Draw a Player.
+     *
+     * @param player The player to draw
+     */
+    protected void drawPlayer(Player player) {
+        Color currentColor = player.getColourPalette().getCurrentColour().getLibgdxColor();
+        draw.getNewPainting().setColor(currentColor);
+        draw.drawCircle(player.getPosition(), player.getLineSize().getBrushSize());
+        Vector2 playerPos = new Vector2(player.getPosition());
+
+        float radius = player.getRadius();
+        Vector2 bottomLeft = playerPos.sub(radius, radius);
+        shapeRenderer.setColor(currentColor);
+        shapeRenderer.rect(bottomLeft.x, bottomLeft.y, radius, radius);
     }
 
     /**
