@@ -66,6 +66,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, Constants.CAM_WIDTH, Constants.CAM_HEIGHT);
 
         shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(camera.combined);
 
         Pixmap pixmap = new Pixmap(Constants.CAM_WIDTH, Constants.CAM_HEIGHT,
                 Pixmap.Format.RGBA8888);
@@ -75,6 +76,7 @@ public class GameScreen implements Screen {
 
         draw = new DrawablePixmap(pixmap, newPixmap, texture);
         batch = main.getBatch();
+        batch.setProjectionMatrix(camera.combined);
 
         playerAPI = PlayerAPI.getPlayerApi();
 
@@ -112,7 +114,6 @@ public class GameScreen implements Screen {
         }
 
         batch.begin();
-        batch.setProjectionMatrix(camera.combined);
         batch.draw(draw.getCanvas(), 0, 0);
         batch.draw(paintingFrame, 0, 0);
         batch.end();
@@ -158,9 +159,10 @@ public class GameScreen implements Screen {
         Vector2 playerPos = new Vector2(player.getPosition());
 
         float radius = player.getRadius();
+        float diameter = radius * 2;
         Vector2 bottomLeft = playerPos.sub(radius, radius);
         shapeRenderer.setColor(currentColor);
-        shapeRenderer.rect(bottomLeft.x, bottomLeft.y, radius, radius);
+        shapeRenderer.rect(bottomLeft.x, bottomLeft.y, diameter, diameter);
     }
 
     /**
