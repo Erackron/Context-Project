@@ -44,7 +44,6 @@ public class GameScreen implements Screen {
     protected final Texture paintingFrame;
     protected final BitmapFont font;
     @Getter
-    protected List<Player> players;
     protected List<ColourSelectBox> colourSelectBoxes;
     protected PlayerTracker playerTracker;
 
@@ -56,7 +55,6 @@ public class GameScreen implements Screen {
      */
     public GameScreen(final Main main, ArrayList<Player> players) {
         this.main = main;
-        this.players = new ArrayList<>(players);
         numPlayers = players.size();
 
         this.paintingFrame = new Texture(Gdx.files.internal("sprites/List60px.png"));
@@ -80,9 +78,9 @@ public class GameScreen implements Screen {
 
         playerAPI = PlayerAPI.getPlayerApi();
 
-        createColourSpots();
-
         playerTracker = new PlayerTracker(new ArrayList<>());
+
+        createColourSpots();
 
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -100,20 +98,6 @@ public class GameScreen implements Screen {
             players.add(new Player(ColourPalette.standardPalette(), 100f + 50f * i, 100f, 12f));
         }
         return new GameScreen(main, players);
-    }
-
-    protected void drawCurrentColour(Player player) {
-        shapeRenderer.setProjectionMatrix(camera.combined);
-
-        Colour playerColour = player.getColourPalette().getCurrentColour();
-        if (playerColour.getPixelValue() == 2139062271) {
-            playerColour = Colour.WHITE;
-        }
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(playerColour.getLibgdxColor());
-        shapeRenderer.circle(500, 725, 10);
-        shapeRenderer.end();
     }
 
     @Override
@@ -232,8 +216,7 @@ public class GameScreen implements Screen {
                 new ColourSelectBox(baseColours.get(3), 687, 700, 987, 740)
         );
 
-
-        getPlayers().forEach(player -> player.setColourSelectBoxes(colourSelectBoxes));
+        playerTracker.setColourSelectBoxes(colourSelectBoxes);
     }
 
     @Override

@@ -1,11 +1,14 @@
 package nl.tudelft.contextproject.core.entities;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Mitchell on 11-6-2015.
@@ -41,13 +44,13 @@ public class ColourSelectBoxTest {
 
     @Test
     public void TestInBox() {
-        Vector2 inBox = new Vector2(30f, 30f);
+        BoundingBox inBox = new BoundingBox(new Vector3(20f, 20f, 0), new Vector3(30f, 30f, 0));
         assertTrue(selectBox.inBox(inBox));
     }
 
     @Test
     public void TestNotInBox() {
-        Vector2 outBox = new Vector2(70f, 70f);
+        BoundingBox outBox = new BoundingBox(new Vector3(51f, 51f, 0), new Vector3(70f, 70f, 0));
         assertFalse(selectBox.inBox(outBox));
     }
 
