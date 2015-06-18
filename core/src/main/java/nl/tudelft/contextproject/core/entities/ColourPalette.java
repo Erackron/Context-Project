@@ -7,9 +7,6 @@ import lombok.NonNull;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by LC on 13/05/15.
- */
 @Data
 public class ColourPalette {
     @NonNull

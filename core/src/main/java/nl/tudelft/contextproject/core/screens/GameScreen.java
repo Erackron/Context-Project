@@ -102,6 +102,20 @@ public class GameScreen implements Screen {
         return new GameScreen(main, players);
     }
 
+    protected void drawCurrentColour(Player player) {
+        shapeRenderer.setProjectionMatrix(camera.combined);
+
+        Colour playerColour = player.getColourPalette().getCurrentColour();
+        if (playerColour.getPixelValue() == 2139062271) {
+            playerColour = Colour.WHITE;
+        }
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(playerColour.getLibgdxColor());
+        shapeRenderer.circle(500, 725, 10);
+        shapeRenderer.end();
+    }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1f, 1f, 1f, 1);
@@ -193,11 +207,31 @@ public class GameScreen implements Screen {
         List<Colour> baseColours = Colour.getBaseColours();
         colourSelectBoxes = new ArrayList<>(baseColours.size());
 
-        for (int i = 0; i < baseColours.size(); i++) {
-            colourSelectBoxes.add(
-                    new ColourSelectBox(baseColours.get(i), 13, 100 + 100 * i, 53, 140 + 100 * i)
-            );
-        }
+        colourSelectBoxes.add(
+                new ColourSelectBox(baseColours.get(0), 13, 10, 53, 310)
+        );
+        colourSelectBoxes.add(
+                new ColourSelectBox(baseColours.get(0), 53, 10, 313, 50)
+        );
+        colourSelectBoxes.add(
+                new ColourSelectBox(baseColours.get(1), 13, 440, 53, 700)
+        );
+        colourSelectBoxes.add(
+                new ColourSelectBox(baseColours.get(1), 13, 700, 313, 740)
+        );
+        colourSelectBoxes.add(
+                new ColourSelectBox(baseColours.get(2), 947, 10, 987, 310)
+        );
+        colourSelectBoxes.add(
+                new ColourSelectBox(baseColours.get(2), 687, 10, 987, 50)
+        );
+        colourSelectBoxes.add(
+                new ColourSelectBox(baseColours.get(3), 947, 440, 987, 740)
+        );
+        colourSelectBoxes.add(
+                new ColourSelectBox(baseColours.get(3), 687, 700, 987, 740)
+        );
+
 
         getPlayers().forEach(player -> player.setColourSelectBoxes(colourSelectBoxes));
     }

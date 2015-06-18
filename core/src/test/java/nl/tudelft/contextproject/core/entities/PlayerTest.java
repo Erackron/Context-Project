@@ -59,7 +59,7 @@ public class PlayerTest {
         player.move(50, 50);
         Mockito.verify(position).add(50, 50);
     }
-
+/*
     @Test
     public void testCheckPositionRed() {
         player.position.x = 33f;
@@ -91,4 +91,5 @@ public class PlayerTest {
         player.checkPosition();
         Mockito.verify(colourPalette).setColour(Colour.ERASER);
     }
+    */
 }

@@ -23,7 +23,7 @@ public class Circle implements PlayerPosition {
     public Circle(double centerX, double centerY, float radius) {
         Vector2 camSize = playerAPI.getCameraInputSize();
         this.x = centerX * Constants.CAM_WIDTH / camSize.x;
-        this.y  = Constants.CAM_HEIGHT - (centerY * Constants.CAM_HEIGHT / camSize.y);
+        this.y = Constants.CAM_HEIGHT - (centerY * Constants.CAM_HEIGHT / camSize.y);
         this.radius = radius * Constants.CAM_WIDTH / camSize.x;
     }
 
@@ -38,7 +38,7 @@ public class Circle implements PlayerPosition {
     }
 
     @Override
-    public boolean equals (Object obj) {
+    public boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
@@ -47,7 +47,7 @@ public class Circle implements PlayerPosition {
             Vector2 position = new Vector2((float) this.getX(), (float) this.getY());
             Vector2 otherPosition = new Vector2((float) other.getX(), (float) other.getY());
             return position.equals(otherPosition)
-                    && Math.abs(this.getRadius()- other.getRadius()) < 1f;
+                    && Math.abs(this.getRadius() - other.getRadius()) < 1f;
         }
         return false;
     }

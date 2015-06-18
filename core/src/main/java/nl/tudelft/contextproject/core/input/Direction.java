@@ -5,7 +5,6 @@ import lombok.Getter;
 import nl.tudelft.contextproject.core.config.Constants;
 
 /**
- * Created by LC on 20/05/15.
  * Enum to encapsulate paramaters for direction in which the player can move.
  */
 public enum Direction {
@@ -42,7 +41,6 @@ public enum Direction {
         this.checker = checker;
     }
 
-
     /**
      * Check the bounds of the movement and clip it to the edge if needed.
      *
@@ -52,6 +50,4 @@ public enum Direction {
     public void checkBounds(Vector2 position, float[] movements) {
         checker.checkBounds(this, position, movements);
     }
-
-
 }
