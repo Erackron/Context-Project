@@ -21,7 +21,6 @@ public class MainDesktop {
         config.addIcon("logo-32x32.png", Files.FileType.Internal);
         config.addIcon("logo-16x16.png", Files.FileType.Internal);
         LwjglApplication humanPencils = new LwjglApplication(new Main(), config);
-/*
         // Start image processing
         ImageProcessingThread imageProcessingThread = new ImageProcessingThread();
 
@@ -44,6 +43,5 @@ public class MainDesktop {
         humanPencils.addLifecycleListener(libgdxExitListener);
 
         new Thread(imageProcessingThread).start();
-        */
     }
 }
