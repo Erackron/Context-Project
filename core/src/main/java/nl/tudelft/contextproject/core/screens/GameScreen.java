@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import lombok.Getter;
+import lombok.Setter;
 import nl.tudelft.contextproject.core.Main;
 import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Colour;
@@ -45,6 +46,7 @@ public class GameScreen implements Screen {
     protected final BitmapFont font;
     @Getter
     protected List<ColourSelectBox> colourSelectBoxes;
+    @Setter
     protected PlayerTracker playerTracker;
 
     /**
