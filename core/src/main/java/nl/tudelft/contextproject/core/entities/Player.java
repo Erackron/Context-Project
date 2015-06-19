@@ -54,9 +54,10 @@ public class Player {
         this.radius = radius;
         this.direction = new Vector2(Vector2.Zero);
 
-        minimumBox = new Vector3(position.x - radius, position.y - radius, 0);
-        maximumBox = new Vector3(position.x + radius, position.y + radius, 1);
-        this.boundingBox = new BoundingBox(minimumBox, maximumBox);
+        minimumBox = new Vector3();
+        maximumBox = new Vector3();
+        boundingBox = new BoundingBox(minimumBox, maximumBox);
+        updateBoundingBox();
     }
 
 
@@ -72,6 +73,21 @@ public class Player {
         }
     }
 
+
+    /**
+     * Update the bounding box of this player.
+     */
+    protected void updateBoundingBox() {
+        LineSize lineSize = LineSize.getLineSize((int) radius);
+        if (lineSize == null) {
+            return;
+        }
+        int lineRadius = lineSize.getBrushSize();
+        minimumBox.set(position.x - lineRadius, position.y - lineRadius, 0);
+        maximumBox.set(position.x + lineRadius, position.y + lineRadius, 1);
+        boundingBox.set(minimumBox, maximumBox);
+    }
+
     /**
      * Move the Player to another position.
      * This also updates the direction vector.
@@ -82,9 +98,8 @@ public class Player {
         direction.x = newCenter.x - position.x;
         direction.y = newCenter.y - position.y;
         position.set(newCenter);
-        minimumBox.set(position.x - radius, position.y - radius, 0);
-        maximumBox.set(position.x + radius, position.y + radius, 1);
-        boundingBox.set(minimumBox, maximumBox);
+
+        updateBoundingBox();
         checkPosition();
     }
 
