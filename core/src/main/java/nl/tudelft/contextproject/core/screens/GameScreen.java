@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import lombok.Getter;
+import lombok.Setter;
 import nl.tudelft.contextproject.core.Main;
 import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Colour;
@@ -44,8 +45,8 @@ public class GameScreen implements Screen {
     protected final Texture paintingFrame;
     protected final BitmapFont font;
     @Getter
-    protected List<Player> players;
     protected List<ColourSelectBox> colourSelectBoxes;
+    @Setter
     protected PlayerTracker playerTracker;
 
     /**
@@ -56,7 +57,6 @@ public class GameScreen implements Screen {
      */
     public GameScreen(final Main main, ArrayList<Player> players) {
         this.main = main;
-        this.players = new ArrayList<>(players);
         numPlayers = players.size();
 
         this.paintingFrame = new Texture(Gdx.files.internal("sprites/List60px.png"));
@@ -80,9 +80,9 @@ public class GameScreen implements Screen {
 
         playerAPI = PlayerAPI.getPlayerApi();
 
-        createColourSpots();
-
         playerTracker = new PlayerTracker(new ArrayList<>());
+
+        createColourSpots();
 
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -102,20 +102,6 @@ public class GameScreen implements Screen {
         return new GameScreen(main, players);
     }
 
-    protected void drawCurrentColour(Player player) {
-        shapeRenderer.setProjectionMatrix(camera.combined);
-
-        Colour playerColour = player.getColourPalette().getCurrentColour();
-        if (playerColour.getPixelValue() == 2139062271) {
-            playerColour = Colour.WHITE;
-        }
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(playerColour.getLibgdxColor());
-        shapeRenderer.circle(500, 725, 10);
-        shapeRenderer.end();
-    }
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1f, 1f, 1f, 1);
@@ -125,6 +111,12 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            draw.getNewPainting().setColor(Colour.ERASER.getLibgdxColor());
+            draw.getNewPainting().fill();
+            draw.forceUpdate();
         }
 
         batch.begin();
@@ -232,8 +224,7 @@ public class GameScreen implements Screen {
                 new ColourSelectBox(baseColours.get(3), 687, 700, 987, 740)
         );
 
-
-        getPlayers().forEach(player -> player.setColourSelectBoxes(colourSelectBoxes));
+        playerTracker.setColourSelectBoxes(colourSelectBoxes);
     }
 
     @Override

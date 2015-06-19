@@ -1,6 +1,8 @@
 package nl.tudelft.contextproject.core.entities;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import lombok.Data;
 import nl.tudelft.contextproject.core.playertracking.LineSize;
 
@@ -15,6 +17,10 @@ import java.util.List;
 public class Player {
 
     protected Vector2 position;
+    protected Vector2 direction;
+    protected BoundingBox boundingBox;
+    protected Vector3 minimumBox;
+    protected Vector3 maximumBox;
     protected LineSize lineSize;
     protected float radius;
     protected int playerIndex;
@@ -46,28 +52,64 @@ public class Player {
         this.position = position;
         this.lineSize = LineSize.getLineSize((int) radius);
         this.radius = radius;
+        this.direction = new Vector2(Vector2.Zero);
+
+        minimumBox = new Vector3();
+        maximumBox = new Vector3();
+        boundingBox = new BoundingBox(minimumBox, maximumBox);
+        updateBoundingBox();
     }
 
-    /**
-     * Moves the player and his brush through 2d space by specified parameters.
-     *
-     * @param dx translation in x direction
-     * @param dy translation in y direction
-     */
-    public void move(float dx, float dy) {
-        position.add(dx, dy);
-        checkPosition();
-    }
 
     /**
      * Checks position of player, and changes player colour accordingly.
      */
     public void checkPosition() {
         for (ColourSelectBox box : colourSelectBoxes) {
-            if (box.inBox(position)) {
+            if (box.inBox(boundingBox)) {
                 colourPalette.setColour(box.getColour());
                 break;
             }
         }
+    }
+
+
+    /**
+     * Update the bounding box of this player.
+     */
+    protected void updateBoundingBox() {
+        LineSize lineSize = LineSize.getLineSize((int) radius);
+        if (lineSize == null) {
+            return;
+        }
+        int lineRadius = lineSize.getBrushSize();
+        minimumBox.set(position.x - lineRadius, position.y - lineRadius, 0);
+        maximumBox.set(position.x + lineRadius, position.y + lineRadius, 1);
+        boundingBox.set(minimumBox, maximumBox);
+    }
+
+    /**
+     * Move the Player to another position.
+     * This also updates the direction vector.
+     *
+     * @param newCenter The new positions of the player
+     */
+    public void moveTo(Vector2 newCenter) {
+        direction.x = newCenter.x - position.x;
+        direction.y = newCenter.y - position.y;
+        position.set(newCenter);
+
+        updateBoundingBox();
+        checkPosition();
+    }
+
+    /**
+     * Get the expected position of the player.
+     * This adds the previous movement direction to the current position
+     *
+     * @return The expected position
+     */
+    public Vector2 getExpectedPosition() {
+        return new Vector2(position).add(direction);
     }
 }

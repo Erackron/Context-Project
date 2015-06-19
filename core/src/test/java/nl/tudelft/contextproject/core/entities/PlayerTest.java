@@ -1,19 +1,22 @@
 package nl.tudelft.contextproject.core.entities;
 
 import com.badlogic.gdx.math.Vector2;
+import nl.tudelft.contextproject.core.playertracking.PlayerTracker;
 import nl.tudelft.contextproject.core.screens.GameScreen;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.Collections;
-
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doCallRealMethod;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 
 /**
@@ -21,20 +24,24 @@ import static org.mockito.Mockito.doReturn;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class PlayerTest {
-    @Mock
+    @Spy
     private Vector2 position;
     @Mock
     ColourPalette colourPalette;
     @Mock
     GameScreen gameScreen;
+    @Mock
+    PlayerTracker playerTracker;
 
     private Player player;
 
     @Before
     public void setUp() {
         player = new Player(colourPalette, position, 12f);
-        doReturn(Collections.singletonList(player)).when(gameScreen).getPlayers();
         doCallRealMethod().when(gameScreen).createColourSpots();
+        doNothing().when(playerTracker).setColourSelectBoxes(any());
+        doCallRealMethod().when(gameScreen).setPlayerTracker(any());
+        gameScreen.setPlayerTracker(playerTracker);
         gameScreen.createColourSpots();
     }
 
@@ -56,40 +63,8 @@ public class PlayerTest {
 
     @Test
     public void testPositiveMove() {
-        player.move(50, 50);
-        Mockito.verify(position).add(50, 50);
+        player.moveTo(position);
+        player.position = position;
+        verify(position).set(position);
     }
-/*
-    @Test
-    public void testCheckPositionRed() {
-        player.position.x = 33f;
-        player.position.y = 134f;
-        player.checkPosition();
-        Mockito.verify(colourPalette).setColour(Colour.RED);
-    }
-
-    @Test
-    public void testCheckPositionBlue() {
-        player.position.x = 14f;
-        player.position.y = 225f;
-        player.checkPosition();
-        Mockito.verify(colourPalette).setColour(Colour.BLUE);
-    }
-
-    @Test
-    public void testCheckPositionYellow() {
-        player.position.x = 26f;
-        player.position.y = 332f;
-        player.checkPosition();
-        Mockito.verify(colourPalette).setColour(Colour.YELLOW);
-    }
-
-    @Test
-    public void testCheckPositionEraser() {
-        player.position.x = 42f;
-        player.position.y = 412f;
-        player.checkPosition();
-        Mockito.verify(colourPalette).setColour(Colour.ERASER);
-    }
-    */
 }

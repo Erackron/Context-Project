@@ -34,11 +34,17 @@ public class ColourSelectBox {
     public ColourSelectBox(Colour colour, Vector2 bottomLeft, Vector2 topRight) {
         this.colour = colour;
         this.boundingBox = new BoundingBox(new Vector3(bottomLeft.x, bottomLeft.y, 0),
-                new Vector3(topRight.x, topRight.y, 0));
+                new Vector3(topRight.x, topRight.y, 1));
     }
 
-    public boolean inBox(Vector2 coord) {
-        return boundingBox.contains(new Vector3(coord.x, coord.y, 0));
+    /**
+     * Check if the player bounds intersect with this ColourSelectBox.
+     *
+     * @param bounds The player bounds
+     * @return Whether the player intersects with this ColourSelectBox
+     */
+    public boolean inBox(BoundingBox bounds) {
+        return boundingBox.intersects(bounds);
     }
 
     @Override
