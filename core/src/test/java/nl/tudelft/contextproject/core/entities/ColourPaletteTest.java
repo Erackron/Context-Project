@@ -3,7 +3,12 @@ package nl.tudelft.contextproject.core.entities;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Random;
+
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by LC on 13/05/15.
@@ -18,17 +23,19 @@ public class ColourPaletteTest {
 
     @Test
     public void TestStartColour() {
-        assertEquals(palette.getColours().get(0), palette.getCurrentColour());
+        assertEquals(palette.getColours().get(palette.getCurrent()), palette.getCurrentColour());
     }
 
     @Test
     public void TestCycle() {
+        palette.setCurrent(0);
         palette.cycle();
         assertEquals(palette.getColours().get(1), palette.getCurrentColour());
     }
 
     @Test
     public void TestCyclicBehaviour() {
+        palette.setCurrent(0);
         for (int i = 0; i < palette.getColours().size(); i++) {
             palette.cycle();
         }

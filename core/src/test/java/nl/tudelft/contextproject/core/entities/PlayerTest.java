@@ -7,12 +7,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 
 /**
@@ -20,7 +24,7 @@ import static org.mockito.Mockito.doNothing;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class PlayerTest {
-    @Mock
+    @Spy
     private Vector2 position;
     @Mock
     ColourPalette colourPalette;
@@ -57,41 +61,10 @@ public class PlayerTest {
         assertEquals(colourPalette, player.getColourPalette());
     }
 
-//    @Test
-//    public void testPositiveMove() {
-//        player.moveTo(new Vector2(position).add(50, 50));
-//        Mockito.verify(position).add(50, 50);
-//    }
-
-//    @Test
-//    public void testCheckPositionRed() {
-//        player.position.x = 33f;
-//        player.position.y = 134f;
-//        player.checkPosition();
-//        Mockito.verify(colourPalette).setColour(Colour.RED);
-//    }
-//
-//    @Test
-//    public void testCheckPositionBlue() {
-//        player.position.x = 14f;
-//        player.position.y = 225f;
-//        player.checkPosition();
-//        Mockito.verify(colourPalette).setColour(Colour.BLUE);
-//    }
-//
-//    @Test
-//    public void testCheckPositionYellow() {
-//        player.position.x = 26f;
-//        player.position.y = 332f;
-//        player.checkPosition();
-//        Mockito.verify(colourPalette).setColour(Colour.YELLOW);
-//    }
-//
-//    @Test
-//    public void testCheckPositionEraser() {
-//        player.position.x = 42f;
-//        player.position.y = 412f;
-//        player.checkPosition();
-//        Mockito.verify(colourPalette).setColour(Colour.ERASER);
-//    }
+    @Test
+    public void testPositiveMove() {
+        player.moveTo(position);
+        player.position = position;
+        verify(position).set(position);
+    }
 }
