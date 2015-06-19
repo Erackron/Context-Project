@@ -26,8 +26,6 @@ public class PlayerTrackerTest {
     private List<Player> players;
     private List<PlayerPosition> playerPositions;
 
-    private Player player;
-
     @Mock
     private ColourPalette palette;
 
@@ -41,7 +39,7 @@ public class PlayerTrackerTest {
         players = new ArrayList<>();
         playerTracker = new PlayerTracker(players);
         playerPositions = new ArrayList<>();
-        player = Mockito.spy(new Player(palette, position, 20));
+        Player player = Mockito.spy(new Player(palette, position, 20));
         players.add(player);
 
         when(playerPosition.getCenterOfPlayer()).thenReturn(new Vector2(310, 310));

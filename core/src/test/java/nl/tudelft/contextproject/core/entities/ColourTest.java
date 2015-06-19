@@ -118,9 +118,9 @@ public class ColourTest {
 
         @Test
         public void getLibgdxColorTest() {
-            Colour colourblue = Colour.BLUE;
-            Color colorblue = Color.BLUE;
-            assertEquals(colorblue, colourblue.getLibgdxColor());
+            Colour colourBlue = Colour.BLUE;
+            Color colorBlue = Color.BLUE;
+            assertEquals(colorBlue, colourBlue.getLibgdxColor());
         }
     }
 }

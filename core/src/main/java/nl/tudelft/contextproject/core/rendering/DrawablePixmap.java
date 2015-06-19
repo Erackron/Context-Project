@@ -11,7 +11,6 @@ import nl.tudelft.contextproject.core.config.Constants;
 import nl.tudelft.contextproject.core.entities.Colour;
 
 import java.util.Arrays;
-import java.util.Vector;
 
 /**
  * This class is a wrapper for Pixmap and Texture to enable storing the drawing of the players.

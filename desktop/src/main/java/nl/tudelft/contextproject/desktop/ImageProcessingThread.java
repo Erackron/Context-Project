@@ -43,9 +43,7 @@ public class ImageProcessingThread implements Runnable {
         if (imageProcessingInstance != null) {
             imageProcessingInstance.cleanUp();
         }
-        for (ExitListener exitListener : exitListeners) {
-            exitListener.onExit();
-        }
+        exitListeners.forEach(nl.tudelft.contextproject.desktop.ExitListener::onExit);
     }
 
     /**

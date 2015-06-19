@@ -43,10 +43,10 @@ public class ColourPalette {
     /**
      * Set the colour index of the active colour.
      *
-     * @param colourindex The colour index to set it to
+     * @param colourIndex The colour index to set it to
      */
-    public void setCurrent(int colourindex) {
-        current = colourindex;
+    public void setCurrent(int colourIndex) {
+        current = colourIndex;
     }
 
     /**

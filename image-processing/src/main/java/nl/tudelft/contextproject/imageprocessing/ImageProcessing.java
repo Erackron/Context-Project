@@ -44,7 +44,7 @@ public class ImageProcessing {
     }
 
     /**
-     * Called when the ImageProcessing thread is stopping to enbale cleaning up created thins.
+     * Called when the ImageProcessing thread is stopping to enable cleaning up created thins.
      */
     public void cleanUp() {
         frameHandler.cleanUp();

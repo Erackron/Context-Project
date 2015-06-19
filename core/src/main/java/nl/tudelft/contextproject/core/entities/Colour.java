@@ -62,11 +62,10 @@ public enum Colour {
      * @return Boolean value.
      */
     public static boolean areComplementary(Collection<Colour> colours) {
-        return colours.size() == 2 && (
-                colours.contains(RED) && colours.contains(GREEN)
-                        || colours.contains(YELLOW) && colours.contains(PURPLE)
-                        || colours.contains(BLUE) && colours.contains(ORANGE)
-        );
+        return colours.size() == 2
+                && (colours.contains(RED) && colours.contains(GREEN)
+                || colours.contains(YELLOW) && colours.contains(PURPLE)
+                || colours.contains(BLUE) && colours.contains(ORANGE));
     }
 
     /**
