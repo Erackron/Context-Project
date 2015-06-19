@@ -24,20 +24,9 @@ public class PlayerTracker {
     protected List<Player> playerList = new ArrayList<>();
     @Setter
     protected List<ColourSelectBox> colourSelectBoxes = new ArrayList<>();
-    protected Logger logger;
-    protected FileHandler fh;
 
     public PlayerTracker(List<Player> players) {
         playerList = players;
-        logger = Logger.getLogger("MyLog");
-        try {
-            fh = new FileHandler("distLog.log");
-            logger.addHandler(fh);
-            fh.setFormatter(new SimpleFormatter());
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
     }
 
     /**
@@ -68,8 +57,6 @@ public class PlayerTracker {
             player = optPlayerDistPair.get().getPlayer();
             player.moveTo(center);
             player.setRadius(playerPosition.getRadiusOfCircle());
-            logger.info("Found distance: " + Math.sqrt(optPlayerDistPair.get()
-                    .distSquared) + "\n");
         } else {
             player = new Player(ColourPalette.standardPalette(), center.x, center.y,
                     playerPosition.getRadiusOfCircle());
