@@ -129,8 +129,6 @@ public class DrawablePixmap implements Disposable {
         Vector2 circleCenter = new Vector2(centerX, centerY);
 
         double diffX = centerX - bottomLeft.x;
-//        double diffY = centerY - bottomLeft.y;
-//        float radius = (float) Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
 
         drawCircle(circleCenter, (float) diffX);
     }
