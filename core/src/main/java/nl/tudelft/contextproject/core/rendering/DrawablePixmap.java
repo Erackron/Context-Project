@@ -149,6 +149,13 @@ public class DrawablePixmap implements Disposable {
     }
 
     /**
+     * Force a drawing update.
+     */
+    public void forceUpdate() {
+        updateNeeded = true;
+    }
+
+    /**
      * Blend pixels together to combine colours.
      * @param x The x coordinate of where to start.
      * @param y The y coordinate of where to start

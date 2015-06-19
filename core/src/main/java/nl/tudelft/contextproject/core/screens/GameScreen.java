@@ -113,6 +113,12 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            draw.getNewPainting().setColor(Colour.ERASER.getLibgdxColor());
+            draw.getNewPainting().fill();
+            draw.forceUpdate();
+        }
+
         batch.begin();
         batch.draw(draw.getCanvas(), 0, 0);
         batch.draw(paintingFrame, 0, 0);
