@@ -9,8 +9,8 @@ import java.util.TreeSet;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum LineSize implements Comparable<LineSize> {
-    BIG(20, 55),
-    NORMAL(10, 45),
+    BIG(30, 120),
+    NORMAL(20, 70),
     NONE(0, Integer.MIN_VALUE);
 
     @Getter

@@ -20,7 +20,7 @@ import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 
 public class PlayerTracker {
-    private static final float MAX_DISTANCE_SQUARED = 150 * 150;
+    private static final float MAX_DISTANCE_SQUARED = 200 * 200;
     protected List<Player> playerList = new ArrayList<>();
     @Setter
     protected List<ColourSelectBox> colourSelectBoxes = new ArrayList<>();
@@ -91,8 +91,8 @@ public class PlayerTracker {
         private float distSquared;
 
         @Override
-        public int compareTo(Pair o) {
-            return Float.compare(this.distSquared, o.distSquared);
+        public int compareTo(Pair other) {
+            return Float.compare(this.distSquared, other.distSquared);
         }
     }
 
