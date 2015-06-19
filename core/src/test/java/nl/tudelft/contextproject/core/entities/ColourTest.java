@@ -10,9 +10,6 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Collection;
 
-/**
- * Created by Ike on 21-5-2015.
- */
 @RunWith(Enclosed.class)
 public class ColourTest {
 

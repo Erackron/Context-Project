@@ -17,9 +17,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by LC on 11/06/15.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class PlayerTrackerTest {
     private PlayerTracker playerTracker;

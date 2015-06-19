@@ -19,9 +19,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 
-/**
- * Created by LC on 20/05/15.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class PlayerTest {
     @Spy

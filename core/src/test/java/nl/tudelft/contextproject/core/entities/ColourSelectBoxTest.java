@@ -10,9 +10,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by Mitchell on 11-6-2015.
- */
 public class ColourSelectBoxTest {
 
     private ColourSelectBox selectBox;
