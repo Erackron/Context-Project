@@ -6,6 +6,7 @@ import lombok.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 @Data
 public class ColourPalette {
@@ -13,6 +14,20 @@ public class ColourPalette {
     private final List<Colour> colours;
 
     private int current = 0;
+
+    protected static Random random = new Random();
+
+    /**
+     * Create a new ColourPalette.
+     *
+     * @param colours The colours available in this colour palette
+     */
+    public ColourPalette(List<Colour> colours) {
+        this.colours = colours;
+        do {
+            this.current = random.nextInt(colours.size());
+        } while (colours.get(current) == Colour.ERASER);
+    }
 
     /**
      * Cycle through the colours of this ColourPalette.
